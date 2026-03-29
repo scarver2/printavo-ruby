@@ -35,7 +35,7 @@ or
 bundle add printavo-ruby
 ```
 
-Or install directly:
+or install directly:
 
 ```bash
 gem install printavo-ruby
