@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# bin/console
+require "bundler/setup"
+require "printavo"
+
+# Start an interactive session with the gem loaded.
+# Set PRINTAVO_EMAIL and PRINTAVO_TOKEN in your environment before running.
+#
+# Example:
+#   PRINTAVO_EMAIL=you@example.com PRINTAVO_TOKEN=your_token bin/console
+
+require "irb"
+IRB.start(__FILE__)
