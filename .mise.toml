@@ -1,3 +1,3 @@
 # .mise.toml
 [tools]
-ruby = ["4.0.2", "3.3"]   # first entry is the default
+ruby = ["4.0.2", "3.3.11"]  # first entry is the default; keep in sync with CI matrix

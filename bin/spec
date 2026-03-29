@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# bin/spec
+#
+# Runs the RSpec suite against every Ruby version declared in .mise.toml.
+# Any arguments are forwarded directly to rspec.
+#
+# Usage:
+#   bin/spec                               # all versions, all specs
+#   bin/spec spec/printavo/client_spec.rb  # one file, all versions
+#   bin/spec --format documentation        # forward rspec flags
+#
+# Requires mise: https://mise.jdx.dev
+
+set -uo pipefail
+
+# ── Colours (only when writing to a real terminal) ─────────────────────────
+if [[ -t 1 ]]; then
+  RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
+  CYAN='\033[0;36m'; BOLD='\033[1m'; RESET='\033[0m'
+else
+  RED=''; GREEN=''; YELLOW=''; CYAN=''; BOLD=''; RESET=''
+fi
+
+# ── Locate project root ────────────────────────────────────────────────────
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+TOML="$ROOT/.mise.toml"
+
+if [[ ! -f "$TOML" ]]; then
+  printf '%bError:%b .mise.toml not found at %s\n' "$RED" "$RESET" "$TOML" >&2
+  exit 1
+fi
+
+# ── Parse ruby versions from .mise.toml ────────────────────────────────────
+# Handles both:
+#   ruby = "4.0.2"                 (scalar)
+#   ruby = ["4.0.2", "3.3.10"]    (array, with optional trailing comma/comment)
+ruby_line=$(grep -E '^\s*ruby\s*=' "$TOML" | head -1)
+
+if [[ -z "$ruby_line" ]]; then
+  printf '%bError:%b no ruby entry found in .mise.toml\n' "$RED" "$RESET" >&2
+  exit 1
+fi
+
+# Pull every quoted token from the line into an array (bash 3-compatible)
+VERSIONS=()
+while IFS= read -r v; do
+  VERSIONS+=("$v")
+done < <(printf '%s\n' "$ruby_line" | grep -oE '"[^"]+"' | tr -d '"')
+
+if [[ ${#VERSIONS[@]} -eq 0 ]]; then
+  printf '%bError:%b could not parse ruby versions from: %s\n' "$RED" "$RESET" "$ruby_line" >&2
+  exit 1
+fi
+
+# ── Locate mise ────────────────────────────────────────────────────────────
+MISE="${HOME}/.local/bin/mise"
+[[ -x "$MISE" ]] || MISE=$(command -v mise 2>/dev/null || true)
+
+if [[ -z "$MISE" ]]; then
+  printf '%bError:%b mise not found — install from https://mise.jdx.dev\n' "$RED" "$RESET" >&2
+  exit 1
+fi
+
+# ── Helpers ────────────────────────────────────────────────────────────────
+# Track results in parallel arrays (bash 3: no associative arrays)
+RESULT_VERSIONS=()
+RESULT_STATUSES=()
+
+record() { RESULT_VERSIONS+=("$1"); RESULT_STATUSES+=("$2"); }
+
+# ── Run each version ────────────────────────────────────────────────────────
+printf '\n%bprintavo-ruby%b — running specs across %d Ruby version(s)\n\n' \
+  "$BOLD" "$RESET" "${#VERSIONS[@]}"
+
+for version in "${VERSIONS[@]}"; do
+  printf '%b── Ruby %s%b ─────────────────────────────────────────────\n' \
+    "$CYAN" "$version" "$RESET"
+
+  # Verify the version is installed before trying to use it
+  if ! "$MISE" exec "ruby@${version}" -- ruby --version &>/dev/null 2>&1; then
+    printf '%b  skipped%b — ruby %s not installed\n' "$YELLOW" "$RESET" "$version"
+    printf '           run: mise install ruby@%s\n\n' "$version"
+    record "$version" "skip"
+    continue
+  fi
+
+  # bundle install (quiet) then rspec, both executed under the target Ruby
+  if "$MISE" exec "ruby@${version}" -- \
+       bash -c "cd '$ROOT' && bundle install --quiet && bundle exec rspec $*"; then
+    record "$version" "pass"
+  else
+    record "$version" "fail"
+  fi
+  printf '\n'
+done
+
+# ── Summary ────────────────────────────────────────────────────────────────
+printf '%bResults%b\n' "$BOLD" "$RESET"
+printf '──────────────────────\n'
+
+overall=0
+for i in "${!RESULT_VERSIONS[@]}"; do
+  v="${RESULT_VERSIONS[$i]}"
+  s="${RESULT_STATUSES[$i]}"
+  case "$s" in
+    pass) printf '  Ruby %-8s  %b✓ pass%b\n' "$v" "$GREEN" "$RESET" ;;
+    fail) printf '  Ruby %-8s  %b✗ fail%b\n' "$v" "$RED"   "$RESET"; overall=1 ;;
+    skip) printf '  Ruby %-8s  %b⚠ skip%b\n' "$v" "$YELLOW" "$RESET" ;;
+  esac
+done
+
+printf '──────────────────────\n\n'
+exit $overall
