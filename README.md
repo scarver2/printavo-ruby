@@ -2,12 +2,13 @@
 # printavo-ruby
 
 [![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/scarver2/printavo-ruby/graph/badge.svg)](https://codecov.io/gh/scarver2/printavo-ruby)
 [![Gem Version](https://badge.fury.io/rb/printavo-ruby.svg)](https://badge.fury.io/rb/printavo-ruby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A framework-agnostic Ruby SDK for the [Printavo](https://www.printavo.com) GraphQL API (v2).
 
-> I use Printavo every day at Texas Embroidery Ranch. This gem was created to bridge Printavo
+> I use Printavo every day at [Texas Embroidery Ranch](https://texasembroideryranch.com). This gem was created to bridge Printavo
 > with other operational systems—CRM, marketing, finance, and automation—so that print shops
 > can build integrated workflows without writing raw GraphQL by hand.
 
@@ -19,7 +20,7 @@ A framework-agnostic Ruby SDK for the [Printavo](https://www.printavo.com) Graph
 - Rich domain models: `order.status`, `order.status?(:in_production)`, `order.customer`
 - Rack-compatible webhook signature verification
 - Multi-client support — no globals required
-- Ruby 3.0+ compatible, developed on Ruby 4.0
+- Ruby 3.0+ required
 
 ## Installation
 
@@ -27,6 +28,11 @@ Add to your Gemfile:
 
 ```ruby
 gem "printavo-ruby"
+```
+or
+
+```bash
+bundle add printavo-ruby
 ```
 
 Or install directly:
@@ -236,8 +242,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
 
 [MIT](LICENSE) © Stan Carver II
 
----
+## Colophon
 
-Stan Carver II
-Made in Texas 🤠
-https://stancarver.com
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)
