@@ -66,7 +66,8 @@ RSpec.describe Printavo::Models::Base do
     end
 
     it 'includes the attributes' do
-      expect(model.inspect).to include('"id" => "1"')
+      # Hash#inspect spacing around => varies by Ruby version; match loosely
+      expect(model.inspect).to match(/"id"\s*=>\s*"1"/)
     end
   end
 end
