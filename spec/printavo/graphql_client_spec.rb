@@ -42,6 +42,14 @@ RSpec.describe Printavo::GraphqlClient do
       end
     end
 
+    context 'when the API returns 404' do
+      before { stub_request(:post, endpoint).to_return(status: 404, body: '') }
+
+      it 'raises NotFoundError' do
+        expect { client.query(query) }.to raise_error(Printavo::NotFoundError)
+      end
+    end
+
     context 'when the response contains GraphQL errors' do
       before do
         body = { 'errors' => [{ 'message' => 'Field not found' }] }.to_json

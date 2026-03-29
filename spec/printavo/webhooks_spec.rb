@@ -34,5 +34,10 @@ RSpec.describe Printavo::Webhooks do
       tampered = payload.sub('123', '456')
       expect(described_class.verify(valid_signature, tampered, secret)).to be false
     end
+
+    it 'returns false when signature is a non-string type (triggers rescue)' do
+      # OpenSSL.secure_compare requires two strings; an Integer raises TypeError
+      expect(described_class.verify(12_345, payload, secret)).to be false
+    end
   end
 end
