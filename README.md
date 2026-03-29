@@ -1,8 +1,8 @@
 <!-- README.md -->
 # printavo-ruby
 
-[![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/scarver2/printavo-ruby/graph/badge.svg)](https://codecov.io/gh/scarver2/printavo-ruby)
+[![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/scarver2/printavo-ruby/badge.svg?branch=master)](https://coveralls.io/github/scarver2/printavo-ruby?branch=master)
 [![Gem Version](https://badge.fury.io/rb/printavo-ruby.svg)](https://badge.fury.io/rb/printavo-ruby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
