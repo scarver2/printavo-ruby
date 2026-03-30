@@ -26,6 +26,12 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#statuses' do
+    it 'returns a Statuses resource' do
+      expect(client.statuses).to be_a(Printavo::Resources::Statuses)
+    end
+  end
+
   describe '#orders' do
     it 'returns an Orders resource' do
       expect(client.orders).to be_a(Printavo::Resources::Orders)
@@ -35,6 +41,12 @@ RSpec.describe Printavo::Client do
   describe '#jobs' do
     it 'returns a Jobs resource' do
       expect(client.jobs).to be_a(Printavo::Resources::Jobs)
+    end
+  end
+
+  describe '#inquiries' do
+    it 'returns an Inquiries resource' do
+      expect(client.inquiries).to be_a(Printavo::Resources::Inquiries)
     end
   end
 end

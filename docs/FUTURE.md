@@ -1,4 +1,4 @@
-<!-- FUTURE.md -->
+<!-- docs/FUTURE.md -->
 # Future Roadmap
 
 Ideas and planned features for `printavo-ruby` that are out of scope for the
@@ -18,7 +18,7 @@ printavo analytics revenue
 printavo sync orders --to crm
 ```
 
-Planned version: `0.6.0`
+Planned version: `0.7.0`
 
 ### Pagination Abstraction
 
@@ -33,7 +33,7 @@ end
 all_orders = client.orders.all_pages
 ```
 
-Planned version: `0.7.0`
+Planned version: `0.8.0`
 
 ### Retry/Backoff
 
@@ -48,14 +48,14 @@ client = Printavo::Client.new(
 )
 ```
 
-Planned version: `0.8.0`
+Planned version: `0.9.0`
 
 ### Analytics / Reporting Expansion
 
 Richer wrappers for Printavo's analytics queries (revenue, job counts,
 customer activity, turnaround times).
 
-Planned version: `0.2.0`
+Planned version: `0.6.0`
 
 ### Mutations (Create / Update)
 

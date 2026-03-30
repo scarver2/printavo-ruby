@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/scarver2/printavo-ruby/issues',
-    'changelog_uri' => 'https://github.com/scarver2/printavo-ruby/blob/master/CHANGELOG.md',
+    'changelog_uri' => 'https://github.com/scarver2/printavo-ruby/blob/master/docs/CHANGELOG.md',
     'documentation_uri' => 'https://github.com/scarver2/printavo-ruby#readme',
     'source_code_uri' => 'https://github.com/scarver2/printavo-ruby',
     'rubygems_mfa_required' => 'true'
@@ -28,9 +28,9 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir[
     'lib/**/*.rb',
+    'docs/**/*.md',
     'LICENSE',
-    'README.md',
-    'CHANGELOG.md'
+    'README.md'
   ]
 
   spec.require_paths = ['lib']

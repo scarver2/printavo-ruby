@@ -1,4 +1,4 @@
-<!-- CONTRIBUTING.md -->
+<!-- docs/CONTRIBUTING.md -->
 # Contributing to printavo-ruby
 
 Thank you for your interest in contributing! This guide covers setup, workflow,
@@ -58,7 +58,7 @@ record against production TER data.
 - One feature / bug fix per PR
 - All CI checks must pass (RSpec + RuboCop across Ruby 3.1–4.0)
 - Write specs for any new code
-- Update `CHANGELOG.md` with a summary of changes
+- Update `docs/CHANGELOG.md` with a summary of changes
 
 ## Version Bump Rules
 
@@ -70,7 +70,7 @@ Versions follow [Semantic Versioning](https://semver.org/):
 | New backward-compatible feature | MINOR (0.x.0) |
 | Breaking API change | MAJOR (x.0.0) |
 
-Bump `lib/printavo/version.rb`, update `CHANGELOG.md`, then:
+Bump `lib/printavo/version.rb`, update `docs/CHANGELOG.md`, then:
 
 ```bash
 git commit -am "Release vX.Y.Z"

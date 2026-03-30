@@ -1,20 +1,12 @@
-# lib/printavo/models/order.rb
+# lib/printavo/models/inquiry.rb
 module Printavo
-  class Order < Models::Base
+  class Inquiry < Models::Base
     def id          = self['id']
     def nickname    = self['nickname']
     def total_price = self['totalPrice']
 
     def status
       dig('status', 'name')
-    end
-
-    def status_id
-      dig('status', 'id')
-    end
-
-    def status_color
-      dig('status', 'color')
     end
 
     def status_key

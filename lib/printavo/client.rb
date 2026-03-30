@@ -27,12 +27,20 @@ module Printavo
       Resources::Customers.new(@graphql)
     end
 
+    def statuses
+      Resources::Statuses.new(@graphql)
+    end
+
     def orders
       Resources::Orders.new(@graphql)
     end
 
     def jobs
       Resources::Jobs.new(@graphql)
+    end
+
+    def inquiries
+      Resources::Inquiries.new(@graphql)
     end
   end
 end
