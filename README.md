@@ -254,7 +254,7 @@ end
 
 | Version | Milestone |
 |---|---|
-| 0.1.0 | Auth + Customers + Orders + Jobs ✅ |
+| 0.1.0 | Auth + Customers + Orders + Jobs + Webhooks (Rack-compatible) ✅ |
 | 0.2.0 | Status registry + Inquiries ✅ |
 | 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
 | 0.4.0 | Expanded GraphQL DSL |
