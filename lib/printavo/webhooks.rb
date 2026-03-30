@@ -1,4 +1,6 @@
 # lib/printavo/webhooks.rb
+# frozen_string_literal: true
+
 require 'openssl'
 
 module Printavo

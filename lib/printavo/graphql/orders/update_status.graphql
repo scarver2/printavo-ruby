@@ -1,0 +1,18 @@
+mutation StatusUpdate($parentId: ID!, $statusId: ID!) {
+  statusUpdate(parentId: $parentId, statusId: $statusId) {
+    ... on Quote {
+      id
+      nickname
+      total
+      status { id name color }
+      customer { id firstName lastName email company }
+    }
+    ... on Invoice {
+      id
+      nickname
+      total
+      status { id name color }
+      customer { id firstName lastName email company }
+    }
+  }
+}

@@ -1,4 +1,6 @@
 # lib/printavo/models/order.rb
+# frozen_string_literal: true
+
 module Printavo
   class Order < Models::Base
     def id          = self['id']

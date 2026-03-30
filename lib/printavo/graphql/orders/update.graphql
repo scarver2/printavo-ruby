@@ -1,0 +1,19 @@
+mutation QuoteUpdate($id: ID!, $input: QuoteInput!) {
+  quoteUpdate(id: $id, input: $input) {
+    id
+    nickname
+    total
+    status {
+      id
+      name
+      color
+    }
+    customer {
+      id
+      firstName
+      lastName
+      email
+      company
+    }
+  }
+}

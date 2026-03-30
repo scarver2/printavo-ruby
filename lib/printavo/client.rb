@@ -1,4 +1,6 @@
 # lib/printavo/client.rb
+# frozen_string_literal: true
+
 module Printavo
   class Client
     attr_reader :graphql

@@ -1,4 +1,6 @@
 # spec/printavo/graphql_client_spec.rb
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Printavo::GraphqlClient do

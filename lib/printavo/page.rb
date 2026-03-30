@@ -1,4 +1,6 @@
 # lib/printavo/page.rb
+# frozen_string_literal: true
+
 module Printavo
   # Wraps a single page of API results with cursor metadata.
   #

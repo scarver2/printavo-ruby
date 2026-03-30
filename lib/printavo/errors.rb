@@ -1,4 +1,6 @@
 # lib/printavo/errors.rb
+# frozen_string_literal: true
+
 module Printavo
   class Error < StandardError; end
 

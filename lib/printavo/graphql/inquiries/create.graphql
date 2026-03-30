@@ -1,0 +1,19 @@
+mutation InquiryCreate($input: InquiryCreateInput!) {
+  inquiryCreate(input: $input) {
+    id
+    nickname
+    totalPrice
+    status {
+      id
+      name
+      color
+    }
+    customer {
+      id
+      firstName
+      lastName
+      email
+      company
+    }
+  }
+}

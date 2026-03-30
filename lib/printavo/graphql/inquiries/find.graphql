@@ -1,0 +1,19 @@
+query Inquiry($id: ID!) {
+  inquiry(id: $id) {
+    id
+    nickname
+    totalPrice
+    status {
+      id
+      name
+      color
+    }
+    customer {
+      id
+      firstName
+      lastName
+      email
+      company
+    }
+  }
+}

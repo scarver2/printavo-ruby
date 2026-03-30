@@ -1,0 +1,13 @@
+query Statuses($first: Int, $after: String) {
+  statuses(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      color
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

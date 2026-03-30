@@ -1,4 +1,6 @@
 # lib/printavo/models/status.rb
+# frozen_string_literal: true
+
 module Printavo
   class Status < Models::Base
     def id    = self['id']

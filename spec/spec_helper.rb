@@ -1,4 +1,6 @@
 # spec/spec_helper.rb
+# frozen_string_literal: true
+
 require 'simplecov'
 require 'simplecov-lcov'
 
@@ -25,7 +27,7 @@ require_relative 'support/factories'
 
 PRINTAVO_TEST_EMAIL = ENV.fetch('PRINTAVO_EMAIL', 'demo@example.com')
 PRINTAVO_TEST_TOKEN = ENV.fetch('PRINTAVO_TOKEN', 'test_token')
-PRINTAVO_API_URL    = 'https://www.printavo.com/api/v2'.freeze
+PRINTAVO_API_URL    = 'https://www.printavo.com/api/v2'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

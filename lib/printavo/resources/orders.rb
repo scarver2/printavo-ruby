@@ -1,123 +1,16 @@
 # lib/printavo/resources/orders.rb
+# frozen_string_literal: true
+
 module Printavo
   module Resources
     class Orders < Base
-      ALL_QUERY = <<~GQL.freeze
-        query Orders($first: Int, $after: String) {
-          orders(first: $first, after: $after) {
-            nodes {
-              id
-              nickname
-              totalPrice
-              status {
-                id
-                name
-                color
-              }
-              customer {
-                id
-                firstName
-                lastName
-                email
-                company
-              }
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      GQL
-
-      FIND_QUERY = <<~GQL.freeze
-        query Order($id: ID!) {
-          order(id: $id) {
-            id
-            nickname
-            totalPrice
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
-
+      ALL_QUERY      = File.read(File.join(__dir__, '../graphql/orders/all.graphql')).freeze
+      FIND_QUERY     = File.read(File.join(__dir__, '../graphql/orders/find.graphql')).freeze
       # Printavo creates orders as quotes first; the mutation is quoteCreate.
-      CREATE_MUTATION = <<~GQL.freeze
-        mutation QuoteCreate($input: QuoteCreateInput!) {
-          quoteCreate(input: $input) {
-            id
-            nickname
-            total
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
-
-      UPDATE_MUTATION = <<~GQL.freeze
-        mutation QuoteUpdate($id: ID!, $input: QuoteInput!) {
-          quoteUpdate(id: $id, input: $input) {
-            id
-            nickname
-            total
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
-
+      CREATE_MUTATION        = File.read(File.join(__dir__, '../graphql/orders/create.graphql')).freeze
+      UPDATE_MUTATION        = File.read(File.join(__dir__, '../graphql/orders/update.graphql')).freeze
       # statusUpdate returns an OrderUnion (Quote | Invoice) — requires fragments.
-      UPDATE_STATUS_MUTATION = <<~GQL.freeze
-        mutation StatusUpdate($parentId: ID!, $statusId: ID!) {
-          statusUpdate(parentId: $parentId, statusId: $statusId) {
-            ... on Quote {
-              id
-              nickname
-              total
-              status { id name color }
-              customer { id firstName lastName email company }
-            }
-            ... on Invoice {
-              id
-              nickname
-              total
-              status { id name color }
-              customer { id firstName lastName email company }
-            }
-          }
-        }
-      GQL
+      UPDATE_STATUS_MUTATION = File.read(File.join(__dir__, '../graphql/orders/update_status.graphql')).freeze
 
       def all(first: 25, after: nil)
         fetch_page(first: first, after: after).records

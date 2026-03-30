@@ -1,0 +1,9 @@
+query LineItem($id: ID!) {
+  lineItem(id: $id) {
+    id
+    name
+    quantity
+    price
+    taxable
+  }
+}

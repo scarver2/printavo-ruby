@@ -1,4 +1,6 @@
 # lib/printavo/models/customer.rb
+# frozen_string_literal: true
+
 module Printavo
   class Customer < Models::Base
     def id         = self['id']
