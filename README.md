@@ -4,11 +4,11 @@
   <img src="docs/printavo-ruby.png" alt="printavo-ruby" width="640">
 </p>
 
-# printavo-ruby
+# [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 [![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/scarver2/printavo-ruby/badge.svg?branch=master)](https://coveralls.io/github/scarver2/printavo-ruby?branch=master)
-[![Gem Version](https://badge.fury.io/rb/printavo-ruby.svg)](https://badge.fury.io/rb/printavo-ruby)
+[![Gem Version](https://img.shields.io/gem/v/printavo-ruby.svg)](https://rubygems.org/gems/printavo-ruby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A framework-agnostic Ruby SDK for the [Printavo](https://www.printavo.com) GraphQL API (v2).
@@ -339,17 +339,8 @@ end
 
 ## Versioning Roadmap
 
-| Version | Milestone |
-|---|---|
-| 0.1.0 | Auth + Customers + Orders + Jobs + Webhooks (Rack-compatible) ✅ |
-| 0.2.0 | Status registry + Inquiries ✅ |
-| 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
-| 0.4.0 | Expanded GraphQL DSL (`mutate`, `paginate`) ✅ |
-| 0.5.0 | Mutations (create/update) ✅ |
-| 0.6.0 | Analytics / Reporting queries |
-| 0.7.0 | Community burn-in / API stabilization |
-| 0.8.0 | Retry/backoff + rate limit awareness |
-| 1.0.0 | Stable public SDK |
+- [CHANGELOG](docs/CHANGELOG.md) — what shipped in each release
+- [TODO](docs/TODO.md) — planned versions, API coverage gaps, and stretch goals
 
 **Rules**: `PATCH` = bug fix · `MINOR` = new backward-compatible feature · `MAJOR` = breaking change
 

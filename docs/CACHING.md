@@ -1,5 +1,5 @@
 <!-- docs/CACHING.md -->
-# Caching Strategies for printavo-ruby
+# Caching Strategies for [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 The Printavo API enforces a **rate limit of 10 requests per 5 seconds** per account.
 For applications that read Printavo data frequently (dashboards, reporting tools,
@@ -228,6 +228,10 @@ Track this feature in [FUTURE.md](../FUTURE.md).
 
 ---
 
-Stan Carver II
-Made in Texas 🤠
-https://stancarver.com
+## Colophon
+
+[MIT License](LICENSE)
+
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)
