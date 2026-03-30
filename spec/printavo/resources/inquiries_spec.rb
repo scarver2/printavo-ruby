@@ -61,6 +61,24 @@ RSpec.describe Printavo::Resources::Inquiries do
     end
   end
 
+  describe '#each_page / #all_pages' do
+    before do
+      allow(graphql).to receive(:query).and_return(
+        'inquiries' => { 'nodes' => [inquiry_attrs], 'pageInfo' => page_info }
+      )
+    end
+
+    it 'each_page yields arrays of Inquiry objects' do
+      pages = []
+      resource.each_page { |records| pages << records }
+      expect(pages.flatten).to all(be_a(Printavo::Inquiry))
+    end
+
+    it 'all_pages returns a flat array of Inquiries' do
+      expect(resource.all_pages).to all(be_a(Printavo::Inquiry))
+    end
+  end
+
   describe '#find' do
     before do
       allow(graphql).to receive(:query).and_return('inquiry' => inquiry_attrs)
