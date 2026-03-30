@@ -1,0 +1,7 @@
+query Status($id: ID!) {
+  status(id: $id) {
+    id
+    name
+    color
+  }
+}

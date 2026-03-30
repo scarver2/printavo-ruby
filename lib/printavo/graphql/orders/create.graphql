@@ -1,0 +1,19 @@
+mutation QuoteCreate($input: QuoteCreateInput!) {
+  quoteCreate(input: $input) {
+    id
+    nickname
+    total
+    status {
+      id
+      name
+      color
+    }
+    customer {
+      id
+      firstName
+      lastName
+      email
+      company
+    }
+  }
+}

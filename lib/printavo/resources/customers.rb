@@ -1,70 +1,13 @@
 # lib/printavo/resources/customers.rb
+# frozen_string_literal: true
+
 module Printavo
   module Resources
     class Customers < Base
-      ALL_QUERY = <<~GQL.freeze
-        query Customers($first: Int, $after: String) {
-          customers(first: $first, after: $after) {
-            nodes {
-              id
-              firstName
-              lastName
-              email
-              phone
-              company
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      GQL
-
-      FIND_QUERY = <<~GQL.freeze
-        query Customer($id: ID!) {
-          customer(id: $id) {
-            id
-            firstName
-            lastName
-            email
-            phone
-            company
-          }
-        }
-      GQL
-
-      CREATE_MUTATION = <<~GQL.freeze
-        mutation CustomerCreate($input: CustomerCreateInput!) {
-          customerCreate(input: $input) {
-            id
-            companyName
-            primaryContact {
-              id
-              firstName
-              lastName
-              email
-              phone
-            }
-          }
-        }
-      GQL
-
-      UPDATE_MUTATION = <<~GQL.freeze
-        mutation CustomerUpdate($id: ID!, $input: CustomerInput!) {
-          customerUpdate(id: $id, input: $input) {
-            id
-            companyName
-            primaryContact {
-              id
-              firstName
-              lastName
-              email
-              phone
-            }
-          }
-        }
-      GQL
+      ALL_QUERY      = File.read(File.join(__dir__, '../graphql/customers/all.graphql')).freeze
+      FIND_QUERY     = File.read(File.join(__dir__, '../graphql/customers/find.graphql')).freeze
+      CREATE_MUTATION = File.read(File.join(__dir__, '../graphql/customers/create.graphql')).freeze
+      UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/customers/update.graphql')).freeze
 
       def all(first: 25, after: nil)
         fetch_page(first: first, after: after).records

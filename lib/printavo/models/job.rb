@@ -1,4 +1,6 @@
 # lib/printavo/models/job.rb
+# frozen_string_literal: true
+
 module Printavo
   class Job < Models::Base
     def id       = self['id']

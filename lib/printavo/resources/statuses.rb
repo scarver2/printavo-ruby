@@ -1,32 +1,11 @@
 # lib/printavo/resources/statuses.rb
+# frozen_string_literal: true
+
 module Printavo
   module Resources
     class Statuses < Base
-      ALL_QUERY = <<~GQL.freeze
-        query Statuses($first: Int, $after: String) {
-          statuses(first: $first, after: $after) {
-            nodes {
-              id
-              name
-              color
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      GQL
-
-      FIND_QUERY = <<~GQL.freeze
-        query Status($id: ID!) {
-          status(id: $id) {
-            id
-            name
-            color
-          }
-        }
-      GQL
+      ALL_QUERY  = File.read(File.join(__dir__, '../graphql/statuses/all.graphql')).freeze
+      FIND_QUERY = File.read(File.join(__dir__, '../graphql/statuses/find.graphql')).freeze
 
       def all(first: 100, after: nil)
         fetch_page(first: first, after: after).records

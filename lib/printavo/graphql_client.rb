@@ -1,4 +1,6 @@
 # lib/printavo/graphql_client.rb
+# frozen_string_literal: true
+
 require 'json'
 
 module Printavo

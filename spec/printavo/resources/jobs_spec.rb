@@ -1,4 +1,6 @@
 # spec/printavo/resources/jobs_spec.rb
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Printavo::Resources::Jobs do

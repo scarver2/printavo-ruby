@@ -1,0 +1,25 @@
+query Inquiries($first: Int, $after: String) {
+  inquiries(first: $first, after: $after) {
+    nodes {
+      id
+      nickname
+      totalPrice
+      status {
+        id
+        name
+        color
+      }
+      customer {
+        id
+        firstName
+        lastName
+        email
+        company
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

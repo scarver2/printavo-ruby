@@ -1,4 +1,6 @@
 # spec/printavo/client_spec.rb
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe Printavo::Client do

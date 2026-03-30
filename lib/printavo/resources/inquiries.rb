@@ -1,100 +1,13 @@
 # lib/printavo/resources/inquiries.rb
+# frozen_string_literal: true
+
 module Printavo
   module Resources
     class Inquiries < Base
-      ALL_QUERY = <<~GQL.freeze
-        query Inquiries($first: Int, $after: String) {
-          inquiries(first: $first, after: $after) {
-            nodes {
-              id
-              nickname
-              totalPrice
-              status {
-                id
-                name
-                color
-              }
-              customer {
-                id
-                firstName
-                lastName
-                email
-                company
-              }
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      GQL
-
-      FIND_QUERY = <<~GQL.freeze
-        query Inquiry($id: ID!) {
-          inquiry(id: $id) {
-            id
-            nickname
-            totalPrice
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
-
-      CREATE_MUTATION = <<~GQL.freeze
-        mutation InquiryCreate($input: InquiryCreateInput!) {
-          inquiryCreate(input: $input) {
-            id
-            nickname
-            totalPrice
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
-
-      UPDATE_MUTATION = <<~GQL.freeze
-        mutation InquiryUpdate($id: ID!, $input: InquiryInput!) {
-          inquiryUpdate(id: $id, input: $input) {
-            id
-            nickname
-            totalPrice
-            status {
-              id
-              name
-              color
-            }
-            customer {
-              id
-              firstName
-              lastName
-              email
-              company
-            }
-          }
-        }
-      GQL
+      ALL_QUERY       = File.read(File.join(__dir__, '../graphql/inquiries/all.graphql')).freeze
+      FIND_QUERY      = File.read(File.join(__dir__, '../graphql/inquiries/find.graphql')).freeze
+      CREATE_MUTATION = File.read(File.join(__dir__, '../graphql/inquiries/create.graphql')).freeze
+      UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/inquiries/update.graphql')).freeze
 
       def all(first: 25, after: nil)
         fetch_page(first: first, after: after).records

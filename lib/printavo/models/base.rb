@@ -1,4 +1,6 @@
 # lib/printavo/models/base.rb
+# frozen_string_literal: true
+
 module Printavo
   module Models
     class Base

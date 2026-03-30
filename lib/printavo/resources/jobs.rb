@@ -1,38 +1,11 @@
 # lib/printavo/resources/jobs.rb
+# frozen_string_literal: true
+
 module Printavo
   module Resources
     class Jobs < Base
-      ALL_QUERY = <<~GQL.freeze
-        query LineItems($orderId: ID!, $first: Int, $after: String) {
-          order(id: $orderId) {
-            lineItems(first: $first, after: $after) {
-              nodes {
-                id
-                name
-                quantity
-                price
-                taxable
-              }
-              pageInfo {
-                hasNextPage
-                endCursor
-              }
-            }
-          }
-        }
-      GQL
-
-      FIND_QUERY = <<~GQL.freeze
-        query LineItem($id: ID!) {
-          lineItem(id: $id) {
-            id
-            name
-            quantity
-            price
-            taxable
-          }
-        }
-      GQL
+      ALL_QUERY  = File.read(File.join(__dir__, '../graphql/jobs/all.graphql')).freeze
+      FIND_QUERY = File.read(File.join(__dir__, '../graphql/jobs/find.graphql')).freeze
 
       def all(order_id:, first: 25, after: nil)
         fetch_page(order_id: order_id, first: first, after: after).records

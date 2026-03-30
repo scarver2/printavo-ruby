@@ -1,4 +1,6 @@
 # spec/support/factories.rb
+# frozen_string_literal: true
+
 require 'faker'
 
 module Factories

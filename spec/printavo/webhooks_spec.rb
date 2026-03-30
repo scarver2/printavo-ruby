@@ -1,4 +1,6 @@
 # spec/printavo/webhooks_spec.rb
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'openssl'
 

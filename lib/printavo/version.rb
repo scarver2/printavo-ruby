@@ -1,4 +1,6 @@
 # lib/printavo/version.rb
+# frozen_string_literal: true
+
 module Printavo
-  VERSION = '0.5.0'.freeze
+  VERSION = '0.5.0'
 end

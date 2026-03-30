@@ -1,0 +1,25 @@
+query Orders($first: Int, $after: String) {
+  orders(first: $first, after: $after) {
+    nodes {
+      id
+      nickname
+      totalPrice
+      status {
+        id
+        name
+        color
+      }
+      customer {
+        id
+        firstName
+        lastName
+        email
+        company
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

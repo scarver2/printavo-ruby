@@ -1,4 +1,6 @@
 # lib/printavo/models/inquiry.rb
+# frozen_string_literal: true
+
 module Printavo
   class Inquiry < Models::Base
     def id          = self['id']
