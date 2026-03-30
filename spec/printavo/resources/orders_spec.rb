@@ -64,6 +64,98 @@ RSpec.describe Printavo::Resources::Orders do
     end
   end
 
+  describe '#create' do
+    let(:mutation_response) { fake_order_mutation_response }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::CREATE_MUTATION, variables: anything)
+        .and_return('quoteCreate' => mutation_response)
+    end
+
+    it 'returns an Order' do
+      result = resource.create(contact: { id: '10' }, due_at: '2026-06-01T09:00:00Z',
+                               customer_due_at: '2026-06-01')
+      expect(result).to be_a(Printavo::Order)
+    end
+
+    it 'normalizes total to totalPrice' do
+      order = resource.create(contact: { id: '10' }, due_at: '2026-06-01T09:00:00Z',
+                              customer_due_at: '2026-06-01')
+      expect(order.total_price).to eq(mutation_response['total'])
+    end
+
+    it 'camelizes snake_case input keys' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { input: hash_including('customerDueAt' => '2026-06-01') })
+        .and_return('quoteCreate' => mutation_response)
+      resource.create(contact: { id: '10' }, due_at: '2026-06-01T09:00:00Z',
+                      customer_due_at: '2026-06-01')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { input: hash_including('customerDueAt' => '2026-06-01') })
+    end
+  end
+
+  describe '#update' do
+    let(:mutation_response) { fake_order_mutation_response('id' => '99') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::UPDATE_MUTATION, variables: anything)
+        .and_return('quoteUpdate' => mutation_response)
+    end
+
+    it 'returns an Order' do
+      expect(resource.update('99', nickname: 'Rush Job')).to be_a(Printavo::Order)
+    end
+
+    it 'passes the id as a string' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: hash_including(id: '99'))
+        .and_return('quoteUpdate' => mutation_response)
+      resource.update(99, nickname: 'Rush Job')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: hash_including(id: '99'))
+    end
+
+    it 'camelizes snake_case input keys' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { id: '99', input: hash_including('productionNote' => 'Ships Friday') })
+        .and_return('quoteUpdate' => mutation_response)
+      resource.update('99', production_note: 'Ships Friday')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { id: '99', input: hash_including('productionNote' => 'Ships Friday') })
+    end
+  end
+
+  describe '#update_status' do
+    let(:mutation_response) { fake_order_mutation_response('id' => '99') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::UPDATE_STATUS_MUTATION, variables: anything)
+        .and_return('statusUpdate' => mutation_response)
+    end
+
+    it 'returns an Order' do
+      expect(resource.update_status('99', status_id: '3')).to be_a(Printavo::Order)
+    end
+
+    it 'normalizes total to totalPrice' do
+      order = resource.update_status('99', status_id: '3')
+      expect(order.total_price).to eq(mutation_response['total'])
+    end
+
+    it 'passes parentId and statusId as strings' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { parentId: '99', statusId: '3' })
+        .and_return('statusUpdate' => mutation_response)
+      resource.update_status(99, status_id: 3)
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { parentId: '99', statusId: '3' })
+    end
+  end
+
   describe '#find' do
     let(:order_data)    { fake_order_attrs('id' => '99') }
     let(:response_data) { { 'order' => order_data } }

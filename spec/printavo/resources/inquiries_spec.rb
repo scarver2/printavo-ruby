@@ -79,6 +79,52 @@ RSpec.describe Printavo::Resources::Inquiries do
     end
   end
 
+  describe '#create' do
+    let(:created_attrs) { fake_inquiry_attrs }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::CREATE_MUTATION, variables: anything)
+        .and_return('inquiryCreate' => created_attrs)
+    end
+
+    it 'returns an Inquiry' do
+      expect(resource.create(name: 'Jane Smith', email: 'jane@example.com')).to be_a(Printavo::Inquiry)
+    end
+
+    it 'passes input directly to the mutation' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { input: { name: 'Jane Smith', email: 'jane@example.com' } })
+        .and_return('inquiryCreate' => created_attrs)
+      resource.create(name: 'Jane Smith', email: 'jane@example.com')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { input: { name: 'Jane Smith', email: 'jane@example.com' } })
+    end
+  end
+
+  describe '#update' do
+    let(:updated_attrs) { fake_inquiry_attrs('id' => '55') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::UPDATE_MUTATION, variables: anything)
+        .and_return('inquiryUpdate' => updated_attrs)
+    end
+
+    it 'returns an Inquiry' do
+      expect(resource.update('55', nickname: 'Hoodies Rush')).to be_a(Printavo::Inquiry)
+    end
+
+    it 'passes the id as a string' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: hash_including(id: '55'))
+        .and_return('inquiryUpdate' => updated_attrs)
+      resource.update(55, nickname: 'Hoodies Rush')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: hash_including(id: '55'))
+    end
+  end
+
   describe '#find' do
     before do
       allow(graphql).to receive(:query).and_return('inquiry' => inquiry_attrs)

@@ -136,6 +136,57 @@ end
 all_jobs = client.jobs.all_pages(order_id: "99")
 ```
 
+### Mutations
+
+#### Customers
+
+```ruby
+# Create
+customer = client.customers.create(
+  primary_contact: { firstName: "Jane", lastName: "Smith", email: "jane@example.com" },
+  company_name: "Acme Shirts"
+)
+puts customer.full_name   # => "Jane Smith"
+puts customer.company     # => "Acme Shirts"
+
+# Update
+customer = client.customers.update("42", company_name: "New Name Inc")
+```
+
+#### Orders
+
+```ruby
+# Create (Printavo creates orders as quotes first)
+order = client.orders.create(
+  contact:          { id: "456" },
+  due_at:           "2026-06-01T09:00:00Z",
+  customer_due_at:  "2026-06-01",
+  nickname:         "Summer Rush"
+)
+
+# Update
+order = client.orders.update("99", nickname: "Rush Job", production_note: "Ships Friday")
+
+# Move to a new status
+registry = client.statuses.registry
+order = client.orders.update_status("99", status_id: registry[:in_production].id)
+puts order.status   # => "In Production"
+```
+
+#### Inquiries
+
+```ruby
+# Create
+inquiry = client.inquiries.create(
+  name:    "Bob Johnson",
+  email:   "bob@example.com",
+  request: "100 hoodies, front + back print"
+)
+
+# Update
+inquiry = client.inquiries.update("55", nickname: "Hoodies Rush")
+```
+
 ### Statuses
 
 ```ruby
@@ -294,7 +345,7 @@ end
 | 0.2.0 | Status registry + Inquiries ✅ |
 | 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
 | 0.4.0 | Expanded GraphQL DSL (`mutate`, `paginate`) ✅ |
-| 0.5.0 | Mutations (create/update) |
+| 0.5.0 | Mutations (create/update) ✅ |
 | 0.6.0 | Analytics / Reporting queries |
 | 0.7.0 | Community burn-in / API stabilization |
 | 0.8.0 | Retry/backoff + rate limit awareness |

@@ -125,6 +125,74 @@ RSpec.describe Printavo::Resources::Customers do
     end
   end
 
+  describe '#create' do
+    let(:mutation_response) { fake_customer_mutation_response }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::CREATE_MUTATION, variables: anything)
+        .and_return('customerCreate' => mutation_response)
+    end
+
+    it 'returns a Customer' do
+      result = resource.create(primary_contact: { firstName: 'Jane', email: 'jane@example.com' })
+      expect(result).to be_a(Printavo::Customer)
+    end
+
+    it 'normalizes primaryContact into top-level model fields' do
+      customer = resource.create(primary_contact: { firstName: 'Jane', email: 'jane@example.com' })
+      expect(customer.first_name).to eq(mutation_response['primaryContact']['firstName'])
+      expect(customer.email).to eq(mutation_response['primaryContact']['email'])
+    end
+
+    it 'normalizes companyName to company' do
+      customer = resource.create(primary_contact: { firstName: 'Jane', email: 'jane@example.com' })
+      expect(customer.company).to eq(mutation_response['companyName'])
+    end
+
+    it 'camelizes snake_case input keys' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { input: hash_including('companyName' => 'Acme') })
+        .and_return('customerCreate' => mutation_response)
+      resource.create(primary_contact: { firstName: 'Jane', email: 'jane@example.com' },
+                      company_name: 'Acme')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { input: hash_including('companyName' => 'Acme') })
+    end
+  end
+
+  describe '#update' do
+    let(:mutation_response) { fake_customer_mutation_response('id' => '42') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::UPDATE_MUTATION, variables: anything)
+        .and_return('customerUpdate' => mutation_response)
+    end
+
+    it 'returns a Customer' do
+      expect(resource.update('42', company_name: 'New Co')).to be_a(Printavo::Customer)
+    end
+
+    it 'passes the id as a string' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: hash_including(id: '42'))
+        .and_return('customerUpdate' => mutation_response)
+      resource.update(42, company_name: 'New Co')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: hash_including(id: '42'))
+    end
+
+    it 'camelizes snake_case input keys' do
+      allow(graphql).to receive(:mutate)
+        .with(anything, variables: { id: '42', input: hash_including('companyName' => 'New Co') })
+        .and_return('customerUpdate' => mutation_response)
+      resource.update('42', company_name: 'New Co')
+      expect(graphql).to have_received(:mutate)
+        .with(anything, variables: { id: '42', input: hash_including('companyName' => 'New Co') })
+    end
+  end
+
   describe '#find' do
     let(:customer_data) { fake_customer_attrs('id' => '42') }
     let(:response_data) { { 'customer' => customer_data } }

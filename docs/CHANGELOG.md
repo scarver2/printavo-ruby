@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-30
+
+### Added
+- `Customers#create(primary_contact:, **input)` — `customerCreate` mutation; normalizes `primaryContact` + `companyName` response fields to match the read-side `Customer` model
+- `Customers#update(id, **input)` — `customerUpdate` mutation
+- `Orders#create(**input)` — `quoteCreate` mutation; normalizes `total` → `totalPrice` in response
+- `Orders#update(id, **input)` — `quoteUpdate` mutation
+- `Orders#update_status(id, status_id:)` — `statusUpdate` mutation; handles `OrderUnion (Quote | Invoice)` via inline fragments
+- `Inquiries#create(**input)` — `inquiryCreate` mutation
+- `Inquiries#update(id, **input)` — `inquiryUpdate` mutation
+- All mutation methods accept snake_case keyword args and camelize them for GraphQL input
+- `CREATE_MUTATION` and `UPDATE_MUTATION` constants on `Customers`, `Orders`, `Inquiries`; `UPDATE_STATUS_MUTATION` on `Orders`
+- Private `build_customer` and `build_order` normalizers centralize mutation response mapping
+- Private `camelize_keys` on `Customers` and `Orders` converts `snake_case` → `camelCase` for input variables
+- Factory helpers `fake_customer_mutation_response` and `fake_order_mutation_response` for testing
+
 ## [0.4.0] - 2026-03-30
 
 ### Added
