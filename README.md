@@ -1,4 +1,9 @@
 <!-- README.md -->
+
+<p align="center">
+  <img src="docs/printavo-ruby.png" alt="printavo-ruby" width="640">
+</p>
+
 # printavo-ruby
 
 [![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
@@ -238,11 +243,9 @@ PRINTAVO_EMAIL=you@example.com PRINTAVO_TOKEN=your_token bin/console
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
 
-## License
-
-[MIT](LICENSE) © Stan Carver II
-
 ## Colophon
+
+[MIT License](LICENSE)
 
 &copy;2026 [Stan Carver II](https://stancarver.com)
 
