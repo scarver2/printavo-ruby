@@ -1,4 +1,4 @@
-<!-- CHANGELOG.md -->
+<!-- docs/CHANGELOG.md -->
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -7,6 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-03-29
+
+### Added
+- `Printavo::Status` — domain model with `id`, `name`, `color`, `key` (snake\_case symbol)
+- `Printavo::Resources::Statuses` — `all`, `find`, and `registry` (O(1) Hash lookup by symbol key)
+- `Printavo::Inquiry` — domain model mirroring `Order` with status predicate helpers
+- `Printavo::Resources::Inquiries` — `all` and `find` for Printavo quote/inquiry records
+- `Printavo::Order#status_id` and `#status_color` — expose full status sub-object fields
+- `client.statuses` and `client.inquiries` — new entry points on `Printavo::Client`
+- Orders GraphQL query now fetches `status { id name color }` for full status data
+- Moved `CHANGELOG.md`, `CONTRIBUTING.md`, `FUTURE.md` to `docs/` for cleaner repo root
+
+### Changed
+- Gemspec `changelog_uri` updated to `docs/CHANGELOG.md`
+- Gemspec `spec.files` updated to include `docs/**/*.md`
 
 ## [0.1.0] - 2026-03-29
 

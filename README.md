@@ -116,6 +116,37 @@ job = client.jobs.find("77")
 puts job.taxable?   # => true
 ```
 
+### Statuses
+
+```ruby
+# List all statuses
+statuses = client.statuses.all
+statuses.each { |s| puts "#{s.name} (#{s.color})" }
+
+# Build a registry for O(1) lookup by symbol key
+registry = client.statuses.registry
+registry[:in_production]          # => <Printavo::Status>
+registry[:in_production].color    # => "#ff6600"
+
+# Pair with an order's status_key
+order = client.orders.find("99")
+status = registry[order.status_key]
+puts "#{order.status} — #{status.color}"
+```
+
+### Inquiries
+
+```ruby
+# List inquiries (quotes / leads)
+inquiries = client.inquiries.all
+inquiries.each { |i| puts "#{i.nickname}: #{i.status}" }
+
+# Find a specific inquiry
+inquiry = client.inquiries.find("55")
+puts inquiry.status?(:new_inquiry)    # => true
+puts inquiry.customer.full_name       # => "Jane Smith"
+```
+
 ### Raw GraphQL
 
 For queries not yet wrapped by a resource, use the raw GraphQL client directly:
@@ -203,15 +234,15 @@ end
 
 | Version | Milestone |
 |---|---|
-| 0.1.0 | Auth + Customers + Orders + Jobs |
-| 0.2.0 | Status registry + Analytics/Reporting |
+| 0.1.0 | Auth + Customers + Orders + Jobs ✅ |
+| 0.2.0 | Status registry + Inquiries ✅ |
 | 0.3.0 | Webhooks (Rack-compatible) |
 | 0.4.0 | Expanded GraphQL DSL |
 | 0.5.0 | Mutations (create/update) |
-| 0.6.0 | Community burn-in / API stabilization |
-| 0.7.0 | Pagination abstraction helpers |
-| 0.8.0 | Retry/backoff + rate limit awareness |
-| 0.9.0 | Community feedback + API freeze |
+| 0.6.0 | Analytics / Reporting queries |
+| 0.7.0 | Community burn-in / API stabilization |
+| 0.8.0 | Pagination abstraction helpers |
+| 0.9.0 | Retry/backoff + rate limit awareness |
 | 1.0.0 | Stable public SDK |
 
 **Rules**: `PATCH` = bug fix · `MINOR` = new backward-compatible feature · `MAJOR` = breaking change
@@ -241,7 +272,7 @@ bundle exec guard
 PRINTAVO_EMAIL=you@example.com PRINTAVO_TOKEN=your_token bin/console
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for full contribution guidelines.
 
 ## Colophon
 

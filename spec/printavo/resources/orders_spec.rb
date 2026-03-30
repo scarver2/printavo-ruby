@@ -29,8 +29,10 @@ RSpec.describe Printavo::Resources::Orders do
 
     it 'maps status correctly' do
       order = resource.all.first
-      expect(order.status).to     eq('In Production')
-      expect(order.status_key).to eq(:in_production)
+      expect(order.status).to        eq('In Production')
+      expect(order.status_key).to    eq(:in_production)
+      expect(order.status_id).to     eq('1')
+      expect(order.status_color).to  eq('#ff6600')
     end
 
     it 'exposes an associated customer' do
