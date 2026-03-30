@@ -20,14 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Printavo::GraphqlClient` — raw GraphQL query/mutation interface
 - `Printavo::Webhooks.verify` — Rack-compatible HMAC-SHA256 signature verification
 - Error hierarchy: `AuthenticationError`, `RateLimitError`, `NotFoundError`, `ApiError`
-- Faraday connection with retry middleware
-- RSpec test suite with VCR + WebMock + Faker sanitization
-- Guard + RuboCop DX setup
-- GitHub Actions CI matrix: Ruby 3.1, 3.2, 3.3, 3.4, 4.0
-- Automated RubyGems release on version tag
+- Faraday connection with retry middleware (max 2 retries; 429/5xx)
+- RSpec test suite — 62 examples, 100% line coverage with VCR + WebMock + Faker sanitization
+- Coveralls coverage badge (LCOV via `simplecov-lcov`)
+- Guard + RuboCop DX setup with `bin/spec` multi-Ruby local runner
+- GitHub Actions CI: Ruby 3.3 (primary) + Ruby 4.0 (`continue-on-error`)
+- Automated RubyGems publish on `v*` tag via `release.yml`
+- `docs/CACHING.md` — nine caching strategy patterns for rate-limit-aware consumers
 
 ---
 
-Stan Carver II
-Made in Texas 🤠
-https://stancarver.com
+— Stan Carver II / Made in Texas 🤠 / https://stancarver.com
