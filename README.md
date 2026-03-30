@@ -196,6 +196,42 @@ result = client.graphql.query(
 )
 ```
 
+### Mutations
+
+Use `mutate` for GraphQL write operations:
+
+```ruby
+result = client.graphql.mutate(
+  <<~GQL,
+    mutation UpdateOrder($id: ID!, $nickname: String!) {
+      updateOrder(id: $id, input: { nickname: $nickname }) {
+        order { id nickname }
+        errors
+      }
+    }
+  GQL
+  variables: { id: "99", nickname: "Rush Job" }
+)
+result["updateOrder"]["order"]["nickname"]   # => "Rush Job"
+```
+
+### Raw GraphQL Pagination
+
+Paginate any custom query without a resource wrapper using `paginate`.
+The `path:` option is dot-separated and maps to the connection in the response:
+
+```ruby
+client.graphql.paginate(MY_QUERY, path: "orders", first: 50) do |nodes|
+  nodes.each { |n| puts n["nickname"] }
+end
+
+# Nested connection (e.g. order.lineItems)
+client.graphql.paginate(JOBS_QUERY, path: "order.lineItems",
+                                    variables: { orderId: "99" }) do |nodes|
+  nodes.each { |j| puts j["name"] }
+end
+```
+
 ## Webhooks
 
 `Printavo::Webhooks.verify` provides Rack-compatible HMAC-SHA256 signature verification.
@@ -257,12 +293,11 @@ end
 | 0.1.0 | Auth + Customers + Orders + Jobs + Webhooks (Rack-compatible) ✅ |
 | 0.2.0 | Status registry + Inquiries ✅ |
 | 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
-| 0.4.0 | Expanded GraphQL DSL |
+| 0.4.0 | Expanded GraphQL DSL (`mutate`, `paginate`) ✅ |
 | 0.5.0 | Mutations (create/update) |
 | 0.6.0 | Analytics / Reporting queries |
 | 0.7.0 | Community burn-in / API stabilization |
-| 0.8.0 | Pagination abstraction helpers |
-| 0.9.0 | Retry/backoff + rate limit awareness |
+| 0.8.0 | Retry/backoff + rate limit awareness |
 | 1.0.0 | Stable public SDK |
 
 **Rules**: `PATCH` = bug fix · `MINOR` = new backward-compatible feature · `MAJOR` = breaking change

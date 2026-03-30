@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-03-30
+
+### Added
+- `GraphqlClient#mutate` — semantic method for GraphQL mutations; identical transport to `query` but signals write intent at the call site; lays the foundation for 0.5.0 resource-level mutations
+- `GraphqlClient#paginate` — cursor-following pagination for raw GraphQL queries; accepts a dot-separated `path:` to resolve nested connections (e.g. `"order.lineItems"`); yields each page's `nodes` array
+- `GraphqlClient#execute` (private) — extracted shared POST logic; `query` and `mutate` both delegate to it
+- `GraphqlClient#dig_path` (private) — resolves dot-separated key paths against nested response hashes
+- Roadmap: removed stale Pagination entry from 0.8.0 (shipped in 0.3.0); Retry/backoff renumbered to 0.8.0
+
 ## [0.3.0] - 2026-03-29
 
 ### Added
