@@ -20,21 +20,6 @@ printavo sync orders --to crm
 
 Planned version: `0.7.0`
 
-### Pagination Abstraction
-
-A lazy-enumerator-style helper to automatically page through all results:
-
-```ruby
-client.customers.each_page do |page|
-  page.each { |c| process(c) }
-end
-
-# Or collect all:
-all_orders = client.orders.all_pages
-```
-
-Planned version: `0.8.0`
-
 ### Retry/Backoff
 
 Intelligent rate limit handling with exponential backoff:
@@ -48,7 +33,7 @@ client = Printavo::Client.new(
 )
 ```
 
-Planned version: `0.9.0`
+Planned version: `0.8.0`
 
 ### Analytics / Reporting Expansion
 
