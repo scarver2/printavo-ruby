@@ -1,12 +1,19 @@
 <!-- docs/CHANGELOG.md -->
-# Changelog
+# Changelog for printavo-ruby
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.1] - 2026-03-30
+
+### Changed
+- Extracted all 17 embedded GraphQL heredoc constants from resource files into
+  external `.graphql` files under `lib/printavo/graphql/<resource>/<operation>.graphql`
+- Constants are loaded via `File.read` at class definition time — runtime behavior
+  and constant names are unchanged
+- Added `# frozen_string_literal: true` to all 39 `.rb` files in `lib/` and `spec/`
 
 ## [0.5.0] - 2026-03-30
 
@@ -85,4 +92,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-— Stan Carver II / Made in Texas 🤠 / https://stancarver.com
+## Colophon
+
+[MIT License](LICENSE)
+
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)

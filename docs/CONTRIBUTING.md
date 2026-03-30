@@ -82,6 +82,10 @@ GitHub Actions will build and push to RubyGems automatically on tag push.
 
 ---
 
-Stan Carver II
-Made in Texas 🤠
-https://stancarver.com
+## Colophon
+
+[MIT License](LICENSE)
+
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)

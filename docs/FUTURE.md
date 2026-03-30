@@ -1,5 +1,5 @@
 <!-- docs/FUTURE.md -->
-# Future Roadmap
+# Future Roadmap for printavo-ruby
 
 Ideas and planned features for `printavo-ruby` that are out of scope for the
 initial `0.x` releases. Contributions and discussions welcome!
@@ -96,6 +96,10 @@ Implementation options:
 
 ---
 
-Stan Carver II
-Made in Texas 🤠
-https://stancarver.com
+## Colophon
+
+[MIT License](LICENSE)
+
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)

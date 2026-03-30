@@ -1,6 +1,5 @@
 <!-- docs/TODO.md -->
-
-# Project TODO
+# Project TODO for printavo-ruby
 
 Full task list for `printavo-ruby` across all versions. Checked items are shipped.
 
@@ -220,4 +219,11 @@ wrapped by a resource class. Raw GraphQL access works for all of these today via
 
 ---
 
-_Stan Carver II — Made in Texas — https://stancarver.com_
+
+## Colophon
+
+[MIT License](LICENSE)
+
+&copy;2026 [Stan Carver II](https://stancarver.com)
+
+![Made in Texas](https://raw.githubusercontent.com/scarver2/howdy-world/master/_dashboard/www/assets/made-in-texas.png)
