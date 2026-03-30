@@ -82,6 +82,45 @@ module Factories
     }.merge(overrides.transform_keys(&:to_s))
   end
 
+  def fake_contact_attrs(overrides = {})
+    {
+      'id' => Faker::Number.number(digits: 6).to_s,
+      'firstName' => Faker::Name.first_name,
+      'lastName' => Faker::Name.last_name,
+      'fullName' => Faker::Name.name,
+      'email' => Faker::Internet.email,
+      'phone' => Faker::PhoneNumber.phone_number,
+      'fax' => nil
+    }.merge(overrides.transform_keys(&:to_s))
+  end
+
+  def fake_invoice_attrs(overrides = {})
+    {
+      'id' => Faker::Number.number(digits: 6).to_s,
+      'nickname' => Faker::Lorem.word.capitalize,
+      'total' => Faker::Commerce.price(range: 50.0..5000.0).to_s,
+      'amountPaid' => Faker::Commerce.price(range: 0.0..500.0).to_s,
+      'amountOutstanding' => Faker::Commerce.price(range: 0.0..500.0).to_s,
+      'paidInFull' => false,
+      'invoiceAt' => Faker::Date.backward(days: 30).iso8601,
+      'paymentDueAt' => Faker::Date.forward(days: 30).iso8601,
+      'status' => { 'id' => '3', 'name' => 'Invoice', 'color' => '#009900' },
+      'contact' => fake_contact_attrs
+    }.merge(overrides.transform_keys(&:to_s))
+  end
+
+  def fake_account_attrs(overrides = {})
+    {
+      'id' => Faker::Number.number(digits: 4).to_s,
+      'companyName' => Faker::Company.name,
+      'companyEmail' => Faker::Internet.email,
+      'phone' => Faker::PhoneNumber.phone_number,
+      'website' => Faker::Internet.url,
+      'logoUrl' => nil,
+      'locale' => 'en-US'
+    }.merge(overrides.transform_keys(&:to_s))
+  end
+
   def stub_graphql_response(data)
     { 'data' => data }.to_json
   end

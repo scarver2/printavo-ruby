@@ -88,15 +88,15 @@ wrapped by a resource class. Raw GraphQL access works for all of these today via
 
 ### Contacts
 
-- [ ] `Printavo::Contact` model (`id`, `firstName`, `lastName`, `email`, `phone`)
-- [ ] `Contacts` resource: `find(id)`
-- [ ] `contact` query (contacts are distinct from the customer's `primaryContact`)
+- [x] `Printavo::Contact` model (`id`, `firstName`, `lastName`, `email`, `phone`)
+- [x] `Contacts` resource: `find(id)`, `create`, `update`
+- [x] `contact` query (contacts are distinct from the customer's `primaryContact`)
 
 ### Invoices
 
-- [ ] `Printavo::Invoice` model (mirrors Order; has `invoiceNumber`, `paidAt`, `balanceDue`)
-- [ ] `Invoices` resource: `all`, `find(id)`
-- [ ] `client.invoices` entry point on `Printavo::Client`
+- [x] `Printavo::Invoice` model (mirrors Order; has `amountPaid`, `amountOutstanding`, `paidInFull?`)
+- [x] `Invoices` resource: `all`, `find(id)`, `update`
+- [x] `client.invoices` entry point on `Printavo::Client`
 
 ### Line Item Groups
 
@@ -133,9 +133,9 @@ wrapped by a resource class. Raw GraphQL access works for all of these today via
 
 ### Account
 
-- [ ] `Printavo::Account` model (shop-level info: name, address, phone, logo)
-- [ ] `Account` resource: `find` (singleton — no ID needed)
-- [ ] `account` query
+- [x] `Printavo::Account` model (shop-level info: name, address, phone, logo)
+- [x] `Account` resource: `find` (singleton — no ID needed)
+- [x] `account` query
 
 ### Delete Mutations
 
@@ -154,13 +154,13 @@ wrapped by a resource class. Raw GraphQL access works for all of these today via
 
 ## Planned Versions
 
-### v0.6.0 — Invoices, Contacts & Analytics
+### v0.6.0 — Invoices, Contacts & Account ✅
 
-- [ ] `Invoices` resource (`all`, `find`)
-- [ ] `Contacts` resource (`find`)
-- [ ] `Account` resource (singleton)
+- [x] `Invoices` resource (`all`, `find`, `update`)
+- [x] `Contacts` resource (`find`, `create`, `update`)
+- [x] `Account` resource (singleton `find`)
 - [ ] Analytics/Reporting resource: revenue, job counts, customer activity, turnaround times
-- [ ] Community burn-in — gather feedback on 0.5.x API surface
+- [ ] Community burn-in — gather feedback on 0.5.x — 0.6.x API surface
 
 ### v0.7.0 — Transactions, Tasks & Threads
 

@@ -1,0 +1,11 @@
+query Contact($id: ID!) {
+  contact(id: $id) {
+    id
+    firstName
+    lastName
+    fullName
+    email
+    phone
+    fax
+  }
+}

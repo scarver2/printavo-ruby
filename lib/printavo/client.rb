@@ -25,8 +25,20 @@ module Printavo
       @graphql   = GraphqlClient.new(connection)
     end
 
+    def account
+      Resources::Account.new(@graphql)
+    end
+
+    def contacts
+      Resources::Contacts.new(@graphql)
+    end
+
     def customers
       Resources::Customers.new(@graphql)
+    end
+
+    def invoices
+      Resources::Invoices.new(@graphql)
     end
 
     def statuses
