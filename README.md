@@ -339,17 +339,8 @@ end
 
 ## Versioning Roadmap
 
-| Version | Milestone |
-|---|---|
-| 0.1.0 | Auth + Customers + Orders + Jobs + Webhooks (Rack-compatible) ✅ |
-| 0.2.0 | Status registry + Inquiries ✅ |
-| 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
-| 0.4.0 | Expanded GraphQL DSL (`mutate`, `paginate`) ✅ |
-| 0.5.0 | Mutations (create/update) ✅ |
-| 0.6.0 | Analytics / Reporting queries |
-| 0.7.0 | Community burn-in / API stabilization |
-| 0.8.0 | Retry/backoff + rate limit awareness |
-| 1.0.0 | Stable public SDK |
+- [CHANGELOG](docs/CHANGELOG.md) — what shipped in each release
+- [TODO](docs/TODO.md) — planned versions, API coverage gaps, and stretch goals
 
 **Rules**: `PATCH` = bug fix · `MINOR` = new backward-compatible feature · `MAJOR` = breaking change
 
