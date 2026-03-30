@@ -44,6 +44,87 @@ RSpec.describe Printavo::Resources::Customers do
     end
   end
 
+  describe '#each_page' do
+    let(:page_one) do
+      {
+        'customers' => {
+          'nodes' => [fake_customer_attrs, fake_customer_attrs],
+          'pageInfo' => { 'hasNextPage' => true, 'endCursor' => 'cursor_1' }
+        }
+      }
+    end
+    let(:page_two) do
+      {
+        'customers' => {
+          'nodes' => [fake_customer_attrs],
+          'pageInfo' => { 'hasNextPage' => false, 'endCursor' => nil }
+        }
+      }
+    end
+
+    before do
+      allow(graphql).to receive(:query)
+        .with(described_class::ALL_QUERY, variables: { first: 25, after: nil })
+        .and_return(page_one)
+      allow(graphql).to receive(:query)
+        .with(described_class::ALL_QUERY, variables: { first: 25, after: 'cursor_1' })
+        .and_return(page_two)
+    end
+
+    it 'yields each page of Customer objects' do
+      pages = []
+      resource.each_page { |records| pages << records }
+      expect(pages.size).to eq(2)
+      expect(pages.flatten).to all(be_a(Printavo::Customer))
+    end
+
+    it 'yields page one then page two in order' do
+      sizes = []
+      resource.each_page { |records| sizes << records.size }
+      expect(sizes).to eq([2, 1])
+    end
+
+    it 'stops after the last page' do
+      call_count = 0
+      resource.each_page { call_count += 1 }
+      expect(call_count).to eq(2)
+    end
+  end
+
+  describe '#all_pages' do
+    let(:page_one) do
+      {
+        'customers' => {
+          'nodes' => [fake_customer_attrs, fake_customer_attrs],
+          'pageInfo' => { 'hasNextPage' => true, 'endCursor' => 'cursor_1' }
+        }
+      }
+    end
+    let(:page_two) do
+      {
+        'customers' => {
+          'nodes' => [fake_customer_attrs],
+          'pageInfo' => { 'hasNextPage' => false, 'endCursor' => nil }
+        }
+      }
+    end
+
+    before do
+      allow(graphql).to receive(:query)
+        .with(described_class::ALL_QUERY, variables: { first: 25, after: nil })
+        .and_return(page_one)
+      allow(graphql).to receive(:query)
+        .with(described_class::ALL_QUERY, variables: { first: 25, after: 'cursor_1' })
+        .and_return(page_two)
+    end
+
+    it 'returns all records as a flat array' do
+      result = resource.all_pages
+      expect(result.size).to eq(3)
+      expect(result).to all(be_a(Printavo::Customer))
+    end
+  end
+
   describe '#find' do
     let(:customer_data) { fake_customer_attrs('id' => '42') }
     let(:response_data) { { 'customer' => customer_data } }

@@ -116,6 +116,26 @@ job = client.jobs.find("77")
 puts job.taxable?   # => true
 ```
 
+### Pagination
+
+All list resources support `each_page` and `all_pages` in addition to `all`.
+
+```ruby
+# Iterate page by page (cursor-based, memory-efficient)
+client.customers.each_page(first: 50) do |records|
+  records.each { |c| puts c.full_name }
+end
+
+# Collect every record across all pages into one array
+all_orders = client.orders.all_pages
+
+# Jobs require order_id
+client.jobs.each_page(order_id: "99") do |records|
+  records.each { |j| puts j.name }
+end
+all_jobs = client.jobs.all_pages(order_id: "99")
+```
+
 ### Statuses
 
 ```ruby
@@ -234,9 +254,9 @@ end
 
 | Version | Milestone |
 |---|---|
-| 0.1.0 | Auth + Customers + Orders + Jobs ✅ |
+| 0.1.0 | Auth + Customers + Orders + Jobs + Webhooks (Rack-compatible) ✅ |
 | 0.2.0 | Status registry + Inquiries ✅ |
-| 0.3.0 | Webhooks (Rack-compatible) |
+| 0.3.0 | Pagination helpers (`each_page`, `all_pages`) + `bin/lint` ✅ |
 | 0.4.0 | Expanded GraphQL DSL |
 | 0.5.0 | Mutations (create/update) |
 | 0.6.0 | Analytics / Reporting queries |

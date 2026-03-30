@@ -29,8 +29,7 @@ module Printavo
       GQL
 
       def all(first: 100, after: nil)
-        data = @graphql.query(ALL_QUERY, variables: { first: first, after: after })
-        data['statuses']['nodes'].map { |attrs| Printavo::Status.new(attrs) }
+        fetch_page(first: first, after: after).records
       end
 
       def find(id)
@@ -44,6 +43,19 @@ module Printavo
       #   registry[order.status_key]  #=> <Printavo::Status>
       def registry
         all.to_h { |status| [status.key, status] }
+      end
+
+      private
+
+      def fetch_page(first: 100, after: nil, **)
+        data = @graphql.query(ALL_QUERY, variables: { first: first, after: after })
+        nodes = data['statuses']['nodes'].map { |attrs| Printavo::Status.new(attrs) }
+        page_info = data['statuses']['pageInfo']
+        Printavo::Page.new(
+          records: nodes,
+          has_next_page: page_info['hasNextPage'],
+          end_cursor: page_info['endCursor']
+        )
       end
     end
   end

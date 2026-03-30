@@ -54,6 +54,24 @@ RSpec.describe Printavo::Resources::Statuses do
     end
   end
 
+  describe '#each_page / #all_pages' do
+    before do
+      allow(graphql).to receive(:query).and_return(
+        'statuses' => { 'nodes' => all_nodes, 'pageInfo' => page_info }
+      )
+    end
+
+    it 'each_page yields arrays of Status objects' do
+      pages = []
+      resource.each_page { |records| pages << records }
+      expect(pages.flatten).to all(be_a(Printavo::Status))
+    end
+
+    it 'all_pages returns a flat array of Statuses' do
+      expect(resource.all_pages).to all(be_a(Printavo::Status))
+    end
+  end
+
   describe '#find' do
     before do
       allow(graphql).to receive(:query).and_return('status' => in_production_attrs)

@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-03-29
+
+### Added
+- `Printavo::Page` — value object wrapping `records`, `has_next_page`, `end_cursor` with `to_a`, `size`, `empty?`
+- `Printavo::Resources::Base#each_page` — yields each page of records as an Array, following cursors automatically
+- `Printavo::Resources::Base#all_pages` — returns all records across all pages as a flat Array
+- All resources (`Customers`, `Orders`, `Jobs`, `Statuses`, `Inquiries`) implement `fetch_page` and support `each_page`/`all_pages`
+- `Jobs#each_page(order_id:)` and `Jobs#all_pages(order_id:)` — `order_id` forwarded via `**kwargs`
+- `bin/lint` — multi-Ruby RuboCop runner mirroring `bin/spec` (reads versions from `.mise.toml`)
+- Roadmap: moved Pagination from 0.8.0 to 0.3.0; Webhooks slot repurposed
+
+### Changed
+- All resource `all` methods refactored to delegate to `fetch_page` (backward compatible — still returns `Array`)
+
 ## [0.2.0] - 2026-03-29
 
 ### Added

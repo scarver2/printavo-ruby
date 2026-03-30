@@ -41,6 +41,29 @@ RSpec.describe Printavo::Resources::Orders do
     end
   end
 
+  describe '#each_page / #all_pages' do
+    let(:page_response) do
+      {
+        'orders' => {
+          'nodes' => [fake_order_attrs],
+          'pageInfo' => { 'hasNextPage' => false, 'endCursor' => nil }
+        }
+      }
+    end
+
+    before { allow(graphql).to receive(:query).and_return(page_response) }
+
+    it 'each_page yields arrays of Order objects' do
+      pages = []
+      resource.each_page { |records| pages << records }
+      expect(pages.flatten).to all(be_a(Printavo::Order))
+    end
+
+    it 'all_pages returns a flat array of Orders' do
+      expect(resource.all_pages).to all(be_a(Printavo::Order))
+    end
+  end
+
   describe '#find' do
     let(:order_data)    { fake_order_attrs('id' => '99') }
     let(:response_data) { { 'order' => order_data } }

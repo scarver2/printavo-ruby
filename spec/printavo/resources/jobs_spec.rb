@@ -37,6 +37,31 @@ RSpec.describe Printavo::Resources::Jobs do
     end
   end
 
+  describe '#each_page / #all_pages' do
+    let(:page_response) do
+      {
+        'order' => {
+          'lineItems' => {
+            'nodes' => [fake_job_attrs],
+            'pageInfo' => { 'hasNextPage' => false, 'endCursor' => nil }
+          }
+        }
+      }
+    end
+
+    before { allow(graphql).to receive(:query).and_return(page_response) }
+
+    it 'each_page yields arrays of Job objects' do
+      pages = []
+      resource.each_page(order_id: '55') { |records| pages << records }
+      expect(pages.flatten).to all(be_a(Printavo::Job))
+    end
+
+    it 'all_pages returns a flat array of Jobs' do
+      expect(resource.all_pages(order_id: '55')).to all(be_a(Printavo::Job))
+    end
+  end
+
   describe '#find' do
     let(:job_data)      { fake_job_attrs('id' => '77', 'taxable' => true) }
     let(:response_data) { { 'lineItem' => job_data } }
