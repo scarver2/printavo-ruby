@@ -1,6 +1,10 @@
 <!-- README.md -->
 # printavo-ruby
 
+<p align="center">
+  <img src="assets/printavo-ruby.png" alt="printavo-ruby" width="640">
+</p>
+
 [![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/scarver2/printavo-ruby/badge.svg?branch=master)](https://coveralls.io/github/scarver2/printavo-ruby?branch=master)
 [![Gem Version](https://badge.fury.io/rb/printavo-ruby.svg)](https://badge.fury.io/rb/printavo-ruby)
