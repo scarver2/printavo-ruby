@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
     'bug_tracker_uri' => 'https://github.com/scarver2/printavo-ruby/issues',
     'changelog_uri' => 'https://github.com/scarver2/printavo-ruby/blob/master/CHANGELOG.md',
     'documentation_uri' => 'https://github.com/scarver2/printavo-ruby#readme',
-    'homepage_uri' => spec.homepage,
     'source_code_uri' => 'https://github.com/scarver2/printavo-ruby',
     'rubygems_mfa_required' => 'true'
   }
