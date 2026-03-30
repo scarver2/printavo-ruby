@@ -52,6 +52,50 @@ module Printavo
         }
       GQL
 
+      CREATE_MUTATION = <<~GQL.freeze
+        mutation InquiryCreate($input: InquiryCreateInput!) {
+          inquiryCreate(input: $input) {
+            id
+            nickname
+            totalPrice
+            status {
+              id
+              name
+              color
+            }
+            customer {
+              id
+              firstName
+              lastName
+              email
+              company
+            }
+          }
+        }
+      GQL
+
+      UPDATE_MUTATION = <<~GQL.freeze
+        mutation InquiryUpdate($id: ID!, $input: InquiryInput!) {
+          inquiryUpdate(id: $id, input: $input) {
+            id
+            nickname
+            totalPrice
+            status {
+              id
+              name
+              color
+            }
+            customer {
+              id
+              firstName
+              lastName
+              email
+              company
+            }
+          }
+        }
+      GQL
+
       def all(first: 25, after: nil)
         fetch_page(first: first, after: after).records
       end
@@ -59,6 +103,31 @@ module Printavo
       def find(id)
         data = @graphql.query(FIND_QUERY, variables: { id: id.to_s })
         Printavo::Inquiry.new(data['inquiry'])
+      end
+
+      # Creates a new inquiry. Requires +name:+ at minimum.
+      #
+      # @return [Printavo::Inquiry]
+      #
+      # @example
+      #   client.inquiries.create(name: "Jane Smith", email: "jane@example.com",
+      #                           request: "100 hoodies, front + back print")
+      def create(**input)
+        data = @graphql.mutate(CREATE_MUTATION, variables: { input: input })
+        Printavo::Inquiry.new(data['inquiryCreate'])
+      end
+
+      # Updates an existing inquiry by ID.
+      #
+      # @param id [String, Integer]
+      # @return [Printavo::Inquiry]
+      #
+      # @example
+      #   client.inquiries.update("55", nickname: "Hoodies Rush")
+      def update(id, **input)
+        data = @graphql.mutate(UPDATE_MUTATION,
+                               variables: { id: id.to_s, input: input })
+        Printavo::Inquiry.new(data['inquiryUpdate'])
       end
 
       private

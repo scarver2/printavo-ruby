@@ -41,6 +41,35 @@ module Factories
     }.merge(overrides.transform_keys(&:to_s))
   end
 
+  # Simulates the shape returned by customerCreate/customerUpdate mutations:
+  # companyName at top level, contact fields nested under primaryContact.
+  def fake_customer_mutation_response(overrides = {})
+    contact = fake_customer_attrs
+    {
+      'id' => Faker::Number.number(digits: 6).to_s,
+      'companyName' => Faker::Company.name,
+      'primaryContact' => {
+        'id' => Faker::Number.number(digits: 6).to_s,
+        'firstName' => contact['firstName'],
+        'lastName' => contact['lastName'],
+        'email' => contact['email'],
+        'phone' => contact['phone']
+      }
+    }.merge(overrides.transform_keys(&:to_s))
+  end
+
+  # Simulates the shape returned by quoteCreate/quoteUpdate/statusUpdate mutations:
+  # uses `total` instead of `totalPrice`.
+  def fake_order_mutation_response(overrides = {})
+    {
+      'id' => Faker::Number.number(digits: 6).to_s,
+      'nickname' => Faker::Lorem.word.capitalize,
+      'total' => Faker::Commerce.price(range: 50.0..5000.0).to_s,
+      'status' => { 'id' => '1', 'name' => 'In Production', 'color' => '#ff6600' },
+      'customer' => fake_customer_attrs
+    }.merge(overrides.transform_keys(&:to_s))
+  end
+
   def fake_job_attrs(overrides = {})
     {
       'id' => Faker::Number.number(digits: 6).to_s,
