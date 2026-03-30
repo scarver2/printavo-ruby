@@ -1,5 +1,5 @@
 <!-- docs/CACHING.md -->
-# Caching Strategies for printavo-ruby
+# Caching Strategies for [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 The Printavo API enforces a **rate limit of 10 requests per 5 seconds** per account.
 For applications that read Printavo data frequently (dashboards, reporting tools,

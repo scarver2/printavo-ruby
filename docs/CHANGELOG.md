@@ -1,5 +1,5 @@
 <!-- docs/CHANGELOG.md -->
-# Changelog for printavo-ruby
+# Changelog for [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 All notable changes to this project will be documented in this file.
 

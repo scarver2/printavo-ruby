@@ -1,5 +1,5 @@
 <!-- docs/CONTRIBUTING.md -->
-# Contributing to printavo-ruby
+# Contributing to [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 Thank you for your interest in contributing! This guide covers setup, workflow,
 and standards for working on `printavo-ruby`.

@@ -1,5 +1,5 @@
 <!-- docs/FUTURE.md -->
-# Future Roadmap for printavo-ruby
+# Future Roadmap for [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 Ideas and planned features for `printavo-ruby` that are out of scope for the
 initial `0.x` releases. Contributions and discussions welcome!

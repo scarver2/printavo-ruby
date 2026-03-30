@@ -1,5 +1,5 @@
 <!-- docs/TODO.md -->
-# Project TODO for printavo-ruby
+# Project TODO for [printavo-ruby](https://github.com/scarver2/printavo-ruby)
 
 Full task list for `printavo-ruby` across all versions. Checked items are shipped.
 
