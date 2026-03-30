@@ -81,41 +81,118 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 
 ---
 
+## API V2 Coverage Gaps
+
+Resources and mutations present in the Printavo V2 GraphQL API that are not yet
+wrapped by a resource class. Raw GraphQL access works for all of these today via
+`client.graphql.query(...)` — these tasks add first-class resource support.
+
+### Contacts
+
+- [ ] `Printavo::Contact` model (`id`, `firstName`, `lastName`, `email`, `phone`)
+- [ ] `Contacts` resource: `find(id)`
+- [ ] `contact` query (contacts are distinct from the customer's `primaryContact`)
+
+### Invoices
+
+- [ ] `Printavo::Invoice` model (mirrors Order; has `invoiceNumber`, `paidAt`, `balanceDue`)
+- [ ] `Invoices` resource: `all`, `find(id)`
+- [ ] `client.invoices` entry point on `Printavo::Client`
+
+### Line Item Groups
+
+- [ ] `Printavo::LineItemGroup` model (`id`, `name`, `description`)
+- [ ] `LineItemGroups` resource: `all(order_id:)`, `find(id)`
+- [ ] `lineItemGroup` / `lineItemGroups` queries
+
+### Merch
+
+- [ ] `Printavo::MerchStore` model
+- [ ] `Printavo::MerchOrder` model
+- [ ] `MerchStores` resource: `all`, `find(id)`
+- [ ] `MerchOrders` resource: `all`, `find(id)`
+- [ ] `client.merch_stores` / `client.merch_orders` entry points
+
+### Transactions & Payments
+
+- [ ] `Printavo::Transaction` model (`id`, `amount`, `kind`, `createdAt`)
+- [ ] `Transactions` resource: `all(order_id:)`, `find(id)`
+- [ ] Payment request mutations
+- [ ] Payment dispute handling
+
+### Tasks
+
+- [ ] `Printavo::Task` model (`id`, `body`, `dueAt`, `completedAt`, `assignee`)
+- [ ] `Tasks` resource: `all`, `find(id)`, `create`, `update`, `complete`
+- [ ] `taskCreate`, `taskUpdate` mutations
+
+### Threads (Messages)
+
+- [ ] `Printavo::Thread` model (`id`, `body`, `author`, `createdAt`)
+- [ ] `Threads` resource: `all(order_id:)`, `find(id)`, `create`
+- [ ] `threadCreate` mutation
+
+### Account
+
+- [ ] `Printavo::Account` model (shop-level info: name, address, phone, logo)
+- [ ] `Account` resource: `find` (singleton — no ID needed)
+- [ ] `account` query
+
+### Delete Mutations
+
+- [ ] `customerDelete(id:)`
+- [ ] `quoteDelete(id:)` / `invoiceDelete(id:)`
+- [ ] `lineItemDelete(id:)`
+- [ ] `taskDelete(id:)`
+
+### Product Catalog & Pricing
+
+- [ ] `Printavo::Product` model
+- [ ] `Products` resource: `all`, `find(id)`
+- [ ] Pricing matrix queries
+
+---
+
 ## Planned Versions
 
-### v0.6.0 — API Stabilization & Analytics
+### v0.6.0 — Invoices, Contacts & Analytics
 
-- [ ] Community burn-in period — gather feedback on 0.5.x API surface
+- [ ] `Invoices` resource (`all`, `find`)
+- [ ] `Contacts` resource (`find`)
+- [ ] `Account` resource (singleton)
 - [ ] Analytics/Reporting resource: revenue, job counts, customer activity, turnaround times
-- [ ] `Customers#delete` — if supported by Printavo API
-- [ ] Review and freeze public API surface before 1.0
+- [ ] Community burn-in — gather feedback on 0.5.x API surface
 
-### v0.7.0 — CLI
+### v0.7.0 — Transactions, Tasks & Threads
 
-- [ ] Thor-based `printavo` CLI gem entry point
-- [ ] `printavo customers` — list customers
-- [ ] `printavo orders` — list orders
-- [ ] `printavo orders find <id>` — fetch a single order
-- [ ] `printavo analytics revenue` — revenue report
-- [ ] `printavo sync orders --to crm` — sync hook stub
+- [ ] `Transactions` resource (`all`, `find`)
+- [ ] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`)
+- [ ] `Threads` resource (`all`, `find`, `create`)
+- [ ] Delete mutations for Customer, Order, LineItem, Task
 
-### v0.8.0 — Retry / Backoff
+### v0.8.0 — Merch & Products
+
+- [ ] `MerchStores` + `MerchOrders` resources
+- [ ] `LineItemGroups` resource
+- [ ] `Products` resource + pricing matrix queries
+
+### v0.9.0 — Retry / Backoff & CLI
 
 - [ ] Configurable `max_retries` on `Printavo::Client`
 - [ ] Exponential backoff with jitter on 429 responses
 - [ ] `retry_on_rate_limit: true/false` client option
-- [ ] Rate-limit header inspection (`X-RateLimit-Remaining`)
+- [ ] Thor-based `printavo` CLI (`customers`, `orders`, `orders find <id>`)
 
-### v0.9.0 — API Freeze
+### v0.10.0 — API Freeze
 
 - [ ] Community feedback integration
 - [ ] Deprecation notices for any renamed methods
+- [ ] Full YARD API reference
 - [ ] Final documentation pass before 1.0
 
 ### v1.0.0 — Stable SDK
 
 - [ ] Semver stability guarantee
-- [ ] Full API reference (YARD docs)
 - [ ] Migration guide from 0.x
 
 ---
