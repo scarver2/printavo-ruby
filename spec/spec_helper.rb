@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-require 'simplecov-lcov'
 
 require 'printavo'
 require 'webmock/rspec'
