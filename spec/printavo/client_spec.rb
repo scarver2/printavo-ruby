@@ -124,6 +124,36 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#categories' do
+    it 'returns a Categories resource' do
+      expect(client.categories).to be_a(Printavo::Resources::Categories)
+    end
+  end
+
+  describe '#merch_orders' do
+    it 'returns a MerchOrders resource' do
+      expect(client.merch_orders).to be_a(Printavo::Resources::MerchOrders)
+    end
+  end
+
+  describe '#merch_stores' do
+    it 'returns a MerchStores resource' do
+      expect(client.merch_stores).to be_a(Printavo::Resources::MerchStores)
+    end
+  end
+
+  describe '#pricing_matrices' do
+    it 'returns a PricingMatrices resource' do
+      expect(client.pricing_matrices).to be_a(Printavo::Resources::PricingMatrices)
+    end
+  end
+
+  describe '#products' do
+    it 'returns a Products resource' do
+      expect(client.products).to be_a(Printavo::Resources::Products)
+    end
+  end
+
   describe '#login' do
     it 'raises NotImplementedError' do
       expect { client.login }.to raise_error(NotImplementedError, /email \+ token/)

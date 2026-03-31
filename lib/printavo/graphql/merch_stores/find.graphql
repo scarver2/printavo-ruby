@@ -1,0 +1,11 @@
+query MerchStore($id: ID!) {
+  merchStore(id: $id) {
+    id
+    name
+    url
+    summary {
+      totalOrders
+      totalRevenue
+    }
+  }
+}

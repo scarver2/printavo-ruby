@@ -6,6 +6,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-03-31
+
+### Added
+- `Printavo::MerchStore` model (`id`, `name`, `url`, `summary`)
+- `MerchStores` resource: `all`, `find(id)`
+- `Printavo::MerchOrder` model (`id`, `status`, `delivery`, `contact` — returns `Printavo::Contact`)
+- `MerchOrders` resource: `all`, `find(id)`
+- `Printavo::Product` model (`id`, `name`, `sku`, `description`)
+- `Products` resource: `all`, `find(id)`
+- `Printavo::PricingMatrix` model (`id`, `name`)
+- `PricingMatrices` resource: `all`, `find(id)`
+- `Printavo::Category` model (`id`, `name`)
+- `Categories` resource: `all`, `find(id)`
+- `client.categories`, `client.merch_orders`, `client.merch_stores`, `client.pricing_matrices`,
+  `client.products` entry points on `Printavo::Client`
+- 10 new `.graphql` files under `lib/printavo/graphql/`
+- 2 new factory files: `spec/support/factories/merch.rb`, `spec/support/factories/product.rb`
+
 ## [0.8.0] - 2026-03-31
 
 ### Added

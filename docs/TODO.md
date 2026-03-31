@@ -156,10 +156,10 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `approvalRequestRevoke(id:)` mutation
 - [ ] `approvalRequestUnapprove(id:)` mutation
 
-### Categories
+### Categories ✅
 
-- [ ] `Printavo::Category` model (`id`, `name`)
-- [ ] `Categories` resource: `all`, `find(id)` — reference data for products/line items
+- [x] `Printavo::Category` model (`id`, `name`)
+- [x] `Categories` resource: `all`, `find(id)` — reference data for products/line items
 
 ### Contractor Profiles
 
@@ -225,13 +225,13 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `lineItemGroupUpdate` / `lineItemGroupUpdates` (bulk) mutations
 - [x] `lineItemGroupDelete` / `lineItemGroupDeletes` (bulk) mutations
 
-### Merch
+### Merch ✅
 
-- [ ] `Printavo::MerchStore` model (`id`, `name`, `url`, `summary`)
-- [ ] `Printavo::MerchOrder` model (`id`, `status`, `delivery`, `contact`)
-- [ ] `MerchStores` resource: `all`, `find(id)`
-- [ ] `MerchOrders` resource: `all`, `find(id)`
-- [ ] `client.merch_stores` / `client.merch_orders` entry points
+- [x] `Printavo::MerchStore` model (`id`, `name`, `url`, `summary`)
+- [x] `Printavo::MerchOrder` model (`id`, `status`, `delivery`, `contact`)
+- [x] `MerchStores` resource: `all`, `find(id)`
+- [x] `MerchOrders` resource: `all`, `find(id)`
+- [x] `client.merch_stores` / `client.merch_orders` entry points
 
 ### Mockups & Production Files
 
@@ -264,12 +264,12 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `presetTaskGroupCreate`, `presetTaskGroupUpdate`, `presetTaskGroupDelete` mutations
 - [ ] `presetTaskGroupApply(id:, order_id:)` mutation — applies a group to an order
 
-### Product Catalog & Pricing
+### Product Catalog & Pricing ✅
 
-- [ ] `Printavo::Product` model (`id`, `name`, `sku`, `description`)
-- [ ] `Printavo::PricingMatrix` model (`id`, `name`, `cells`, `columns`)
-- [ ] `Products` resource: `all`, `find(id)`
-- [ ] `PricingMatrices` resource: `all`, `find(id)`
+- [x] `Printavo::Product` model (`id`, `name`, `sku`, `description`)
+- [x] `Printavo::PricingMatrix` model (`id`, `name`)
+- [x] `Products` resource: `all`, `find(id)`
+- [x] `PricingMatrices` resource: `all`, `find(id)`
 
 ### Tasks ✅
 
@@ -331,11 +331,11 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Fees` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
 - [x] `Expenses` resource (`all`, `find`, `create`, `update`)
 
-### v0.9.0 — Merch, Products & Pricing
+### v0.9.0 — Merch, Products & Pricing ✅
 
-- [ ] `MerchStores` + `MerchOrders` resources
-- [ ] `Products` resource + `PricingMatrices` resource
-- [ ] `Categories` resource (reference data)
+- [x] `MerchStores` + `MerchOrders` resources
+- [x] `Products` resource + `PricingMatrices` resource
+- [x] `Categories` resource (reference data)
 
 ### v0.10.0 — Financial: Payments, Payment Terms & Requests
 

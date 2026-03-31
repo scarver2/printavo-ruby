@@ -29,6 +29,10 @@ module Printavo
       Resources::Account.new(@graphql)
     end
 
+    def categories
+      Resources::Categories.new(@graphql)
+    end
+
     def contacts
       Resources::Contacts.new(@graphql)
     end
@@ -81,8 +85,24 @@ module Printavo
             'Simply discard the client instance when done.'
     end
 
+    def merch_orders
+      Resources::MerchOrders.new(@graphql)
+    end
+
+    def merch_stores
+      Resources::MerchStores.new(@graphql)
+    end
+
     def orders
       Resources::Orders.new(@graphql)
+    end
+
+    def pricing_matrices
+      Resources::PricingMatrices.new(@graphql)
+    end
+
+    def products
+      Resources::Products.new(@graphql)
     end
 
     def statuses

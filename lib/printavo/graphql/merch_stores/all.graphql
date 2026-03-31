@@ -1,0 +1,17 @@
+query MerchStores($first: Int, $after: String) {
+  merchStores(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      url
+      summary {
+        totalOrders
+        totalRevenue
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

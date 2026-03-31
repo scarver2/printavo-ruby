@@ -1,0 +1,25 @@
+query MerchOrders($first: Int, $after: String) {
+  merchOrders(first: $first, after: $after) {
+    nodes {
+      id
+      status
+      contact {
+        id
+        firstName
+        lastName
+        email
+        phone
+        fax
+      }
+      delivery {
+        method
+        trackingNumber
+        shippedAt
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

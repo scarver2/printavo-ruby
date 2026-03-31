@@ -1,0 +1,6 @@
+query PricingMatrix($id: ID!) {
+  pricingMatrix(id: $id) {
+    id
+    name
+  }
+}
