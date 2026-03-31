@@ -1,0 +1,8 @@
+mutation ImprintCreates($inputs: [ImprintInput!]!) {
+  imprintCreates(inputs: $inputs) {
+    id
+    name
+    position
+    colors
+  }
+}

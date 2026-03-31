@@ -1,0 +1,7 @@
+query LineItemGroup($id: ID!) {
+  lineItemGroup(id: $id) {
+    id
+    name
+    description
+  }
+}

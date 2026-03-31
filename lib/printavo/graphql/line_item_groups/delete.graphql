@@ -1,0 +1,5 @@
+mutation LineItemGroupDelete($id: ID!) {
+  lineItemGroupDelete(id: $id) {
+    id
+  }
+}

@@ -37,6 +37,18 @@ module Printavo
       Resources::Customers.new(@graphql)
     end
 
+    def expenses
+      Resources::Expenses.new(@graphql)
+    end
+
+    def fees
+      Resources::Fees.new(@graphql)
+    end
+
+    def imprints
+      Resources::Imprints.new(@graphql)
+    end
+
     def inquiries
       Resources::Inquiries.new(@graphql)
     end
@@ -47,6 +59,14 @@ module Printavo
 
     def jobs
       Resources::Jobs.new(@graphql)
+    end
+
+    def line_item_groups
+      Resources::LineItemGroups.new(@graphql)
+    end
+
+    def line_items
+      Resources::LineItems.new(@graphql)
     end
 
     def login(*)

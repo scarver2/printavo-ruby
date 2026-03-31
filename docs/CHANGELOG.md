@@ -6,6 +6,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-03-31
+
+### Added
+- `Printavo::LineItem` model (`id`, `name`, `quantity`, `price`, `taxable`, `taxable?`)
+- `LineItems` resource: `all(line_item_group_id:)`, `find`, `create`/`creates`, `update`/`updates`,
+  `delete`/`deletes`, `mockup_create`/`mockup_creates`
+- `Printavo::LineItemGroup` model (`id`, `name`, `description`)
+- `LineItemGroups` resource: `all(order_id:)`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`
+- `Printavo::Imprint` model (`id`, `name`, `position`, `colors`)
+- `Imprints` resource: `all(line_item_group_id:)`, `find`, `create`/`creates`, `update`/`updates`,
+  `delete`/`deletes`, `mockup_create`/`mockup_creates`
+- `Printavo::Fee` model (`id`, `name`, `amount`, `taxable`, `taxable?`)
+- `Fees` resource: `all(order_id:)`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`
+- `Printavo::Expense` model (`id`, `name`, `amount`, `category`)
+- `Expenses` resource: `all(order_id:)`, `find`, `create`, `update`
+- `client.line_items`, `client.line_item_groups`, `client.imprints`, `client.fees`, `client.expenses`
+  entry points on `Printavo::Client`
+- 40 new `.graphql` files under `lib/printavo/graphql/`
+
+### Changed
+- `camelize_keys` moved from individual resource classes to `Resources::Base` — eliminates 7 duplicate definitions
+
 ## [0.7.0] - 2026-03-30
 
 ### Added

@@ -185,45 +185,45 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Printavo::EmailTemplate` model (`id`, `name`, `subject`, `body`)
 - [ ] `EmailTemplates` resource: `all`, `find(id)`
 
-### Expenses
+### Expenses ✅
 
-- [ ] `Printavo::Expense` model (`id`, `name`, `amount`, `category`)
-- [ ] `Expenses` resource: `all(order_id:)`, `find(id)`, `create`, `update`
-- [ ] `expenseCreate`, `expenseUpdate` mutations
+- [x] `Printavo::Expense` model (`id`, `name`, `amount`, `category`)
+- [x] `Expenses` resource: `all(order_id:)`, `find(id)`, `create`, `update`
+- [x] `expenseCreate`, `expenseUpdate` mutations
 
-### Fees
+### Fees ✅
 
-- [ ] `Printavo::Fee` model (`id`, `name`, `amount`, `taxable`)
-- [ ] `Fees` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
-- [ ] `feeCreate` / `feeCreates` (bulk) mutations
-- [ ] `feeUpdate` / `feeUpdates` (bulk) mutations
-- [ ] `feeDelete` / `feeDeletes` (bulk) mutations
+- [x] `Printavo::Fee` model (`id`, `name`, `amount`, `taxable`)
+- [x] `Fees` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [x] `feeCreate` / `feeCreates` (bulk) mutations
+- [x] `feeUpdate` / `feeUpdates` (bulk) mutations
+- [x] `feeDelete` / `feeDeletes` (bulk) mutations
 
-### Imprints
+### Imprints ✅
 
-- [ ] `Printavo::Imprint` model (`id`, `name`, `position`, `colors`, `personalization`)
-- [ ] `Imprints` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
-- [ ] `imprintCreate` / `imprintCreates` (bulk) mutations
-- [ ] `imprintUpdate` / `imprintUpdates` (bulk) mutations
-- [ ] `imprintDelete` / `imprintDeletes` (bulk) mutations
-- [ ] `imprintMockupCreate` / `imprintMockupCreates` (bulk) — attach mockup to imprint
+- [x] `Printavo::Imprint` model (`id`, `name`, `position`, `colors`)
+- [x] `Imprints` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
+- [x] `imprintCreate` / `imprintCreates` (bulk) mutations
+- [x] `imprintUpdate` / `imprintUpdates` (bulk) mutations
+- [x] `imprintDelete` / `imprintDeletes` (bulk) mutations
+- [x] `imprintMockupCreate` / `imprintMockupCreates` (bulk) — attach mockup to imprint
 
-### Line Items
+### Line Items ✅
 
-- [ ] `Printavo::LineItem` model (`id`, `name`, `quantity`, `price`, `taxable`)
-- [ ] `LineItems` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
-- [ ] `lineItemCreate` / `lineItemCreates` (bulk) mutations
-- [ ] `lineItemUpdate` / `lineItemUpdates` (bulk) mutations
-- [ ] `lineItemDelete` / `lineItemDeletes` (bulk) mutations
-- [ ] `lineItemMockupCreate` / `lineItemMockupCreates` (bulk) — attach mockup to line item
+- [x] `Printavo::LineItem` model (`id`, `name`, `quantity`, `price`, `taxable`)
+- [x] `LineItems` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
+- [x] `lineItemCreate` / `lineItemCreates` (bulk) mutations
+- [x] `lineItemUpdate` / `lineItemUpdates` (bulk) mutations
+- [x] `lineItemDelete` / `lineItemDeletes` (bulk) mutations
+- [x] `lineItemMockupCreate` / `lineItemMockupCreates` (bulk) — attach mockup to line item
 
-### Line Item Groups
+### Line Item Groups ✅
 
-- [ ] `Printavo::LineItemGroup` model (`id`, `name`, `description`, `sizes`, `enabled_columns`)
-- [ ] `LineItemGroups` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
-- [ ] `lineItemGroupCreate` / `lineItemGroupCreates` (bulk) mutations
-- [ ] `lineItemGroupUpdate` / `lineItemGroupUpdates` (bulk) mutations
-- [ ] `lineItemGroupDelete` / `lineItemGroupDeletes` (bulk) mutations
+- [x] `Printavo::LineItemGroup` model (`id`, `name`, `description`)
+- [x] `LineItemGroups` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [x] `lineItemGroupCreate` / `lineItemGroupCreates` (bulk) mutations
+- [x] `lineItemGroupUpdate` / `lineItemGroupUpdates` (bulk) mutations
+- [x] `lineItemGroupDelete` / `lineItemGroupDeletes` (bulk) mutations
 
 ### Merch
 
@@ -323,13 +323,13 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`, `delete`)
 - [x] `Threads` resource (`all`, `find`, `update`) + `emailMessageCreate`
 
-### v0.8.0 — Order Structure: Line Items, Line Item Groups, Imprints & Fees
+### v0.8.0 — Order Structure: Line Items, Line Item Groups, Imprints & Fees ✅
 
-- [ ] `LineItems` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
-- [ ] `LineItemGroups` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
-- [ ] `Imprints` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`, mockup attach)
-- [ ] `Fees` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
-- [ ] `Expenses` resource (`all`, `find`, `create`, `update`)
+- [x] `LineItems` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [x] `LineItemGroups` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [x] `Imprints` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`, mockup attach)
+- [x] `Fees` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [x] `Expenses` resource (`all`, `find`, `create`, `update`)
 
 ### v0.9.0 — Merch, Products & Pricing
 

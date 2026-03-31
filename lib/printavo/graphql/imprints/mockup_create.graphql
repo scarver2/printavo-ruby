@@ -1,0 +1,7 @@
+mutation ImprintMockupCreate($input: ImprintMockupInput!) {
+  imprintMockupCreate(input: $input) {
+    id
+    url
+    position
+  }
+}

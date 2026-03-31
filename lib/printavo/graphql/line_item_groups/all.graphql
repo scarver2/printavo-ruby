@@ -1,0 +1,15 @@
+query LineItemGroups($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    lineItemGroups(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        description
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

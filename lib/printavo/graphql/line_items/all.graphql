@@ -1,0 +1,17 @@
+query LineItems($lineItemGroupId: ID!, $first: Int, $after: String) {
+  lineItemGroup(id: $lineItemGroupId) {
+    lineItems(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        quantity
+        price
+        taxable
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

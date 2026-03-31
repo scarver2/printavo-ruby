@@ -1,0 +1,7 @@
+mutation LineItemGroupUpdate($id: ID!, $input: LineItemGroupInput!) {
+  lineItemGroupUpdate(id: $id, input: $input) {
+    id
+    name
+    description
+  }
+}

@@ -1,0 +1,8 @@
+mutation ImprintUpdates($inputs: [ImprintUpdateInput!]!) {
+  imprintUpdates(inputs: $inputs) {
+    id
+    name
+    position
+    colors
+  }
+}

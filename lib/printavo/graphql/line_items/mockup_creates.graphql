@@ -1,0 +1,7 @@
+mutation LineItemMockupCreates($inputs: [LineItemMockupInput!]!) {
+  lineItemMockupCreates(inputs: $inputs) {
+    id
+    url
+    position
+  }
+}

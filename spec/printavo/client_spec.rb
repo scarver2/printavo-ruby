@@ -64,9 +64,39 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#expenses' do
+    it 'returns an Expenses resource' do
+      expect(client.expenses).to be_a(Printavo::Resources::Expenses)
+    end
+  end
+
+  describe '#fees' do
+    it 'returns a Fees resource' do
+      expect(client.fees).to be_a(Printavo::Resources::Fees)
+    end
+  end
+
+  describe '#imprints' do
+    it 'returns an Imprints resource' do
+      expect(client.imprints).to be_a(Printavo::Resources::Imprints)
+    end
+  end
+
   describe '#inquiries' do
     it 'returns an Inquiries resource' do
       expect(client.inquiries).to be_a(Printavo::Resources::Inquiries)
+    end
+  end
+
+  describe '#line_item_groups' do
+    it 'returns a LineItemGroups resource' do
+      expect(client.line_item_groups).to be_a(Printavo::Resources::LineItemGroups)
+    end
+  end
+
+  describe '#line_items' do
+    it 'returns a LineItems resource' do
+      expect(client.line_items).to be_a(Printavo::Resources::LineItems)
     end
   end
 

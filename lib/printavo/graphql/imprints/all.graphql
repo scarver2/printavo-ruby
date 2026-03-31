@@ -1,0 +1,16 @@
+query Imprints($lineItemGroupId: ID!, $first: Int, $after: String) {
+  lineItemGroup(id: $lineItemGroupId) {
+    imprints(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        position
+        colors
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

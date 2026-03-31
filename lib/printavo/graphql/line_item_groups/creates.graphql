@@ -1,0 +1,7 @@
+mutation LineItemGroupCreates($inputs: [LineItemGroupInput!]!) {
+  lineItemGroupCreates(inputs: $inputs) {
+    id
+    name
+    description
+  }
+}

@@ -1,0 +1,9 @@
+mutation LineItemUpdate($id: ID!, $input: LineItemInput!) {
+  lineItemUpdate(id: $id, input: $input) {
+    id
+    name
+    quantity
+    price
+    taxable
+  }
+}

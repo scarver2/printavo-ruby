@@ -1,0 +1,8 @@
+query Fee($id: ID!) {
+  fee(id: $id) {
+    id
+    name
+    amount
+    taxable
+  }
+}

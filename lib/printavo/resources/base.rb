@@ -48,6 +48,14 @@ module Printavo
       def fetch_page(**)
         raise NotImplementedError, "#{self.class}#fetch_page is not implemented"
       end
+
+      # Converts snake_case Symbol/String keys to camelCase String keys.
+      # Used when building GraphQL mutation input objects.
+      def camelize_keys(hash)
+        hash.transform_keys do |key|
+          key.to_s.gsub(/_([a-z])/) { ::Regexp.last_match(1).upcase }
+        end
+      end
     end
   end
 end
