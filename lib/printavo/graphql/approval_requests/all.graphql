@@ -1,0 +1,23 @@
+query ApprovalRequests($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    approvalRequests(first: $first, after: $after) {
+      nodes {
+        id
+        status
+        sentAt
+        expiresAt
+        contact {
+          id
+          firstName
+          lastName
+          email
+          phone
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

@@ -29,6 +29,10 @@ module Printavo
       Resources::Account.new(@graphql)
     end
 
+    def approval_requests
+      Resources::ApprovalRequests.new(@graphql)
+    end
+
     def categories
       Resources::Categories.new(@graphql)
     end
@@ -107,6 +111,14 @@ module Printavo
 
     def payments
       Resources::Payments.new(@graphql)
+    end
+
+    def preset_task_groups
+      Resources::PresetTaskGroups.new(@graphql)
+    end
+
+    def preset_tasks
+      Resources::PresetTasks.new(@graphql)
     end
 
     def pricing_matrices

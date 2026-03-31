@@ -1,0 +1,17 @@
+query PresetTaskGroups($first: Int, $after: String) {
+  presetTaskGroups(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      tasks {
+        id
+        body
+        dueOffsetDays
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

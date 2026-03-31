@@ -1,0 +1,15 @@
+query ApprovalRequest($id: ID!) {
+  approvalRequest(id: $id) {
+    id
+    status
+    sentAt
+    expiresAt
+    contact {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}

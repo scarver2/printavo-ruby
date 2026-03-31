@@ -1,0 +1,8 @@
+mutation ApprovalRequestRevoke($id: ID!) {
+  approvalRequestRevoke(id: $id) {
+    id
+    status
+    sentAt
+    expiresAt
+  }
+}

@@ -1,0 +1,12 @@
+mutation PresetTaskCreate($input: PresetTaskInput!) {
+  presetTaskCreate(input: $input) {
+    id
+    body
+    dueOffsetDays
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

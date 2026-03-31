@@ -6,6 +6,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] - 2026-03-31
+
+### Added
+- `Printavo::ApprovalRequest` model (`id`, `status`, `sent_at`, `expires_at`, `contact` — returns `Printavo::Contact`)
+- `ApprovalRequests` resource: `all(order_id:)`, `find(id)`, `create(**input)`,
+  `approve(id)`, `revoke(id)`, `unapprove(id)` — action mutations return updated `ApprovalRequest`
+- `Printavo::PresetTask` model (`id`, `body`, `due_offset_days`, `assignee`)
+- `PresetTasks` resource: `find(id)`, `create(**input)`, `update(id, **input)`, `delete(id)` —
+  no standalone listing; preset tasks are accessed via `PresetTaskGroup#tasks`
+- `Printavo::PresetTaskGroup` model (`id`, `name`, `tasks` — returns `[PresetTask]`)
+- `PresetTaskGroups` resource: `all`, `find(id)`, `create(**input)`, `update(id, **input)`,
+  `delete(id)`, `apply(id, order_id:)` — `apply` returns `[Printavo::Task]` (live tasks created on the order)
+- `client.approval_requests`, `client.preset_task_groups`, `client.preset_tasks`
+  entry points on `Printavo::Client`
+- 16 new `.graphql` files under `lib/printavo/graphql/`
+- 2 new factory files: `spec/support/factories/approval_request.rb`, `spec/support/factories/preset_task.rb`
+
 ## [0.10.0] - 2026-03-31
 
 ### Added

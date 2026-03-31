@@ -1,0 +1,5 @@
+mutation PresetTaskDelete($id: ID!) {
+  presetTaskDelete(id: $id) {
+    id
+  }
+}

@@ -147,14 +147,14 @@ return values — they are exposed via model field accessors, not separate resou
 
 ---
 
-### Approvals
+### Approvals ✅
 
-- [ ] `Printavo::ApprovalRequest` model (`id`, `status`, `sentAt`, `expiresAt`, `contact`)
-- [ ] `ApprovalRequests` resource: `all(order_id:)`, `find(id)`
-- [ ] `approvalRequestCreate` mutation
-- [ ] `approvalRequestApprove(id:)` mutation
-- [ ] `approvalRequestRevoke(id:)` mutation
-- [ ] `approvalRequestUnapprove(id:)` mutation
+- [x] `Printavo::ApprovalRequest` model (`id`, `status`, `sent_at`, `expires_at`, `contact`)
+- [x] `ApprovalRequests` resource: `all(order_id:)`, `find(id)`
+- [x] `approvalRequestCreate` mutation
+- [x] `approvalRequestApprove(id:)` mutation
+- [x] `approvalRequestRevoke(id:)` mutation
+- [x] `approvalRequestUnapprove(id:)` mutation
 
 ### Categories ✅
 
@@ -254,15 +254,15 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `PaymentTerms` resource: `all`, `find(id)`, `create`, `update`, `archive`
 - [x] `paymentTermCreate`, `paymentTermUpdate`, `paymentTermArchive` mutations
 
-### Preset Tasks
+### Preset Tasks ✅
 
-- [ ] `Printavo::PresetTask` model (`id`, `body`, `dueOffsetDays`, `assignee`)
-- [ ] `Printavo::PresetTaskGroup` model (`id`, `name`, `tasks`)
-- [ ] `PresetTasks` resource: `find(id)`, `create`, `update`, `delete`
-- [ ] `presetTaskCreate`, `presetTaskUpdate`, `presetTaskDelete` mutations
-- [ ] `PresetTaskGroups` resource: `all`, `find(id)`, `create`, `update`, `delete`, `apply`
-- [ ] `presetTaskGroupCreate`, `presetTaskGroupUpdate`, `presetTaskGroupDelete` mutations
-- [ ] `presetTaskGroupApply(id:, order_id:)` mutation — applies a group to an order
+- [x] `Printavo::PresetTask` model (`id`, `body`, `due_offset_days`, `assignee`)
+- [x] `Printavo::PresetTaskGroup` model (`id`, `name`, `tasks`)
+- [x] `PresetTasks` resource: `find(id)`, `create`, `update`, `delete`
+- [x] `presetTaskCreate`, `presetTaskUpdate`, `presetTaskDelete` mutations
+- [x] `PresetTaskGroups` resource: `all`, `find(id)`, `create`, `update`, `delete`, `apply`
+- [x] `presetTaskGroupCreate`, `presetTaskGroupUpdate`, `presetTaskGroupDelete` mutations
+- [x] `presetTaskGroupApply(id:, order_id:)` mutation — applies a group to an order
 
 ### Product Catalog & Pricing ✅
 
@@ -343,11 +343,11 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `PaymentRequests` resource (`all`, `find`, `create`, `delete`)
 - [x] `PaymentTerms` resource (`all`, `find`, `create`, `update`, `archive`)
 
-### v0.11.0 — Workflow: Approvals & Preset Tasks
+### v0.11.0 — Workflow: Approvals & Preset Tasks ✅
 
-- [ ] `ApprovalRequests` resource (`all`, `find`, `create`, `approve`, `revoke`, `unapprove`)
-- [ ] `PresetTasks` resource (`find`, `create`, `update`, `delete`)
-- [ ] `PresetTaskGroups` resource (`all`, `find`, `create`, `update`, `delete`, `apply`)
+- [x] `ApprovalRequests` resource (`all`, `find`, `create`, `approve`, `revoke`, `unapprove`)
+- [x] `PresetTasks` resource (`find`, `create`, `update`, `delete`)
+- [x] `PresetTaskGroups` resource (`all`, `find`, `create`, `update`, `delete`, `apply`)
 
 ### v0.12.0 — Files, Media & Communication
 
