@@ -1,0 +1,14 @@
+query Products($first: Int, $after: String) {
+  products(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      sku
+      description
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

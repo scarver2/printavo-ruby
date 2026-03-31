@@ -1,0 +1,12 @@
+query PricingMatrices($first: Int, $after: String) {
+  pricingMatrices(first: $first, after: $after) {
+    nodes {
+      id
+      name
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

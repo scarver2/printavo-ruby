@@ -1,0 +1,12 @@
+query Categories($first: Int, $after: String) {
+  categories(first: $first, after: $after) {
+    nodes {
+      id
+      name
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

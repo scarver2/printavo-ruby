@@ -1,0 +1,19 @@
+query MerchOrder($id: ID!) {
+  merchOrder(id: $id) {
+    id
+    status
+    contact {
+      id
+      firstName
+      lastName
+      email
+      phone
+      fax
+    }
+    delivery {
+      method
+      trackingNumber
+      shippedAt
+    }
+  }
+}
