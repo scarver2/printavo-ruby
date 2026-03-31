@@ -1,0 +1,30 @@
+query Invoices($first: Int, $after: String) {
+  invoices(first: $first, after: $after) {
+    nodes {
+      id
+      nickname
+      total
+      amountPaid
+      amountOutstanding
+      paidInFull
+      invoiceAt
+      paymentDueAt
+      status {
+        id
+        name
+        color
+      }
+      contact {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

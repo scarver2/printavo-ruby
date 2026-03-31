@@ -1,0 +1,24 @@
+mutation InvoiceUpdate($id: ID!, $input: InvoiceInput!) {
+  invoiceUpdate(id: $id, input: $input) {
+    id
+    nickname
+    total
+    amountPaid
+    amountOutstanding
+    paidInFull
+    invoiceAt
+    paymentDueAt
+    status {
+      id
+      name
+      color
+    }
+    contact {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}

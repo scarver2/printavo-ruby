@@ -22,9 +22,27 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#account' do
+    it 'returns an Account resource' do
+      expect(client.account).to be_a(Printavo::Resources::Account)
+    end
+  end
+
+  describe '#contacts' do
+    it 'returns a Contacts resource' do
+      expect(client.contacts).to be_a(Printavo::Resources::Contacts)
+    end
+  end
+
   describe '#customers' do
     it 'returns a Customers resource' do
       expect(client.customers).to be_a(Printavo::Resources::Customers)
+    end
+  end
+
+  describe '#invoices' do
+    it 'returns an Invoices resource' do
+      expect(client.invoices).to be_a(Printavo::Resources::Invoices)
     end
   end
 

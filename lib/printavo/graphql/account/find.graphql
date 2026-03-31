@@ -1,0 +1,11 @@
+query Account {
+  account {
+    id
+    companyName
+    companyEmail
+    phone
+    website
+    logoUrl
+    locale
+  }
+}

@@ -2,22 +2,6 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-require 'simplecov-lcov'
-
-SimpleCov::Formatter::LcovFormatter.config do |c|
-  c.report_with_single_file = true
-  c.output_directory        = 'coverage'
-  c.lcov_file_name          = 'lcov.info'
-end
-
-SimpleCov.start do
-  formatter SimpleCov::Formatter::MultiFormatter.new([
-                                                       SimpleCov::Formatter::HTMLFormatter,
-                                                       SimpleCov::Formatter::LcovFormatter
-                                                     ])
-  add_filter '/spec/'
-  minimum_coverage 90
-end
 
 require 'printavo'
 require 'webmock/rspec'
@@ -30,6 +14,8 @@ PRINTAVO_TEST_TOKEN = ENV.fetch('PRINTAVO_TOKEN', 'test_token')
 PRINTAVO_API_URL    = 'https://www.printavo.com/api/v2'
 
 RSpec.configure do |config|
+  config.include Factories
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
