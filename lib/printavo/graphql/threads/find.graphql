@@ -1,0 +1,8 @@
+query Thread($id: ID!) {
+  thread(id: $id) {
+    id
+    subject
+    createdAt
+    updatedAt
+  }
+}

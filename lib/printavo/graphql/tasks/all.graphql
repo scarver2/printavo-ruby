@@ -1,0 +1,19 @@
+query Tasks($first: Int, $after: String) {
+  tasks(first: $first, after: $after) {
+    nodes {
+      id
+      body
+      dueAt
+      completedAt
+      assignee {
+        id
+        firstName
+        lastName
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

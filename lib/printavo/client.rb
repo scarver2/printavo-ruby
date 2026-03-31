@@ -56,5 +56,33 @@ module Printavo
     def inquiries
       Resources::Inquiries.new(@graphql)
     end
+
+    def tasks
+      Resources::Tasks.new(@graphql)
+    end
+
+    def threads
+      Resources::Threads.new(@graphql)
+    end
+
+    def transactions
+      Resources::Transactions.new(@graphql)
+    end
+
+    def transaction_payments
+      Resources::TransactionPayments.new(@graphql)
+    end
+
+    def login(*)
+      raise NotImplementedError,
+            'login is not supported — this gem authenticates via email + token headers. ' \
+            'Pass credentials to Printavo::Client.new(email:, token:) instead.'
+    end
+
+    def logout(*)
+      raise NotImplementedError,
+            'logout is not supported — this gem uses stateless header-based auth. ' \
+            'Simply discard the client instance when done.'
+    end
   end
 end

@@ -1,0 +1,13 @@
+query Task($id: ID!) {
+  task(id: $id) {
+    id
+    body
+    dueAt
+    completedAt
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

@@ -21,7 +21,7 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] GitHub Actions CI: Ruby 3.3 + Ruby 4.0 matrix
 - [x] Automated RubyGems publish on `v*` tag via trusted publishing (`release.yml`)
 - [x] Git pre-push hook: guards `Gemfile.lock` version sync and `x86_64-linux` platform
-- [ ] `Client#login` / `Client#logout` — raise `NotImplementedError`; gem uses header-based auth, not session mutations
+- [x] `Client#login` / `Client#logout` — raise `NotImplementedError`; gem uses header-based auth, not session mutations
 
 ---
 
@@ -271,26 +271,26 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Products` resource: `all`, `find(id)`
 - [ ] `PricingMatrices` resource: `all`, `find(id)`
 
-### Tasks
+### Tasks ✅
 
-- [ ] `Printavo::Task` model (`id`, `body`, `dueAt`, `completedAt`, `assignee`)
-- [ ] `Tasks` resource: `all`, `find(id)`, `create`, `update`, `complete`, `delete`
-- [ ] `taskCreate`, `taskUpdate`, `taskDelete` mutations
+- [x] `Printavo::Task` model (`id`, `body`, `dueAt`, `completedAt`, `assignee`)
+- [x] `Tasks` resource: `all`, `find(id)`, `create`, `update`, `complete`, `delete`
+- [x] `taskCreate`, `taskUpdate`, `taskDelete` mutations
 
-### Threads (Messages)
+### Threads (Messages) ✅
 
-- [ ] `Printavo::Thread` model (`id`, `body`, `author`, `createdAt`, `attachments`)
-- [ ] `Threads` resource: `all(order_id:)`, `find(id)`, `update`
-- [ ] `threadUpdate` mutation
-- [ ] `emailMessageCreate` mutation — send an email message on a thread
+- [x] `Printavo::Thread` model (`id`, `subject`, `createdAt`, `updatedAt`)
+- [x] `Threads` resource: `all(order_id:)`, `find(id)`, `update`
+- [x] `threadUpdate` mutation
+- [x] `emailMessageCreate` mutation — send an email message on a thread
 
-### Transactions
+### Transactions ✅
 
-- [ ] `Printavo::Transaction` model (`id`, `amount`, `kind`, `createdAt`, `details`)
-- [ ] `Transactions` resource: `all(order_id:)`, `find(id)`
-- [ ] `Printavo::TransactionPayment` model (`id`, `amount`, `method`, `paidAt`)
-- [ ] `TransactionPayments` resource: `create`, `update`, `delete`
-- [ ] `transactionPaymentCreate`, `transactionPaymentUpdate`, `transactionPaymentDelete` mutations
+- [x] `Printavo::Transaction` model (`id`, `amount`, `kind`, `createdAt`)
+- [x] `Transactions` resource: `all(order_id:)`, `find(id)`
+- [x] `Printavo::TransactionPayment` model (`id`, `amount`, `paymentMethod`, `paidAt`, `note`)
+- [x] `TransactionPayments` resource: `create`, `update`, `delete`
+- [x] `transactionPaymentCreate`, `transactionPaymentUpdate`, `transactionPaymentDelete` mutations
 
 ### Types of Work
 
@@ -317,11 +317,11 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Contacts` resource (`find`, `create`, `update`)
 - [x] `Account` resource (singleton `find`)
 
-### v0.7.0 — Transactions, Tasks & Threads
+### v0.7.0 — Transactions, Tasks & Threads ✅
 
-- [ ] `Transactions` resource (`all`, `find`) + `TransactionPayments` (`create`, `update`, `delete`)
-- [ ] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`, `delete`)
-- [ ] `Threads` resource (`all`, `find`, `update`) + `emailMessageCreate`
+- [x] `Transactions` resource (`all`, `find`) + `TransactionPayments` (`create`, `update`, `delete`)
+- [x] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`, `delete`)
+- [x] `Threads` resource (`all`, `find`, `update`) + `emailMessageCreate`
 
 ### v0.8.0 — Order Structure: Line Items, Line Item Groups, Imprints & Fees
 

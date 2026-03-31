@@ -69,4 +69,40 @@ RSpec.describe Printavo::Client do
       expect(client.inquiries).to be_a(Printavo::Resources::Inquiries)
     end
   end
+
+  describe '#tasks' do
+    it 'returns a Tasks resource' do
+      expect(client.tasks).to be_a(Printavo::Resources::Tasks)
+    end
+  end
+
+  describe '#threads' do
+    it 'returns a Threads resource' do
+      expect(client.threads).to be_a(Printavo::Resources::Threads)
+    end
+  end
+
+  describe '#transactions' do
+    it 'returns a Transactions resource' do
+      expect(client.transactions).to be_a(Printavo::Resources::Transactions)
+    end
+  end
+
+  describe '#transaction_payments' do
+    it 'returns a TransactionPayments resource' do
+      expect(client.transaction_payments).to be_a(Printavo::Resources::TransactionPayments)
+    end
+  end
+
+  describe '#login' do
+    it 'raises NotImplementedError' do
+      expect { client.login }.to raise_error(NotImplementedError, /email \+ token/)
+    end
+  end
+
+  describe '#logout' do
+    it 'raises NotImplementedError' do
+      expect { client.logout }.to raise_error(NotImplementedError, /stateless/)
+    end
+  end
 end
