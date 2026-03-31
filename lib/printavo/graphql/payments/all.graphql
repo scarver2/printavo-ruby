@@ -1,0 +1,16 @@
+query Payments($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    payments(first: $first, after: $after) {
+      nodes {
+        id
+        amount
+        paymentMethod
+        paidAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+query Payment($id: ID!) {
+  payment(id: $id) {
+    id
+    amount
+    paymentMethod
+    paidAt
+  }
+}

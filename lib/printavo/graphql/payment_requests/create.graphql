@@ -1,0 +1,13 @@
+mutation PaymentRequestCreate($input: PaymentRequestInput!) {
+  paymentRequestCreate(input: $input) {
+    id
+    amount
+    sentAt
+    paidAt
+    details {
+      description
+      unitPrice
+      quantity
+    }
+  }
+}

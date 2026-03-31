@@ -1,0 +1,7 @@
+query PaymentTerm($id: ID!) {
+  paymentTerm(id: $id) {
+    id
+    name
+    netDays
+  }
+}

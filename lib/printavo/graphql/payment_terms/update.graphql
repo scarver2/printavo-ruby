@@ -1,0 +1,7 @@
+mutation PaymentTermUpdate($id: ID!, $input: PaymentTermInput!) {
+  paymentTermUpdate(id: $id, input: $input) {
+    id
+    name
+    netDays
+  }
+}

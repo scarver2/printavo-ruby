@@ -6,6 +6,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2026-03-31
+
+### Added
+- `Printavo::Payment` model (`id`, `amount`, `payment_method`, `paid_at`)
+- `Payments` resource: `all(order_id:)`, `find(id)` — read-only, scoped to an order
+- `Printavo::PaymentRequest` model (`id`, `amount`, `sent_at`, `paid_at`, `details`)
+- `PaymentRequests` resource: `all(order_id:)`, `find(id)`, `create(**input)`, `delete(id)` —
+  `paymentRequestCreate` / `paymentRequestDelete` mutations
+- `Printavo::PaymentTerm` model (`id`, `name`, `net_days`)
+- `PaymentTerms` resource: `all`, `find(id)`, `create(**input)`, `update(id, **input)`,
+  `archive(id)` — `paymentTermCreate` / `paymentTermUpdate` / `paymentTermArchive` mutations;
+  `archive` returns `nil` (same convention as `delete`)
+- `client.payments`, `client.payment_requests`, `client.payment_terms` entry points
+  on `Printavo::Client`
+- 11 new `.graphql` files under `lib/printavo/graphql/`
+
 ## [0.9.0] - 2026-03-31
 
 ### Added

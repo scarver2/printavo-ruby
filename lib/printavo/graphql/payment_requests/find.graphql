@@ -1,0 +1,13 @@
+query PaymentRequest($id: ID!) {
+  paymentRequest(id: $id) {
+    id
+    amount
+    sentAt
+    paidAt
+    details {
+      description
+      unitPrice
+      quantity
+    }
+  }
+}

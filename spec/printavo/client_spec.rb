@@ -58,6 +58,24 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#payment_requests' do
+    it 'returns a PaymentRequests resource' do
+      expect(client.payment_requests).to be_a(Printavo::Resources::PaymentRequests)
+    end
+  end
+
+  describe '#payment_terms' do
+    it 'returns a PaymentTerms resource' do
+      expect(client.payment_terms).to be_a(Printavo::Resources::PaymentTerms)
+    end
+  end
+
+  describe '#payments' do
+    it 'returns a Payments resource' do
+      expect(client.payments).to be_a(Printavo::Resources::Payments)
+    end
+  end
+
   describe '#jobs' do
     it 'returns a Jobs resource' do
       expect(client.jobs).to be_a(Printavo::Resources::Jobs)
