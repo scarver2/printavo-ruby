@@ -7,7 +7,7 @@ require 'printavo'
 require 'webmock/rspec'
 
 require_relative 'support/vcr'
-Dir[File.join(__dir__, 'support/factories/*.rb')].each { |f| require f }
+require_relative 'support/factories'
 
 PRINTAVO_TEST_EMAIL = ENV.fetch('PRINTAVO_EMAIL', 'demo@example.com')
 PRINTAVO_TEST_TOKEN = ENV.fetch('PRINTAVO_TOKEN', 'test_token')
