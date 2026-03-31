@@ -1,0 +1,15 @@
+mutation ApprovalRequestCreate($input: ApprovalRequestInput!) {
+  approvalRequestCreate(input: $input) {
+    id
+    status
+    sentAt
+    expiresAt
+    contact {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}

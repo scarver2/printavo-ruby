@@ -1,0 +1,12 @@
+mutation PresetTaskUpdate($id: ID!, $input: PresetTaskInput!) {
+  presetTaskUpdate(id: $id, input: $input) {
+    id
+    body
+    dueOffsetDays
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

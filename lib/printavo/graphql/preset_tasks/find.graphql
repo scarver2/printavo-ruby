@@ -1,0 +1,12 @@
+query PresetTask($id: ID!) {
+  presetTask(id: $id) {
+    id
+    body
+    dueOffsetDays
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

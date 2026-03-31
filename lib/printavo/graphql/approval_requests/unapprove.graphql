@@ -1,0 +1,8 @@
+mutation ApprovalRequestUnapprove($id: ID!) {
+  approvalRequestUnapprove(id: $id) {
+    id
+    status
+    sentAt
+    expiresAt
+  }
+}

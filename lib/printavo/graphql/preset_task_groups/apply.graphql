@@ -1,0 +1,13 @@
+mutation PresetTaskGroupApply($id: ID!, $orderId: ID!) {
+  presetTaskGroupApply(id: $id, orderId: $orderId) {
+    id
+    body
+    dueAt
+    completedAt
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

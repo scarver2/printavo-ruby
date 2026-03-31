@@ -1,0 +1,11 @@
+mutation PresetTaskGroupCreate($input: PresetTaskGroupInput!) {
+  presetTaskGroupCreate(input: $input) {
+    id
+    name
+    tasks {
+      id
+      body
+      dueOffsetDays
+    }
+  }
+}

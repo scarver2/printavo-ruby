@@ -1,0 +1,11 @@
+mutation PresetTaskGroupUpdate($id: ID!, $input: PresetTaskGroupInput!) {
+  presetTaskGroupUpdate(id: $id, input: $input) {
+    id
+    name
+    tasks {
+      id
+      body
+      dueOffsetDays
+    }
+  }
+}

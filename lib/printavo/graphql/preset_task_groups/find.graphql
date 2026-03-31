@@ -1,0 +1,11 @@
+query PresetTaskGroup($id: ID!) {
+  presetTaskGroup(id: $id) {
+    id
+    name
+    tasks {
+      id
+      body
+      dueOffsetDays
+    }
+  }
+}

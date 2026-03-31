@@ -28,6 +28,12 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#approval_requests' do
+    it 'returns an ApprovalRequests resource' do
+      expect(client.approval_requests).to be_a(Printavo::Resources::ApprovalRequests)
+    end
+  end
+
   describe '#contacts' do
     it 'returns a Contacts resource' do
       expect(client.contacts).to be_a(Printavo::Resources::Contacts)
@@ -157,6 +163,18 @@ RSpec.describe Printavo::Client do
   describe '#merch_stores' do
     it 'returns a MerchStores resource' do
       expect(client.merch_stores).to be_a(Printavo::Resources::MerchStores)
+    end
+  end
+
+  describe '#preset_task_groups' do
+    it 'returns a PresetTaskGroups resource' do
+      expect(client.preset_task_groups).to be_a(Printavo::Resources::PresetTaskGroups)
+    end
+  end
+
+  describe '#preset_tasks' do
+    it 'returns a PresetTasks resource' do
+      expect(client.preset_tasks).to be_a(Printavo::Resources::PresetTasks)
     end
   end
 
