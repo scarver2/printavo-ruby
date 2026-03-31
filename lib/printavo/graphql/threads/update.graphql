@@ -1,0 +1,8 @@
+mutation ThreadUpdate($id: ID!, $input: ThreadInput!) {
+  threadUpdate(id: $id, input: $input) {
+    id
+    subject
+    createdAt
+    updatedAt
+  }
+}

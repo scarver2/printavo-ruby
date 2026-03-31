@@ -1,0 +1,9 @@
+mutation TransactionPaymentUpdate($id: ID!, $input: TransactionPaymentInput!) {
+  transactionPaymentUpdate(id: $id, input: $input) {
+    id
+    amount
+    paymentMethod
+    paidAt
+    note
+  }
+}

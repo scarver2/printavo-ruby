@@ -1,0 +1,16 @@
+query Transactions($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    transactions(first: $first, after: $after) {
+      nodes {
+        id
+        amount
+        kind
+        createdAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

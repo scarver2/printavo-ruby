@@ -1,0 +1,7 @@
+mutation EmailMessageCreate($input: EmailMessageInput!) {
+  emailMessageCreate(input: $input) {
+    id
+    body
+    createdAt
+  }
+}

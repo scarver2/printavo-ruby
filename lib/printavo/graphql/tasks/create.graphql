@@ -1,0 +1,13 @@
+mutation TaskCreate($input: TaskInput!) {
+  taskCreate(input: $input) {
+    id
+    body
+    dueAt
+    completedAt
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}

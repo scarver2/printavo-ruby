@@ -6,6 +6,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-03-30
+
+### Added
+- `Printavo::Transaction` model (`id`, `amount`, `kind`, `created_at`)
+- `Transactions` resource: `all(order_id:)`, `find(id)` — scoped to an order, same pattern as Jobs
+- `Printavo::TransactionPayment` model (`id`, `amount`, `payment_method`, `paid_at`, `note`)
+- `TransactionPayments` resource: `create(**input)`, `update(id, **input)`, `delete(id)` —
+  mutation-only; `transactionPaymentCreate/Update/Delete`
+- `Printavo::Task` model (`id`, `body`, `due_at`, `completed_at`, `completed?`, `assignee`)
+- `Tasks` resource: `all`, `find(id)`, `create(**input)`, `update(id, **input)`,
+  `complete(id)` (sets `completedAt` to now via `taskUpdate`), `delete(id)`
+- `Printavo::Thread` model (`id`, `subject`, `created_at`, `updated_at`)
+- `Threads` resource: `all(order_id:)`, `find(id)`, `update(id, **input)`,
+  `email_message_create(**input)` — `threadUpdate` + `emailMessageCreate` mutations;
+  returns raw hash (no `EmailMessage` model yet)
+- `client.tasks`, `client.threads`, `client.transactions`, `client.transaction_payments`
+  entry points on `Printavo::Client`
+- 14 new `.graphql` files under `lib/printavo/graphql/`
+- `Client#login` / `Client#logout` raise `NotImplementedError` with a message directing
+  consumers to the `email` + `token` initializer; gem uses stateless header-based auth
+
 ## [0.6.0] - 2026-03-30
 
 ### Added

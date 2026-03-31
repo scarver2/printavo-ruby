@@ -1,0 +1,8 @@
+query Transaction($id: ID!) {
+  transaction(id: $id) {
+    id
+    amount
+    kind
+    createdAt
+  }
+}

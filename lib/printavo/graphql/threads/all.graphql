@@ -1,0 +1,16 @@
+query Threads($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    threads(first: $first, after: $after) {
+      nodes {
+        id
+        subject
+        createdAt
+        updatedAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

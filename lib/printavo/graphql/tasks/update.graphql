@@ -1,0 +1,13 @@
+mutation TaskUpdate($id: ID!, $input: TaskInput!) {
+  taskUpdate(id: $id, input: $input) {
+    id
+    body
+    dueAt
+    completedAt
+    assignee {
+      id
+      firstName
+      lastName
+    }
+  }
+}
