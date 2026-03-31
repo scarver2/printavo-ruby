@@ -243,16 +243,16 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `productionFileCreate` / `productionFileCreates` (bulk) mutations
 - [ ] `productionFileDelete` / `productionFileDeletes` (bulk) mutations
 
-### Payments
+### Payments ✅
 
-- [ ] `Printavo::Payment` model (`id`, `amount`, `method`, `paidAt`)
-- [ ] `Printavo::PaymentRequest` model (`id`, `amount`, `sentAt`, `paidAt`, `details`)
-- [ ] `Printavo::PaymentTerm` model (`id`, `name`, `netDays`)
-- [ ] `Payments` resource: `all(order_id:)`, `find(id)`
-- [ ] `PaymentRequests` resource: `all(order_id:)`, `find(id)`, `create`, `delete`
-- [ ] `paymentRequestCreate`, `paymentRequestDelete` mutations
-- [ ] `PaymentTerms` resource: `all`, `find(id)`, `create`, `update`, `archive`
-- [ ] `paymentTermCreate`, `paymentTermUpdate`, `paymentTermArchive` mutations
+- [x] `Printavo::Payment` model (`id`, `amount`, `payment_method`, `paid_at`)
+- [x] `Printavo::PaymentRequest` model (`id`, `amount`, `sent_at`, `paid_at`, `details`)
+- [x] `Printavo::PaymentTerm` model (`id`, `name`, `net_days`)
+- [x] `Payments` resource: `all(order_id:)`, `find(id)`
+- [x] `PaymentRequests` resource: `all(order_id:)`, `find(id)`, `create`, `delete`
+- [x] `paymentRequestCreate`, `paymentRequestDelete` mutations
+- [x] `PaymentTerms` resource: `all`, `find(id)`, `create`, `update`, `archive`
+- [x] `paymentTermCreate`, `paymentTermUpdate`, `paymentTermArchive` mutations
 
 ### Preset Tasks
 
@@ -337,11 +337,11 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Products` resource + `PricingMatrices` resource
 - [x] `Categories` resource (reference data)
 
-### v0.10.0 — Financial: Payments, Payment Terms & Requests
+### v0.10.0 — Financial: Payments, Payment Terms & Requests ✅
 
-- [ ] `Payments` resource (`all`, `find`)
-- [ ] `PaymentRequests` resource (`all`, `find`, `create`, `delete`)
-- [ ] `PaymentTerms` resource (`all`, `find`, `create`, `update`, `archive`)
+- [x] `Payments` resource (`all`, `find`)
+- [x] `PaymentRequests` resource (`all`, `find`, `create`, `delete`)
+- [x] `PaymentTerms` resource (`all`, `find`, `create`, `update`, `archive`)
 
 ### v0.11.0 — Workflow: Approvals & Preset Tasks
 

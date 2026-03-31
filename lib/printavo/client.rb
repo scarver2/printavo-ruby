@@ -97,6 +97,18 @@ module Printavo
       Resources::Orders.new(@graphql)
     end
 
+    def payment_requests
+      Resources::PaymentRequests.new(@graphql)
+    end
+
+    def payment_terms
+      Resources::PaymentTerms.new(@graphql)
+    end
+
+    def payments
+      Resources::Payments.new(@graphql)
+    end
+
     def pricing_matrices
       Resources::PricingMatrices.new(@graphql)
     end

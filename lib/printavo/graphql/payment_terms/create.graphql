@@ -1,0 +1,7 @@
+mutation PaymentTermCreate($input: PaymentTermInput!) {
+  paymentTermCreate(input: $input) {
+    id
+    name
+    netDays
+  }
+}

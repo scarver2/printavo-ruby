@@ -1,0 +1,5 @@
+mutation PaymentTermArchive($id: ID!) {
+  paymentTermArchive(id: $id) {
+    id
+  }
+}

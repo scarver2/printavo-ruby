@@ -1,0 +1,13 @@
+query PaymentTerms($first: Int, $after: String) {
+  paymentTerms(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      netDays
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
