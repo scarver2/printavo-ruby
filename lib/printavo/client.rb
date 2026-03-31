@@ -37,40 +37,16 @@ module Printavo
       Resources::Customers.new(@graphql)
     end
 
-    def invoices
-      Resources::Invoices.new(@graphql)
-    end
-
-    def statuses
-      Resources::Statuses.new(@graphql)
-    end
-
-    def orders
-      Resources::Orders.new(@graphql)
-    end
-
-    def jobs
-      Resources::Jobs.new(@graphql)
-    end
-
     def inquiries
       Resources::Inquiries.new(@graphql)
     end
 
-    def tasks
-      Resources::Tasks.new(@graphql)
+    def invoices
+      Resources::Invoices.new(@graphql)
     end
 
-    def threads
-      Resources::Threads.new(@graphql)
-    end
-
-    def transactions
-      Resources::Transactions.new(@graphql)
-    end
-
-    def transaction_payments
-      Resources::TransactionPayments.new(@graphql)
+    def jobs
+      Resources::Jobs.new(@graphql)
     end
 
     def login(*)
@@ -83,6 +59,30 @@ module Printavo
       raise NotImplementedError,
             'logout is not supported — this gem uses stateless header-based auth. ' \
             'Simply discard the client instance when done.'
+    end
+
+    def orders
+      Resources::Orders.new(@graphql)
+    end
+
+    def statuses
+      Resources::Statuses.new(@graphql)
+    end
+
+    def tasks
+      Resources::Tasks.new(@graphql)
+    end
+
+    def threads
+      Resources::Threads.new(@graphql)
+    end
+
+    def transaction_payments
+      Resources::TransactionPayments.new(@graphql)
+    end
+
+    def transactions
+      Resources::Transactions.new(@graphql)
     end
   end
 end
