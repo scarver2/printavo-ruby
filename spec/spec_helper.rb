@@ -23,13 +23,15 @@ require 'printavo'
 require 'webmock/rspec'
 
 require_relative 'support/vcr'
-require_relative 'support/factories'
+Dir[File.join(__dir__, 'support/factories/*.rb')].each { |f| require f }
 
 PRINTAVO_TEST_EMAIL = ENV.fetch('PRINTAVO_EMAIL', 'demo@example.com')
 PRINTAVO_TEST_TOKEN = ENV.fetch('PRINTAVO_TOKEN', 'test_token')
 PRINTAVO_API_URL    = 'https://www.printavo.com/api/v2'
 
 RSpec.configure do |config|
+  config.include Factories
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

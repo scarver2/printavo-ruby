@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 10 new `.graphql` files under `lib/printavo/graphql/` (contacts/find, create, update;
   invoices/all, find, update; account/find)
 
+### Changed
+- `spec/support/factories.rb` split into 9 domain files under `spec/support/factories/`
+  (`account`, `contact`, `customer`, `graphql`, `inquiry`, `invoice`, `job`, `order`, `status`)
+- `spec/spec_helper.rb` loads factory files via `Dir` glob; `config.include Factories` moved here
+- Removed `Metrics/ModuleLength` exclusion from `.rubocop.yml` — no longer needed
+
 ## [0.5.2] - 2026-03-30
 
 ### Changed

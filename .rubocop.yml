@@ -31,9 +31,6 @@ Metrics/CyclomaticComplexity:
 Metrics/ClassLength:
   Max: 160
 
-Metrics/ModuleLength:
-  Exclude:
-    - "spec/support/factories.rb"
 
 Metrics/MethodLength:
   Max: 15

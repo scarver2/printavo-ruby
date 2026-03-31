@@ -69,6 +69,7 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] Extract 17 GraphQL heredocs into external `.graphql` files (`lib/printavo/graphql/<resource>/<op>.graphql`)
 - [x] `docs/` consolidation — `CHANGELOG.md`, `CONTRIBUTING.md`, `FUTURE.md`, `CACHING.md`
 - [x] `docs/CACHING.md` — nine caching strategy patterns for rate-limit-aware consumers
+- [x] Split `spec/support/factories.rb` monolith into 9 domain files under `spec/support/factories/`
 
 ---
 
