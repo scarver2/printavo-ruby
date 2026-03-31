@@ -21,6 +21,7 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] GitHub Actions CI: Ruby 3.3 + Ruby 4.0 matrix
 - [x] Automated RubyGems publish on `v*` tag via trusted publishing (`release.yml`)
 - [x] Git pre-push hook: guards `Gemfile.lock` version sync and `x86_64-linux` platform
+- [ ] `Client#login` / `Client#logout` — raise `NotImplementedError`; gem uses header-based auth, not session mutations
 
 ---
 
@@ -107,7 +108,9 @@ return values — they are exposed via model field accessors, not separate resou
 - `EmailMessage`, `TextMessage` — message subtypes under `Thread`
 - `Feature`, `FeatureRestriction` — embedded in `Account.features`
 - `LineItemEnabledColumns`, `LineItemGroupSize`, `LineItemPriceReceipt`, `LineItemSizeCount` — embedded in `LineItemGroup` / `LineItem`
-- `LoggedIn` — auth response type for `login` mutation (not wrapped; gem uses header-based auth)
+- `LoggedIn` — auth response type for `login` / `logout` mutations; not wrapped — gem uses
+  header-based auth. Both methods raise `NotImplementedError` on `Printavo::Client` with a
+  message directing consumers to the `email` + `token` initializer pattern.
 - `MerchOrderDelivery`, `MerchStoreSummary` — embedded in `MerchOrder` / `MerchStore`
 - `MessageAttachment` — embedded in `Thread` messages
 - `ObjectTimestamps` — `createdAt` / `updatedAt` on all objects
