@@ -51,6 +51,13 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] `Inquiries#update(id, **input)` — `inquiryUpdate`
 - [x] `camelize_keys` — snake_case → camelCase input conversion
 - [x] `build_customer` / `build_order` — mutation response normalization helpers
+- [ ] `Contacts#delete(id)` — `contactDelete`
+- [ ] `Customers#delete(id)` — `customerDelete`
+- [ ] `Inquiries#delete(id)` — `inquiryDelete`
+- [ ] `Invoices#delete(id)` — `invoiceDelete`
+- [ ] `Invoices#duplicate(id)` — `invoiceDuplicate`
+- [ ] `Orders#delete(id)` — `quoteDelete`
+- [ ] `Orders#duplicate(id)` — `quoteDuplicate`
 
 ---
 
@@ -100,7 +107,7 @@ return values — they are exposed via model field accessors, not separate resou
 - `EmailMessage`, `TextMessage` — message subtypes under `Thread`
 - `Feature`, `FeatureRestriction` — embedded in `Account.features`
 - `LineItemEnabledColumns`, `LineItemGroupSize`, `LineItemPriceReceipt`, `LineItemSizeCount` — embedded in `LineItemGroup` / `LineItem`
-- `LoggedIn` — auth response type
+- `LoggedIn` — auth response type for `login` mutation (not wrapped; gem uses header-based auth)
 - `MerchOrderDelivery`, `MerchStoreSummary` — embedded in `MerchOrder` / `MerchStore`
 - `MessageAttachment` — embedded in `Thread` messages
 - `ObjectTimestamps` — `createdAt` / `updatedAt` on all objects
@@ -135,12 +142,16 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Invoices` resource: `all`, `find(id)`, `update`
 - [x] `client.invoices` entry point on `Printavo::Client`
 
+---
+
 ### Approvals
 
-- [ ] `Printavo::Approval` model (`id`, `status`, `approvedAt`, `contact`)
-- [ ] `Printavo::ApprovalRequest` model (`id`, `sentAt`, `expiresAt`, `approval`)
-- [ ] `Approvals` resource: `all(order_id:)`, `find(id)`
-- [ ] `approvalCreate`, `approvalUpdate` mutations
+- [ ] `Printavo::ApprovalRequest` model (`id`, `status`, `sentAt`, `expiresAt`, `contact`)
+- [ ] `ApprovalRequests` resource: `all(order_id:)`, `find(id)`
+- [ ] `approvalRequestCreate` mutation
+- [ ] `approvalRequestApprove(id:)` mutation
+- [ ] `approvalRequestRevoke(id:)` mutation
+- [ ] `approvalRequestUnapprove(id:)` mutation
 
 ### Categories
 
@@ -152,18 +163,19 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Printavo::ContractorProfile` model (`id`, `name`, `email`)
 - [ ] `ContractorProfiles` resource: `all`, `find(id)` — contractors assignable to invoices
 
+### Custom Addresses
+
+- [ ] `Printavo::CustomAddress` model (`id`, `name`, `address`, `city`, `state`, `zip`)
+- [ ] `CustomAddresses` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [ ] `customAddressCreate` / `customAddressCreates` (bulk) mutations
+- [ ] `customAddressUpdate` / `customAddressUpdates` (bulk) mutations
+- [ ] `customAddressDelete` / `customAddressDeletes` (bulk) mutations
+
 ### Delivery Methods
 
 - [ ] `Printavo::DeliveryMethod` model (`id`, `name`)
-- [ ] `DeliveryMethods` resource: `all` — reference data (pickup, ship, etc.)
-
-### Delete Mutations
-
-- [ ] `contactDelete(id:)`
-- [ ] `customerDelete(id:)`
-- [ ] `quoteDelete(id:)` / `invoiceDelete(id:)`
-- [ ] `lineItemDelete(id:)`
-- [ ] `taskDelete(id:)`
+- [ ] `DeliveryMethods` resource: `all`, `find(id)`, `create`, `update`, `archive`
+- [ ] `deliveryMethodCreate`, `deliveryMethodUpdate`, `deliveryMethodArchive` mutations
 
 ### Email Templates
 
@@ -179,20 +191,36 @@ return values — they are exposed via model field accessors, not separate resou
 ### Fees
 
 - [ ] `Printavo::Fee` model (`id`, `name`, `amount`, `taxable`)
-- [ ] `Fees` resource: `all(order_id:)`, `find(id)`, `create`, `update`
-- [ ] `feeCreate`, `feeUpdate` mutations
+- [ ] `Fees` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [ ] `feeCreate` / `feeCreates` (bulk) mutations
+- [ ] `feeUpdate` / `feeUpdates` (bulk) mutations
+- [ ] `feeDelete` / `feeDeletes` (bulk) mutations
 
 ### Imprints
 
 - [ ] `Printavo::Imprint` model (`id`, `name`, `position`, `colors`, `personalization`)
-- [ ] `Imprints` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`
-- [ ] `imprintCreate`, `imprintUpdate` mutations
+- [ ] `Imprints` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
+- [ ] `imprintCreate` / `imprintCreates` (bulk) mutations
+- [ ] `imprintUpdate` / `imprintUpdates` (bulk) mutations
+- [ ] `imprintDelete` / `imprintDeletes` (bulk) mutations
+- [ ] `imprintMockupCreate` / `imprintMockupCreates` (bulk) — attach mockup to imprint
+
+### Line Items
+
+- [ ] `Printavo::LineItem` model (`id`, `name`, `quantity`, `price`, `taxable`)
+- [ ] `LineItems` resource: `all(line_item_group_id:)`, `find(id)`, `create`, `update`, `delete`
+- [ ] `lineItemCreate` / `lineItemCreates` (bulk) mutations
+- [ ] `lineItemUpdate` / `lineItemUpdates` (bulk) mutations
+- [ ] `lineItemDelete` / `lineItemDeletes` (bulk) mutations
+- [ ] `lineItemMockupCreate` / `lineItemMockupCreates` (bulk) — attach mockup to line item
 
 ### Line Item Groups
 
 - [ ] `Printavo::LineItemGroup` model (`id`, `name`, `description`, `sizes`, `enabled_columns`)
-- [ ] `LineItemGroups` resource: `all(order_id:)`, `find(id)`, `create`, `update`
-- [ ] `lineItemGroupCreate`, `lineItemGroupUpdate` mutations
+- [ ] `LineItemGroups` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [ ] `lineItemGroupCreate` / `lineItemGroupCreates` (bulk) mutations
+- [ ] `lineItemGroupUpdate` / `lineItemGroupUpdates` (bulk) mutations
+- [ ] `lineItemGroupDelete` / `lineItemGroupDeletes` (bulk) mutations
 
 ### Merch
 
@@ -206,26 +234,32 @@ return values — they are exposed via model field accessors, not separate resou
 
 - [ ] `Printavo::Mockup` model (`id`, `url`, `position`, `createdAt`)
 - [ ] `Printavo::ProductionFile` model (`id`, `url`, `filename`, `createdAt`)
-- [ ] `Mockups` resource: `all(order_id:)`, `find(id)`, `create`
-- [ ] `ProductionFiles` resource: `all(order_id:)`, `find(id)`, `create`
+- [ ] `Mockups` resource: `all(order_id:)`, `find(id)`, `delete`
+- [ ] `mockupDelete` / `mockupDeletes` (bulk) mutations
+- [ ] `ProductionFiles` resource: `all(order_id:)`, `find(id)`, `create`, `delete`
+- [ ] `productionFileCreate` / `productionFileCreates` (bulk) mutations
+- [ ] `productionFileDelete` / `productionFileDeletes` (bulk) mutations
 
 ### Payments
 
 - [ ] `Printavo::Payment` model (`id`, `amount`, `method`, `paidAt`)
-- [ ] `Printavo::PaymentDispute` model (`id`, `amount`, `reason`, `status`)
 - [ ] `Printavo::PaymentRequest` model (`id`, `amount`, `sentAt`, `paidAt`, `details`)
-- [ ] `Printavo::PaymentTerm` model (`id`, `name`, `netDays`) — reference data
+- [ ] `Printavo::PaymentTerm` model (`id`, `name`, `netDays`)
 - [ ] `Payments` resource: `all(order_id:)`, `find(id)`
-- [ ] `PaymentRequests` resource: `all(order_id:)`, `find(id)`, `create`
-- [ ] `PaymentTerms` resource: `all` — reference data
-- [ ] `paymentRequestCreate` mutation
+- [ ] `PaymentRequests` resource: `all(order_id:)`, `find(id)`, `create`, `delete`
+- [ ] `paymentRequestCreate`, `paymentRequestDelete` mutations
+- [ ] `PaymentTerms` resource: `all`, `find(id)`, `create`, `update`, `archive`
+- [ ] `paymentTermCreate`, `paymentTermUpdate`, `paymentTermArchive` mutations
 
 ### Preset Tasks
 
 - [ ] `Printavo::PresetTask` model (`id`, `body`, `dueOffsetDays`, `assignee`)
 - [ ] `Printavo::PresetTaskGroup` model (`id`, `name`, `tasks`)
-- [ ] `PresetTaskGroups` resource: `all`, `find(id)`, `create`, `update`
-- [ ] `presetTaskGroupCreate`, `presetTaskGroupUpdate` mutations
+- [ ] `PresetTasks` resource: `find(id)`, `create`, `update`, `delete`
+- [ ] `presetTaskCreate`, `presetTaskUpdate`, `presetTaskDelete` mutations
+- [ ] `PresetTaskGroups` resource: `all`, `find(id)`, `create`, `update`, `delete`, `apply`
+- [ ] `presetTaskGroupCreate`, `presetTaskGroupUpdate`, `presetTaskGroupDelete` mutations
+- [ ] `presetTaskGroupApply(id:, order_id:)` mutation — applies a group to an order
 
 ### Product Catalog & Pricing
 
@@ -234,36 +268,26 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Products` resource: `all`, `find(id)`
 - [ ] `PricingMatrices` resource: `all`, `find(id)`
 
-### Purchase Orders
-
-- [ ] `Printavo::PurchaseOrder` model (`id`, `vendorName`, `total`, `sentAt`)
-- [ ] `Printavo::PoLineItem` model (`id`, `name`, `quantity`, `price`)
-- [ ] `PurchaseOrders` resource: `all`, `find(id)`, `create`, `update`
-- [ ] `purchaseOrderCreate`, `purchaseOrderUpdate` mutations
-
-### Refunds & Returns
-
-- [ ] `Printavo::Refund` model (`id`, `amount`, `reason`, `createdAt`)
-- [ ] `Printavo::Return` model (`id`, `quantity`, `reason`, `createdAt`)
-- [ ] `Refunds` resource: `all(order_id:)`, `find(id)`, `create`
-- [ ] `refundCreate` mutation
-
 ### Tasks
 
 - [ ] `Printavo::Task` model (`id`, `body`, `dueAt`, `completedAt`, `assignee`)
-- [ ] `Tasks` resource: `all`, `find(id)`, `create`, `update`, `complete`
-- [ ] `taskCreate`, `taskUpdate` mutations
+- [ ] `Tasks` resource: `all`, `find(id)`, `create`, `update`, `complete`, `delete`
+- [ ] `taskCreate`, `taskUpdate`, `taskDelete` mutations
 
 ### Threads (Messages)
 
 - [ ] `Printavo::Thread` model (`id`, `body`, `author`, `createdAt`, `attachments`)
-- [ ] `Threads` resource: `all(order_id:)`, `find(id)`, `create`
-- [ ] `threadCreate` mutation
+- [ ] `Threads` resource: `all(order_id:)`, `find(id)`, `update`
+- [ ] `threadUpdate` mutation
+- [ ] `emailMessageCreate` mutation — send an email message on a thread
 
 ### Transactions
 
 - [ ] `Printavo::Transaction` model (`id`, `amount`, `kind`, `createdAt`, `details`)
 - [ ] `Transactions` resource: `all(order_id:)`, `find(id)`
+- [ ] `Printavo::TransactionPayment` model (`id`, `amount`, `method`, `paidAt`)
+- [ ] `TransactionPayments` resource: `create`, `update`, `delete`
+- [ ] `transactionPaymentCreate`, `transactionPaymentUpdate`, `transactionPaymentDelete` mutations
 
 ### Types of Work
 
@@ -278,8 +302,7 @@ return values — they are exposed via model field accessors, not separate resou
 ### Vendors
 
 - [ ] `Printavo::Vendor` model (`id`, `name`, `email`, `phone`)
-- [ ] `Vendors` resource: `all`, `find(id)`, `create`, `update`
-- [ ] `vendorCreate`, `vendorUpdate` mutations
+- [ ] `Vendors` resource: `all`, `find(id)` — read-only; no create/update/delete in V2 API
 
 ---
 
@@ -293,16 +316,16 @@ return values — they are exposed via model field accessors, not separate resou
 
 ### v0.7.0 — Transactions, Tasks & Threads
 
-- [ ] `Transactions` resource (`all`, `find`)
-- [ ] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`)
-- [ ] `Threads` resource (`all`, `find`, `create`)
-- [ ] Delete mutations: `contactDelete`, `customerDelete`, `quoteDelete`, `invoiceDelete`, `lineItemDelete`, `taskDelete`
+- [ ] `Transactions` resource (`all`, `find`) + `TransactionPayments` (`create`, `update`, `delete`)
+- [ ] `Tasks` resource (`all`, `find`, `create`, `update`, `complete`, `delete`)
+- [ ] `Threads` resource (`all`, `find`, `update`) + `emailMessageCreate`
 
-### v0.8.0 — Order Structure: Line Item Groups, Imprints & Fees
+### v0.8.0 — Order Structure: Line Items, Line Item Groups, Imprints & Fees
 
-- [ ] `LineItemGroups` resource (`all`, `find`, `create`, `update`)
-- [ ] `Imprints` resource (`all`, `find`, `create`, `update`)
-- [ ] `Fees` resource (`all`, `find`, `create`, `update`)
+- [ ] `LineItems` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [ ] `LineItemGroups` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [ ] `Imprints` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`, mockup attach)
+- [ ] `Fees` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
 - [ ] `Expenses` resource (`all`, `find`, `create`, `update`)
 
 ### v0.9.0 — Merch, Products & Pricing
@@ -311,34 +334,44 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Products` resource + `PricingMatrices` resource
 - [ ] `Categories` resource (reference data)
 
-### v0.10.0 — Financial: Payments, Purchase Orders & Refunds
+### v0.10.0 — Financial: Payments, Payment Terms & Requests
 
 - [ ] `Payments` resource (`all`, `find`)
-- [ ] `PaymentRequests` resource (`all`, `find`, `create`)
-- [ ] `PaymentTerms` resource (`all`) — reference data
-- [ ] `PurchaseOrders` + `PoLineItems` resources
-- [ ] `Refunds` + `Returns` resources
+- [ ] `PaymentRequests` resource (`all`, `find`, `create`, `delete`)
+- [ ] `PaymentTerms` resource (`all`, `find`, `create`, `update`, `archive`)
 
 ### v0.11.0 — Workflow: Approvals & Preset Tasks
 
-- [ ] `Approvals` resource (`all`, `find`, `create`)
-- [ ] `PresetTaskGroups` resource (`all`, `find`, `create`, `update`)
+- [ ] `ApprovalRequests` resource (`all`, `find`, `create`, `approve`, `revoke`, `unapprove`)
+- [ ] `PresetTasks` resource (`find`, `create`, `update`, `delete`)
+- [ ] `PresetTaskGroups` resource (`all`, `find`, `create`, `update`, `delete`, `apply`)
 
 ### v0.12.0 — Files, Media & Communication
 
-- [ ] `ProductionFiles` resource (`all`, `find`, `create`)
-- [ ] `Mockups` resource (`all`, `find`, `create`)
+- [ ] `ProductionFiles` resource (`all`, `find`, `create`/`creates`, `delete`/`deletes`)
+- [ ] `Mockups` resource (`all`, `find`, `delete`/`deletes`)
 - [ ] `EmailTemplates` resource (`all`, `find`)
+- [ ] `CustomAddresses` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
 
 ### v0.13.0 — People, Orgs & Reference Data
 
 - [ ] `Users` resource (`all`, `find`)
-- [ ] `Vendors` resource (`all`, `find`, `create`, `update`)
+- [ ] `Vendors` resource (`all`, `find`) — read-only
 - [ ] `ContractorProfiles` resource (`all`, `find`)
-- [ ] `DeliveryMethods` resource (`all`) — reference data
-- [ ] `TypesOfWork` resource (`all`) — reference data
+- [ ] `DeliveryMethods` resource (`all`, `find`, `create`, `update`, `archive`)
+- [ ] `TypesOfWork` resource (`all`)
 
-### v0.14.0 — Retry / Backoff & CLI
+### v0.14.0 — Delete & Duplicate Mutations for Shipped Resources
+
+- [ ] `Contacts#delete` — `contactDelete`
+- [ ] `Customers#delete` — `customerDelete`
+- [ ] `Inquiries#delete` — `inquiryDelete`
+- [ ] `Invoices#delete` — `invoiceDelete`
+- [ ] `Invoices#duplicate` — `invoiceDuplicate`
+- [ ] `Orders#delete` — `quoteDelete`
+- [ ] `Orders#duplicate` — `quoteDuplicate`
+
+### v0.15.0 — Retry / Backoff & CLI
 
 - [ ] Configurable `max_retries` on `Printavo::Client`
 - [ ] Exponential backoff with jitter on 429 responses
