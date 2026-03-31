@@ -1,0 +1,16 @@
+query Fees($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    fees(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        amount
+        taxable
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

@@ -87,12 +87,6 @@ module Printavo
         normalized['totalPrice'] ||= attrs['total']
         Printavo::Order.new(normalized)
       end
-
-      def camelize_keys(hash)
-        hash.transform_keys do |key|
-          key.to_s.gsub(/_([a-z])/) { ::Regexp.last_match(1).upcase }
-        end
-      end
     end
   end
 end

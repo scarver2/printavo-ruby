@@ -1,0 +1,8 @@
+query Imprint($id: ID!) {
+  imprint(id: $id) {
+    id
+    name
+    position
+    colors
+  }
+}

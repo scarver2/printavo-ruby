@@ -1,0 +1,9 @@
+mutation LineItemCreate($input: LineItemInput!) {
+  lineItemCreate(input: $input) {
+    id
+    name
+    quantity
+    price
+    taxable
+  }
+}

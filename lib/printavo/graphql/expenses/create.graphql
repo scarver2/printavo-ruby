@@ -1,0 +1,8 @@
+mutation ExpenseCreate($input: ExpenseInput!) {
+  expenseCreate(input: $input) {
+    id
+    name
+    amount
+    category
+  }
+}

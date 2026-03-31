@@ -1,0 +1,5 @@
+mutation FeeDeletes($ids: [ID!]!) {
+  feeDeletes(ids: $ids) {
+    id
+  }
+}

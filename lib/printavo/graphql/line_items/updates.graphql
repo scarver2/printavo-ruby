@@ -1,0 +1,9 @@
+mutation LineItemUpdates($inputs: [LineItemUpdateInput!]!) {
+  lineItemUpdates(inputs: $inputs) {
+    id
+    name
+    quantity
+    price
+    taxable
+  }
+}

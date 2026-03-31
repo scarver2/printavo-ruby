@@ -1,0 +1,5 @@
+mutation ImprintDeletes($ids: [ID!]!) {
+  imprintDeletes(ids: $ids) {
+    id
+  }
+}

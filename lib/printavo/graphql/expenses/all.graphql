@@ -1,0 +1,16 @@
+query Expenses($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    expenses(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        amount
+        category
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

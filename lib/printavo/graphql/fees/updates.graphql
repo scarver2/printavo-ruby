@@ -1,0 +1,8 @@
+mutation FeeUpdates($inputs: [FeeUpdateInput!]!) {
+  feeUpdates(inputs: $inputs) {
+    id
+    name
+    amount
+    taxable
+  }
+}

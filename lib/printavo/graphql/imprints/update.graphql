@@ -1,0 +1,8 @@
+mutation ImprintUpdate($id: ID!, $input: ImprintInput!) {
+  imprintUpdate(id: $id, input: $input) {
+    id
+    name
+    position
+    colors
+  }
+}
