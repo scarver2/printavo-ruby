@@ -81,6 +81,18 @@ RSpec.describe Printavo::CLI do
   end
 
   # ---------------------------------------------------------------------------
+  # version
+  # ---------------------------------------------------------------------------
+
+  describe '#version' do
+    it 'prints the gem version' do
+      allow(cli).to receive(:say)
+      cli.version
+      expect(cli).to have_received(:say).with(Printavo::VERSION)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
   # customers
   # ---------------------------------------------------------------------------
 
