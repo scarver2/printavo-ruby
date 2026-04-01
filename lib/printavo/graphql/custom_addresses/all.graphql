@@ -1,0 +1,18 @@
+query CustomAddresses($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    customAddresses(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        address
+        city
+        state
+        zip
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

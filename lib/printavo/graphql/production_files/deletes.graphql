@@ -1,0 +1,5 @@
+mutation ProductionFileDeletes($ids: [ID!]!) {
+  productionFileDeletes(ids: $ids) {
+    id
+  }
+}

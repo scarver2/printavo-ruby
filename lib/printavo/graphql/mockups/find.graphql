@@ -1,0 +1,8 @@
+query Mockup($id: ID!) {
+  mockup(id: $id) {
+    id
+    url
+    position
+    createdAt
+  }
+}

@@ -1,0 +1,8 @@
+mutation ProductionFileCreates($inputs: [ProductionFileInput!]!) {
+  productionFileCreates(inputs: $inputs) {
+    id
+    url
+    filename
+    createdAt
+  }
+}

@@ -40,6 +40,12 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#custom_addresses' do
+    it 'returns a CustomAddresses resource' do
+      expect(client.custom_addresses).to be_a(Printavo::Resources::CustomAddresses)
+    end
+  end
+
   describe '#customers' do
     it 'returns a Customers resource' do
       expect(client.customers).to be_a(Printavo::Resources::Customers)
@@ -85,6 +91,12 @@ RSpec.describe Printavo::Client do
   describe '#jobs' do
     it 'returns a Jobs resource' do
       expect(client.jobs).to be_a(Printavo::Resources::Jobs)
+    end
+  end
+
+  describe '#email_templates' do
+    it 'returns an EmailTemplates resource' do
+      expect(client.email_templates).to be_a(Printavo::Resources::EmailTemplates)
     end
   end
 
@@ -166,6 +178,12 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#mockups' do
+    it 'returns a Mockups resource' do
+      expect(client.mockups).to be_a(Printavo::Resources::Mockups)
+    end
+  end
+
   describe '#preset_task_groups' do
     it 'returns a PresetTaskGroups resource' do
       expect(client.preset_task_groups).to be_a(Printavo::Resources::PresetTaskGroups)
@@ -181,6 +199,12 @@ RSpec.describe Printavo::Client do
   describe '#pricing_matrices' do
     it 'returns a PricingMatrices resource' do
       expect(client.pricing_matrices).to be_a(Printavo::Resources::PricingMatrices)
+    end
+  end
+
+  describe '#production_files' do
+    it 'returns a ProductionFiles resource' do
+      expect(client.production_files).to be_a(Printavo::Resources::ProductionFiles)
     end
   end
 

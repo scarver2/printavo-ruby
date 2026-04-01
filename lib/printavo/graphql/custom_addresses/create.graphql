@@ -1,0 +1,10 @@
+mutation CustomAddressCreate($input: CustomAddressInput!) {
+  customAddressCreate(input: $input) {
+    id
+    name
+    address
+    city
+    state
+    zip
+  }
+}

@@ -1,0 +1,14 @@
+query EmailTemplates($first: Int, $after: String) {
+  emailTemplates(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      subject
+      body
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

@@ -166,13 +166,13 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `Printavo::ContractorProfile` model (`id`, `name`, `email`)
 - [ ] `ContractorProfiles` resource: `all`, `find(id)` — contractors assignable to invoices
 
-### Custom Addresses
+### Custom Addresses ✅
 
-- [ ] `Printavo::CustomAddress` model (`id`, `name`, `address`, `city`, `state`, `zip`)
-- [ ] `CustomAddresses` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
-- [ ] `customAddressCreate` / `customAddressCreates` (bulk) mutations
-- [ ] `customAddressUpdate` / `customAddressUpdates` (bulk) mutations
-- [ ] `customAddressDelete` / `customAddressDeletes` (bulk) mutations
+- [x] `Printavo::CustomAddress` model (`id`, `name`, `address`, `city`, `state`, `zip`)
+- [x] `CustomAddresses` resource: `all(order_id:)`, `find(id)`, `create`, `update`, `delete`
+- [x] `customAddressCreate` / `customAddressCreates` (bulk) mutations
+- [x] `customAddressUpdate` / `customAddressUpdates` (bulk) mutations
+- [x] `customAddressDelete` / `customAddressDeletes` (bulk) mutations
 
 ### Delivery Methods
 
@@ -180,10 +180,10 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `DeliveryMethods` resource: `all`, `find(id)`, `create`, `update`, `archive`
 - [ ] `deliveryMethodCreate`, `deliveryMethodUpdate`, `deliveryMethodArchive` mutations
 
-### Email Templates
+### Email Templates ✅
 
-- [ ] `Printavo::EmailTemplate` model (`id`, `name`, `subject`, `body`)
-- [ ] `EmailTemplates` resource: `all`, `find(id)`
+- [x] `Printavo::EmailTemplate` model (`id`, `name`, `subject`, `body`)
+- [x] `EmailTemplates` resource: `all`, `find(id)`
 
 ### Expenses ✅
 
@@ -233,15 +233,15 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `MerchOrders` resource: `all`, `find(id)`
 - [x] `client.merch_stores` / `client.merch_orders` entry points
 
-### Mockups & Production Files
+### Mockups & Production Files ✅
 
-- [ ] `Printavo::Mockup` model (`id`, `url`, `position`, `createdAt`)
-- [ ] `Printavo::ProductionFile` model (`id`, `url`, `filename`, `createdAt`)
-- [ ] `Mockups` resource: `all(order_id:)`, `find(id)`, `delete`
-- [ ] `mockupDelete` / `mockupDeletes` (bulk) mutations
-- [ ] `ProductionFiles` resource: `all(order_id:)`, `find(id)`, `create`, `delete`
-- [ ] `productionFileCreate` / `productionFileCreates` (bulk) mutations
-- [ ] `productionFileDelete` / `productionFileDeletes` (bulk) mutations
+- [x] `Printavo::Mockup` model (`id`, `url`, `position`, `created_at`)
+- [x] `Printavo::ProductionFile` model (`id`, `url`, `filename`, `created_at`)
+- [x] `Mockups` resource: `all(order_id:)`, `find(id)`, `delete`, `deletes`
+- [x] `mockupDelete` / `mockupDeletes` (bulk) mutations
+- [x] `ProductionFiles` resource: `all(order_id:)`, `find(id)`, `create`, `creates`, `delete`, `deletes`
+- [x] `productionFileCreate` / `productionFileCreates` (bulk) mutations
+- [x] `productionFileDelete` / `productionFileDeletes` (bulk) mutations
 
 ### Payments ✅
 
@@ -349,12 +349,12 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `PresetTasks` resource (`find`, `create`, `update`, `delete`)
 - [x] `PresetTaskGroups` resource (`all`, `find`, `create`, `update`, `delete`, `apply`)
 
-### v0.12.0 — Files, Media & Communication
+### v0.12.0 — Files, Media & Communication ✅
 
-- [ ] `ProductionFiles` resource (`all`, `find`, `create`/`creates`, `delete`/`deletes`)
-- [ ] `Mockups` resource (`all`, `find`, `delete`/`deletes`)
-- [ ] `EmailTemplates` resource (`all`, `find`)
-- [ ] `CustomAddresses` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
+- [x] `ProductionFiles` resource (`all`, `find`, `create`/`creates`, `delete`/`deletes`)
+- [x] `Mockups` resource (`all`, `find`, `delete`/`deletes`)
+- [x] `EmailTemplates` resource (`all`, `find`)
+- [x] `CustomAddresses` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
 
 ### v0.13.0 — People, Orgs & Reference Data
 
