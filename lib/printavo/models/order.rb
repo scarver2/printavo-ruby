@@ -4,8 +4,11 @@
 module Printavo
   class Order < Models::Base
     def id          = self['id']
+    def visual_id   = self['visualId']
     def nickname    = self['nickname']
     def total_price = self['totalPrice']
+    def created_at  = self['createdAt']
+    def updated_at  = self['updatedAt']
 
     def status
       dig('status', 'name')

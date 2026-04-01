@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scarver2/printavo-ruby/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/scarver2/printavo-ruby/badge.svg?branch=master)](https://coveralls.io/github/scarver2/printavo-ruby?branch=master)
-[![Gem Version](https://img.shields.io/gem/v/printavo-ruby.svg)](https://rubygems.org/gems/printavo-ruby)
+[![Gem Version](https://badge.fury.io/rb/printavo-ruby.svg)](https://badge.fury.io/rb/printavo-ruby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A framework-agnostic Ruby SDK for the [Printavo](https://www.printavo.com) GraphQL API (v2).

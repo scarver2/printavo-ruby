@@ -6,5 +6,6 @@ query CustomAddress($id: ID!) {
     city
     state
     zip
+    country
   }
 }

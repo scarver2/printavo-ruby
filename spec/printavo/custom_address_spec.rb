@@ -12,4 +12,5 @@ RSpec.describe Printavo::CustomAddress do
   it { expect(custom_address.city).to be_a(String) }
   it { expect(custom_address.state).to be_a(String) }
   it { expect(custom_address.zip).to be_a(String) }
+  it { expect(custom_address.country).to be_a(String) }
 end

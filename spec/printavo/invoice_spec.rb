@@ -7,7 +7,10 @@ RSpec.describe Printavo::Invoice do
   subject(:invoice) { described_class.new(fake_invoice_attrs) }
 
   it { expect(invoice.id).to be_a(String) }
+  it { expect(invoice.visual_id).to be_a(String) }
   it { expect(invoice.nickname).to be_a(String) }
+  it { expect(invoice.created_at).to be_a(String) }
+  it { expect(invoice.updated_at).to be_a(String) }
   it { expect(invoice.total).to be_a(String) }
   it { expect(invoice.amount_paid).to be_a(String) }
   it { expect(invoice.amount_outstanding).to be_a(String) }

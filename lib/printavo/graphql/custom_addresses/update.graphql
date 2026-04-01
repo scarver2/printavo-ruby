@@ -6,5 +6,6 @@ mutation CustomAddressUpdate($id: ID!, $input: CustomAddressInput!) {
     city
     state
     zip
+    country
   }
 }

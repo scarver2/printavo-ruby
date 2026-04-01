@@ -1,6 +1,7 @@
 mutation InvoiceUpdate($id: ID!, $input: InvoiceInput!) {
   invoiceUpdate(id: $id, input: $input) {
     id
+    visualId
     nickname
     total
     amountPaid
@@ -8,6 +9,8 @@ mutation InvoiceUpdate($id: ID!, $input: InvoiceInput!) {
     paidInFull
     invoiceAt
     paymentDueAt
+    createdAt
+    updatedAt
     status {
       id
       name

@@ -1,8 +1,11 @@
 mutation QuoteUpdate($id: ID!, $input: QuoteInput!) {
   quoteUpdate(id: $id, input: $input) {
     id
+    visualId
     nickname
     total
+    createdAt
+    updatedAt
     status {
       id
       name

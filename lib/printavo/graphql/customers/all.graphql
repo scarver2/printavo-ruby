@@ -7,6 +7,8 @@ query Customers($first: Int, $after: String) {
       email
       phone
       company
+      createdAt
+      updatedAt
     }
     pageInfo {
       hasNextPage

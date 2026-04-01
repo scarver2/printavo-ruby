@@ -1,8 +1,11 @@
 mutation QuoteCreate($input: QuoteCreateInput!) {
   quoteCreate(input: $input) {
     id
+    visualId
     nickname
     total
+    createdAt
+    updatedAt
     status {
       id
       name

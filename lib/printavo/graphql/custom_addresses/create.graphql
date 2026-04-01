@@ -6,5 +6,6 @@ mutation CustomAddressCreate($input: CustomAddressInput!) {
     city
     state
     zip
+    country
   }
 }

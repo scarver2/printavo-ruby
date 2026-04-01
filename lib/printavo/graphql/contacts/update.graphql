@@ -7,5 +7,7 @@ mutation ContactUpdate($id: ID!, $input: ContactInput!) {
     email
     phone
     fax
+    createdAt
+    updatedAt
   }
 }

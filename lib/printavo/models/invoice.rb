@@ -4,7 +4,10 @@
 module Printavo
   class Invoice < Models::Base
     def id                 = self['id']
+    def visual_id          = self['visualId']
     def nickname           = self['nickname']
+    def created_at         = self['createdAt']
+    def updated_at         = self['updatedAt']
     def total              = self['total']
     def amount_paid        = self['amountPaid']
     def amount_outstanding = self['amountOutstanding']

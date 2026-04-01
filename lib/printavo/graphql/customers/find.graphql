@@ -6,5 +6,7 @@ query Customer($id: ID!) {
     email
     phone
     company
+    createdAt
+    updatedAt
   }
 }

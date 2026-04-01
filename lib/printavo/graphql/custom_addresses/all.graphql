@@ -8,6 +8,7 @@ query CustomAddresses($orderId: ID!, $first: Int, $after: String) {
         city
         state
         zip
+        country
       }
       pageInfo {
         hasNextPage

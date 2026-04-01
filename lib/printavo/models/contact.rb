@@ -9,6 +9,8 @@ module Printavo
     def email      = self['email']
     def phone      = self['phone']
     def fax        = self['fax']
+    def created_at = self['createdAt']
+    def updated_at = self['updatedAt']
 
     def full_name
       self['fullName'] || [first_name, last_name].compact.join(' ').strip
