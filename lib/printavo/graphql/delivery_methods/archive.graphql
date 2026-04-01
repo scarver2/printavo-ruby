@@ -1,0 +1,5 @@
+mutation DeliveryMethodArchive($id: ID!) {
+  deliveryMethodArchive(id: $id) {
+    id
+  }
+}

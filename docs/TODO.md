@@ -161,10 +161,10 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Printavo::Category` model (`id`, `name`)
 - [x] `Categories` resource: `all`, `find(id)` — reference data for products/line items
 
-### Contractor Profiles
+### Contractor Profiles ✅
 
-- [ ] `Printavo::ContractorProfile` model (`id`, `name`, `email`)
-- [ ] `ContractorProfiles` resource: `all`, `find(id)` — contractors assignable to invoices
+- [x] `Printavo::ContractorProfile` model (`id`, `name`, `email`)
+- [x] `ContractorProfiles` resource: `all`, `find(id)` — contractors assignable to invoices
 
 ### Custom Addresses ✅
 
@@ -174,11 +174,11 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `customAddressUpdate` / `customAddressUpdates` (bulk) mutations
 - [x] `customAddressDelete` / `customAddressDeletes` (bulk) mutations
 
-### Delivery Methods
+### Delivery Methods ✅
 
-- [ ] `Printavo::DeliveryMethod` model (`id`, `name`)
-- [ ] `DeliveryMethods` resource: `all`, `find(id)`, `create`, `update`, `archive`
-- [ ] `deliveryMethodCreate`, `deliveryMethodUpdate`, `deliveryMethodArchive` mutations
+- [x] `Printavo::DeliveryMethod` model (`id`, `name`)
+- [x] `DeliveryMethods` resource: `all`, `find(id)`, `create`, `update`, `archive`
+- [x] `deliveryMethodCreate`, `deliveryMethodUpdate`, `deliveryMethodArchive` mutations
 
 ### Email Templates ✅
 
@@ -292,20 +292,20 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `TransactionPayments` resource: `create`, `update`, `delete`
 - [x] `transactionPaymentCreate`, `transactionPaymentUpdate`, `transactionPaymentDelete` mutations
 
-### Types of Work
+### Types of Work ✅
 
-- [ ] `Printavo::TypeOfWork` model (`id`, `name`)
-- [ ] `TypesOfWork` resource: `all` — reference data for order categorization
+- [x] `Printavo::TypeOfWork` model (`id`, `name`)
+- [x] `TypesOfWork` resource: `all` — reference data for order categorization
 
-### Users
+### Users ✅
 
-- [ ] `Printavo::User` model (`id`, `firstName`, `lastName`, `email`, `avatar`, `permissions`)
-- [ ] `Users` resource: `all`, `find(id)` — shop staff members
+- [x] `Printavo::User` model (`id`, `first_name`, `last_name`, `email`, `full_name`)
+- [x] `Users` resource: `all`, `find(id)` — shop staff members
 
-### Vendors
+### Vendors ✅
 
-- [ ] `Printavo::Vendor` model (`id`, `name`, `email`, `phone`)
-- [ ] `Vendors` resource: `all`, `find(id)` — read-only; no create/update/delete in V2 API
+- [x] `Printavo::Vendor` model (`id`, `name`, `email`, `phone`)
+- [x] `Vendors` resource: `all`, `find(id)` — read-only; no create/update/delete in V2 API
 
 ---
 
@@ -356,13 +356,13 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `EmailTemplates` resource (`all`, `find`)
 - [x] `CustomAddresses` resource (`all`, `find`, `create`/`creates`, `update`/`updates`, `delete`/`deletes`)
 
-### v0.13.0 — People, Orgs & Reference Data
+### v0.13.0 — People, Orgs & Reference Data ✅
 
-- [ ] `Users` resource (`all`, `find`)
-- [ ] `Vendors` resource (`all`, `find`) — read-only
-- [ ] `ContractorProfiles` resource (`all`, `find`)
-- [ ] `DeliveryMethods` resource (`all`, `find`, `create`, `update`, `archive`)
-- [ ] `TypesOfWork` resource (`all`)
+- [x] `Users` resource (`all`, `find`)
+- [x] `Vendors` resource (`all`, `find`) — read-only
+- [x] `ContractorProfiles` resource (`all`, `find`)
+- [x] `DeliveryMethods` resource (`all`, `find`, `create`, `update`, `archive`)
+- [x] `TypesOfWork` resource (`all`)
 
 ### v0.14.0 — Delete & Duplicate Mutations for Shipped Resources
 

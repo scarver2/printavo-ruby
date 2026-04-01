@@ -41,12 +41,20 @@ module Printavo
       Resources::Contacts.new(@graphql)
     end
 
+    def contractor_profiles
+      Resources::ContractorProfiles.new(@graphql)
+    end
+
     def custom_addresses
       Resources::CustomAddresses.new(@graphql)
     end
 
     def customers
       Resources::Customers.new(@graphql)
+    end
+
+    def delivery_methods
+      Resources::DeliveryMethods.new(@graphql)
     end
 
     def email_templates
@@ -163,6 +171,18 @@ module Printavo
 
     def transactions
       Resources::Transactions.new(@graphql)
+    end
+
+    def types_of_work
+      Resources::TypesOfWork.new(@graphql)
+    end
+
+    def users
+      Resources::Users.new(@graphql)
+    end
+
+    def vendors
+      Resources::Vendors.new(@graphql)
     end
   end
 end

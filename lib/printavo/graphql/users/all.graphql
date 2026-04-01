@@ -1,0 +1,14 @@
+query Users($first: Int, $after: String) {
+  users(first: $first, after: $after) {
+    nodes {
+      id
+      firstName
+      lastName
+      email
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

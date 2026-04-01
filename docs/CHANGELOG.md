@@ -6,6 +6,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2026-03-31
+
+### Added
+- `Printavo::User` model (`id`, `first_name`, `last_name`, `email`, `full_name`)
+- `Users` resource: `all`, `find(id)` — shop staff members
+- `Printavo::Vendor` model (`id`, `name`, `email`, `phone`)
+- `Vendors` resource: `all`, `find(id)` — read-only
+- `Printavo::ContractorProfile` model (`id`, `name`, `email`)
+- `ContractorProfiles` resource: `all`, `find(id)`
+- `Printavo::DeliveryMethod` model (`id`, `name`)
+- `DeliveryMethods` resource: `all`, `find(id)`, `create(**input)`, `update(id, **input)`, `archive(id)`
+- `deliveryMethodCreate`, `deliveryMethodUpdate`, `deliveryMethodArchive` mutations
+- `Printavo::TypeOfWork` model (`id`, `name`)
+- `TypesOfWork` resource: `all` — reference data for order categorization
+- `client.contractor_profiles`, `client.delivery_methods`, `client.types_of_work`,
+  `client.users`, `client.vendors` entry points on `Printavo::Client`
+- 11 new `.graphql` files under `lib/printavo/graphql/`
+- 1 new factory file: `spec/support/factories/people.rb`
+
 ## [0.12.0] - 2026-03-31
 
 ### Added

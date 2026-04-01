@@ -1,0 +1,7 @@
+query ContractorProfile($id: ID!) {
+  contractorProfile(id: $id) {
+    id
+    name
+    email
+  }
+}

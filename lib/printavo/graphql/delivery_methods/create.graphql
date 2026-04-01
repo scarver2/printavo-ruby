@@ -1,0 +1,6 @@
+mutation DeliveryMethodCreate($input: DeliveryMethodInput!) {
+  deliveryMethodCreate(input: $input) {
+    id
+    name
+  }
+}

@@ -166,6 +166,36 @@ RSpec.describe Printavo::Client do
     end
   end
 
+  describe '#contractor_profiles' do
+    it 'returns a ContractorProfiles resource' do
+      expect(client.contractor_profiles).to be_a(Printavo::Resources::ContractorProfiles)
+    end
+  end
+
+  describe '#delivery_methods' do
+    it 'returns a DeliveryMethods resource' do
+      expect(client.delivery_methods).to be_a(Printavo::Resources::DeliveryMethods)
+    end
+  end
+
+  describe '#types_of_work' do
+    it 'returns a TypesOfWork resource' do
+      expect(client.types_of_work).to be_a(Printavo::Resources::TypesOfWork)
+    end
+  end
+
+  describe '#users' do
+    it 'returns a Users resource' do
+      expect(client.users).to be_a(Printavo::Resources::Users)
+    end
+  end
+
+  describe '#vendors' do
+    it 'returns a Vendors resource' do
+      expect(client.vendors).to be_a(Printavo::Resources::Vendors)
+    end
+  end
+
   describe '#merch_orders' do
     it 'returns a MerchOrders resource' do
       expect(client.merch_orders).to be_a(Printavo::Resources::MerchOrders)

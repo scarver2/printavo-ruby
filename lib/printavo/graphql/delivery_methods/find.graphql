@@ -1,0 +1,6 @@
+query DeliveryMethod($id: ID!) {
+  deliveryMethod(id: $id) {
+    id
+    name
+  }
+}

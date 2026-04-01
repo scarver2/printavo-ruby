@@ -1,0 +1,13 @@
+query ContractorProfiles($first: Int, $after: String) {
+  contractorProfiles(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      email
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

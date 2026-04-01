@@ -1,0 +1,8 @@
+query Vendor($id: ID!) {
+  vendor(id: $id) {
+    id
+    name
+    email
+    phone
+  }
+}
