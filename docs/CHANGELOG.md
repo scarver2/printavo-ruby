@@ -6,36 +6,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.17.0] - 2026-04-01
+
+### Added
+- `Order#visual_id`, `Order#created_at`, `Order#updated_at` — expose `VisualIDed` and
+  `Timestamps` interface fields on the `Order` model
+- `Invoice#visual_id`, `Invoice#created_at`, `Invoice#updated_at` — same for `Invoice`
+- `Customer#created_at`, `Customer#updated_at` — `Timestamps` interface fields
+- `Contact#created_at`, `Contact#updated_at` — `Timestamps` interface fields
+- `CustomAddress#country` — completes the `MailAddress` interface (`address`, `city`,
+  `state`, `zip`, `country` are now all exposed)
+- `visualId`, `createdAt`, `updatedAt` added to all order/invoice query and mutation
+  GraphQL files (`find`, `all`, `create`, `update`)
+- `createdAt`, `updatedAt` added to customer and contact query/mutation files
+- `country` added to all 6 custom_address query/mutation files
+- Gem version badge in `README.md` switched to `badge.fury.io` service
+
 ## [0.16.0] - 2026-04-01
 
 ### Added
 - `Printavo::Enums` namespace — 18 enum modules covering every GraphQL enum in the
   Printavo V2 schema (excluding `__DirectiveLocation` and `__TypeKind`, which are
   GraphQL introspection internals):
-  - `ApprovalRequestStatus` — APPROVED, PENDING, REVOKED, UNAPPROVED
-  - `ContactSortField` — CREATED_AT, EMAIL, FIRST_NAME, LAST_NAME, UPDATED_AT
-  - `LineItemSize` — full garment size set (XS–6XL, youth, toddler, infant, OS, NONE)
-  - `LineItemStatus` — ACTIVE, CANCELLED
-  - `MerchOrderDeliveryMethod` — LOCAL_DELIVERY, PICKUP, SHIP
-  - `MerchOrderStatus` — CANCELLED, COMPLETE, PENDING, PROCESSING
-  - `MerchStoreStatus` — ACTIVE, ARCHIVED, CLOSED
-  - `MessageDeliveryStatus` — BOUNCED, DELIVERED, FAILED, PENDING, SENT
-  - `OrderPaymentStatus` — PAID, PARTIAL, UNPAID
-  - `OrderSortField` — CREATED_AT, CUSTOMER_DUE_AT, DUE_AT, UPDATED_AT, VISUAL_ID
-  - `PaymentDisputeStatusField` — LOST, NEEDS_RESPONSE, RESOLVED, UNDER_REVIEW, WON
-  - `PaymentRequestStatus` — CANCELLED, PAID, SENT
-  - `PoGoodsStatus` — CANCELLED, PARTIAL, PENDING, RECEIVED
+  - `ApprovalRequestStatus` — APPROVED, DECLINED, PENDING, REVOKED, UNAPPROVED
+  - `ContactSortField` — CONTACT_EMAIL, CONTACT_NAME, CUSTOMER_NAME, ORDER_COUNT
+  - `LineItemSize` — full garment size set (size_xs–size_6xl, youth, toddler, infant, size_other)
+  - `LineItemStatus` — arrived, attached_to_po, in, need_ordering, ordered, partially_received, received
+  - `MerchOrderDeliveryMethod` — DELIVERY, PICKUP
+  - `MerchOrderStatus` — FULFILLED, UNFULFILLED
+  - `MerchStoreStatus` — CLOSED, LIVE
+  - `MessageDeliveryStatus` — BOUNCED, CLICKED, DELIVERED, ERROR, LINKED, OPENED, OTHER, PAY_FOR, PENDING, REJECTED, SENT
+  - `OrderPaymentStatus` — PAID, PARTIAL_PAYMENT, UNPAID
+  - `OrderSortField` — CUSTOMER_DUE_AT, CUSTOMER_NAME, OWNER, STATUS, TOTAL, VISUAL_ID
+  - `PaymentDisputeStatusField` — DISPUTE_INITIATED, DISPUTE_IN_REVIEW, DISPUTE_LOST, DISPUTE_WON, RETRIEVAL_REQUEST
+  - `PaymentRequestStatus` — ARCHIVED, CLOSED, OPEN
+  - `PoGoodsStatus` — arrived, not_ordered, ordered, partially_received, received
   - `StatusType` — INVOICE, QUOTE
-  - `TaskSortField` — BODY, CREATED_AT, DUE_AT, UPDATED_AT
-  - `TaskableType` — INVOICE, QUOTE
-  - `TransactionCategory` — PAYMENT, REFUND
-  - `TransactionSource` — CARD, CASH, CHECK, MANUAL, ONLINE
+  - `TaskSortField` — CREATED_AT, DUE_AT
+  - `TaskableType` — CUSTOMER, INVOICE, QUOTE
+  - `TransactionCategory` — BANK_TRANSFER, CASH, CHECK, CREDIT_CARD, ECHECK, OTHER
+  - `TransactionSource` — MANUAL, PROCESSOR
 - Each enum exposes an `ALL` frozen array of all values
 - Shared RSpec example `'a Printavo enum'` validates structure across all 18 modules
-
-### Notes
-- Enum values are the best-effort representation of the Printavo V2 schema at time of
-  release. Values that differ from the live schema should be reported as patch issues.
 
 ## [0.15.0] - 2026-04-01
 

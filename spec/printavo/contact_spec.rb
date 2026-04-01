@@ -11,6 +11,8 @@ RSpec.describe Printavo::Contact do
   it { expect(contact.last_name).to be_a(String) }
   it { expect(contact.email).to include('@') }
   it { expect(contact.phone).to be_a(String) }
+  it { expect(contact.created_at).to be_a(String) }
+  it { expect(contact.updated_at).to be_a(String) }
 
   describe '#full_name' do
     it 'returns fullName from API when present' do

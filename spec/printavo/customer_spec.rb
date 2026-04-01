@@ -30,6 +30,14 @@ RSpec.describe Printavo::Customer do
     it 'exposes company' do
       expect(customer.company).to be_a(String)
     end
+
+    it 'exposes created_at' do
+      expect(customer.created_at).to be_a(String)
+    end
+
+    it 'exposes updated_at' do
+      expect(customer.updated_at).to be_a(String)
+    end
   end
 
   describe '#full_name' do

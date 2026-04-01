@@ -11,7 +11,9 @@ module Factories
       'lastName' => Faker::Name.last_name,
       'email' => Faker::Internet.email,
       'phone' => Faker::PhoneNumber.phone_number,
-      'company' => Faker::Company.name
+      'company' => Faker::Company.name,
+      'createdAt' => Faker::Time.backward(days: 90).iso8601,
+      'updatedAt' => Faker::Time.backward(days: 30).iso8601
     }.merge(overrides.transform_keys(&:to_s))
   end
 

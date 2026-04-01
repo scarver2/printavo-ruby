@@ -38,7 +38,8 @@ module Factories
       'address' => Faker::Address.street_address,
       'city' => Faker::Address.city,
       'state' => Faker::Address.state_abbr,
-      'zip' => Faker::Address.zip_code
+      'zip' => Faker::Address.zip_code,
+      'country' => Faker::Address.country_code
     }.merge(overrides.transform_keys(&:to_s))
   end
 end

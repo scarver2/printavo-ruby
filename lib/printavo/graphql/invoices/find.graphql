@@ -1,6 +1,7 @@
 query Invoice($id: ID!) {
   invoice(id: $id) {
     id
+    visualId
     nickname
     total
     amountPaid
@@ -8,6 +9,8 @@ query Invoice($id: ID!) {
     paidInFull
     invoiceAt
     paymentDueAt
+    createdAt
+    updatedAt
     status {
       id
       name

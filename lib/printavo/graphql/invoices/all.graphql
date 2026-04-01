@@ -2,6 +2,7 @@ query Invoices($first: Int, $after: String) {
   invoices(first: $first, after: $after) {
     nodes {
       id
+      visualId
       nickname
       total
       amountPaid
@@ -9,6 +10,8 @@ query Invoices($first: Int, $after: String) {
       paidInFull
       invoiceAt
       paymentDueAt
+      createdAt
+      updatedAt
       status {
         id
         name

@@ -1,8 +1,11 @@
 query Order($id: ID!) {
   order(id: $id) {
     id
+    visualId
     nickname
     totalPrice
+    createdAt
+    updatedAt
     status {
       id
       name

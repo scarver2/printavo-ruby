@@ -2,8 +2,11 @@ query Orders($first: Int, $after: String) {
   orders(first: $first, after: $after) {
     nodes {
       id
+      visualId
       nickname
       totalPrice
+      createdAt
+      updatedAt
       status {
         id
         name

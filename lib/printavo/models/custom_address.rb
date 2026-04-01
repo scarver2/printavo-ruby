@@ -9,5 +9,6 @@ module Printavo
     def city    = self['city']
     def state   = self['state']
     def zip     = self['zip']
+    def country = self['country']
   end
 end
