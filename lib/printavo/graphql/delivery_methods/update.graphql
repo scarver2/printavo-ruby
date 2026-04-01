@@ -1,0 +1,6 @@
+mutation DeliveryMethodUpdate($id: ID!, $input: DeliveryMethodInput!) {
+  deliveryMethodUpdate(id: $id, input: $input) {
+    id
+    name
+  }
+}

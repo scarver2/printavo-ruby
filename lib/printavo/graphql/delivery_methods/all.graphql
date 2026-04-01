@@ -1,0 +1,12 @@
+query DeliveryMethods($first: Int, $after: String) {
+  deliveryMethods(first: $first, after: $after) {
+    nodes {
+      id
+      name
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

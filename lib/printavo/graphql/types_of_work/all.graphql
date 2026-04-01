@@ -1,0 +1,12 @@
+query TypesOfWork($first: Int, $after: String) {
+  typesOfWork(first: $first, after: $after) {
+    nodes {
+      id
+      name
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

@@ -1,0 +1,14 @@
+query Vendors($first: Int, $after: String) {
+  vendors(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      email
+      phone
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
