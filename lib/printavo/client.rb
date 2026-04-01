@@ -8,9 +8,11 @@ module Printavo
     # Creates a new Printavo API client. Each instance is independent —
     # multiple clients with different credentials can coexist in one process.
     #
-    # @param email   [String] the email address associated with your Printavo account
-    # @param token   [String] the API token from your Printavo My Account page
-    # @param timeout [Integer] HTTP timeout in seconds (default: 30)
+    # @param email               [String]  the email address associated with your Printavo account
+    # @param token               [String]  the API token from your Printavo My Account page
+    # @param timeout             [Integer] HTTP timeout in seconds (default: 30)
+    # @param max_retries         [Integer] max retry attempts on 5xx/429 responses (default: 2)
+    # @param retry_on_rate_limit [Boolean] retry automatically on 429 Too Many Requests (default: true)
     #
     # @example
     #   client = Printavo::Client.new(
@@ -20,9 +22,15 @@ module Printavo
     #   client.customers.all
     #   client.orders.find("12345")
     #   client.graphql.query("{ customers { nodes { id } } }")
-    def initialize(email:, token:, timeout: 30)
-      connection = Connection.new(email: email, token: token, timeout: timeout).build
-      @graphql   = GraphqlClient.new(connection)
+    def initialize(email:, token:, timeout: 30, max_retries: 2, retry_on_rate_limit: true)
+      connection = Connection.new(
+        email: email,
+        token: token,
+        timeout: timeout,
+        max_retries: max_retries,
+        retry_on_rate_limit: retry_on_rate_limit
+      ).build
+      @graphql = GraphqlClient.new(connection)
     end
 
     def account

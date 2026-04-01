@@ -374,12 +374,12 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Orders#delete` — `quoteDelete`
 - [x] `Orders#duplicate` — `quoteDuplicate`
 
-### v0.15.0 — Retry / Backoff & CLI
+### v0.15.0 — Retry / Backoff & CLI ✅
 
-- [ ] Configurable `max_retries` on `Printavo::Client`
-- [ ] Exponential backoff with jitter on 429 responses
-- [ ] `retry_on_rate_limit: true/false` client option
-- [ ] Thor-based `printavo` CLI (`customers`, `orders`, `orders find <id>`)
+- [x] Configurable `max_retries` on `Printavo::Client`
+- [x] Exponential backoff with jitter on 429 responses
+- [x] `retry_on_rate_limit: true/false` client option
+- [x] Thor-based `printavo` CLI (`customers`, `orders`, `orders find <id>`)
 
 ### v0.99.0 — API Freeze
 

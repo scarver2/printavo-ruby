@@ -20,6 +20,18 @@ RSpec.describe Printavo::Client do
       client_b = described_class.new(email: 'b@example.com', token: 'token_b')
       expect(client_a).not_to equal(client_b)
     end
+
+    it 'accepts a custom max_retries value' do
+      client = described_class.new(email: PRINTAVO_TEST_EMAIL, token: PRINTAVO_TEST_TOKEN,
+                                   max_retries: 5)
+      expect(client).to be_a(described_class)
+    end
+
+    it 'accepts retry_on_rate_limit: false' do
+      client = described_class.new(email: PRINTAVO_TEST_EMAIL, token: PRINTAVO_TEST_TOKEN,
+                                   retry_on_rate_limit: false)
+      expect(client).to be_a(described_class)
+    end
   end
 
   describe '#account' do
