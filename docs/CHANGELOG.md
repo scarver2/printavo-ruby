@@ -6,6 +6,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.0] - 2026-04-01
+
+### Added
+- `Printavo::Client` now accepts `max_retries:` (default: 2) and `retry_on_rate_limit:` (default: true)
+- `Printavo::Connection` — exponential backoff with ±50% jitter on retries (`backoff_factor: 2`,
+  `interval_randomness: 0.5`); retry statuses are `[500, 502, 503]` plus `429` when
+  `retry_on_rate_limit: true`
+- `Printavo::CLI` — Thor-based command-line interface:
+  - `printavo customers [--first N]` — list customers (tab-aligned output)
+  - `printavo orders [--first N]` — list orders (default subcommand)
+  - `printavo orders find ID` — find and display a single order
+  - Credentials read from `PRINTAVO_EMAIL` / `PRINTAVO_TOKEN` environment variables
+- `bin/printavo` executable (installed to PATH as `printavo`)
+- `thor ~> 1.0` added as a runtime dependency
+- `.graphql` files and `bin/` now included in `spec.files` (fixes missing graphql files in
+  published gem)
+
 ## [0.14.0] - 2026-04-01
 
 ### Added
