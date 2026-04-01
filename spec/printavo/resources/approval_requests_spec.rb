@@ -51,7 +51,7 @@ RSpec.describe Printavo::Resources::ApprovalRequests do
   end
 
   describe '#approve' do
-    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => 'approved') }
+    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => Printavo::Enums::ApprovalRequestStatus::APPROVED) }
 
     before do
       allow(graphql).to receive(:mutate)
@@ -60,11 +60,11 @@ RSpec.describe Printavo::Resources::ApprovalRequests do
     end
 
     it { expect(resource.approve('10')).to be_a(Printavo::ApprovalRequest) }
-    it { expect(resource.approve('10').status).to eq('approved') }
+    it { expect(resource.approve('10').status).to eq(Printavo::Enums::ApprovalRequestStatus::APPROVED) }
   end
 
   describe '#revoke' do
-    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => 'revoked') }
+    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => Printavo::Enums::ApprovalRequestStatus::REVOKED) }
 
     before do
       allow(graphql).to receive(:mutate)
@@ -73,11 +73,11 @@ RSpec.describe Printavo::Resources::ApprovalRequests do
     end
 
     it { expect(resource.revoke('10')).to be_a(Printavo::ApprovalRequest) }
-    it { expect(resource.revoke('10').status).to eq('revoked') }
+    it { expect(resource.revoke('10').status).to eq(Printavo::Enums::ApprovalRequestStatus::REVOKED) }
   end
 
   describe '#unapprove' do
-    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => 'pending') }
+    let(:ar_data) { fake_approval_request_attrs('id' => '10', 'status' => Printavo::Enums::ApprovalRequestStatus::PENDING) }
 
     before do
       allow(graphql).to receive(:mutate)
@@ -86,6 +86,6 @@ RSpec.describe Printavo::Resources::ApprovalRequests do
     end
 
     it { expect(resource.unapprove('10')).to be_a(Printavo::ApprovalRequest) }
-    it { expect(resource.unapprove('10').status).to eq('pending') }
+    it { expect(resource.unapprove('10').status).to eq(Printavo::Enums::ApprovalRequestStatus::PENDING) }
   end
 end

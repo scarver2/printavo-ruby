@@ -381,6 +381,27 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `retry_on_rate_limit: true/false` client option
 - [x] Thor-based `printavo` CLI (`customers`, `orders`, `orders find <id>`)
 
+### v0.16.0 — Enums ✅
+
+- [x] `Printavo::Enums::ApprovalRequestStatus`
+- [x] `Printavo::Enums::ContactSortField`
+- [x] `Printavo::Enums::LineItemSize`
+- [x] `Printavo::Enums::LineItemStatus`
+- [x] `Printavo::Enums::MerchOrderDeliveryMethod`
+- [x] `Printavo::Enums::MerchOrderStatus`
+- [x] `Printavo::Enums::MerchStoreStatus`
+- [x] `Printavo::Enums::MessageDeliveryStatus`
+- [x] `Printavo::Enums::OrderPaymentStatus`
+- [x] `Printavo::Enums::OrderSortField`
+- [x] `Printavo::Enums::PaymentDisputeStatusField`
+- [x] `Printavo::Enums::PaymentRequestStatus`
+- [x] `Printavo::Enums::PoGoodsStatus`
+- [x] `Printavo::Enums::StatusType`
+- [x] `Printavo::Enums::TaskSortField`
+- [x] `Printavo::Enums::TaskableType`
+- [x] `Printavo::Enums::TransactionCategory`
+- [x] `Printavo::Enums::TransactionSource`
+
 ### v0.99.0 — API Freeze
 
 - [ ] Community feedback integration
