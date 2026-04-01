@@ -1,0 +1,5 @@
+mutation QuoteDelete($id: ID!) {
+  quoteDelete(id: $id) {
+    id
+  }
+}

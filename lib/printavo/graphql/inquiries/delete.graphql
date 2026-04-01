@@ -1,0 +1,5 @@
+mutation InquiryDelete($id: ID!) {
+  inquiryDelete(id: $id) {
+    id
+  }
+}

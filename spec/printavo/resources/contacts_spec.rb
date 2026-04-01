@@ -80,4 +80,14 @@ RSpec.describe Printavo::Resources::Contacts do
         .with(anything, variables: hash_including(id: '123'))
     end
   end
+
+  describe '#delete' do
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DELETE_MUTATION, variables: { id: '123' })
+        .and_return('contactDelete' => { 'id' => '123' })
+    end
+
+    it { expect(resource.delete('123')).to be_nil }
+  end
 end

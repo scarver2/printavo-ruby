@@ -4,9 +4,10 @@
 module Printavo
   module Resources
     class Customers < Base
-      ALL_QUERY      = File.read(File.join(__dir__, '../graphql/customers/all.graphql')).freeze
-      FIND_QUERY     = File.read(File.join(__dir__, '../graphql/customers/find.graphql')).freeze
+      ALL_QUERY       = File.read(File.join(__dir__, '../graphql/customers/all.graphql')).freeze
+      FIND_QUERY      = File.read(File.join(__dir__, '../graphql/customers/find.graphql')).freeze
       CREATE_MUTATION = File.read(File.join(__dir__, '../graphql/customers/create.graphql')).freeze
+      DELETE_MUTATION = File.read(File.join(__dir__, '../graphql/customers/delete.graphql')).freeze
       UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/customers/update.graphql')).freeze
 
       def all(first: 25, after: nil)
@@ -46,6 +47,18 @@ module Printavo
         data = @graphql.mutate(UPDATE_MUTATION,
                                variables: { id: id.to_s, input: camelize_keys(input) })
         build_customer(data['customerUpdate'])
+      end
+
+      # Permanently deletes a customer by ID.
+      #
+      # @param id [String, Integer]
+      # @return [nil]
+      #
+      # @example
+      #   client.customers.delete("42")
+      def delete(id)
+        @graphql.mutate(DELETE_MUTATION, variables: { id: id.to_s })
+        nil
       end
 
       private

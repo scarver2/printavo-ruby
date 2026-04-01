@@ -6,6 +6,7 @@ module Printavo
     class Contacts < Base
       FIND_QUERY      = File.read(File.join(__dir__, '../graphql/contacts/find.graphql')).freeze
       CREATE_MUTATION = File.read(File.join(__dir__, '../graphql/contacts/create.graphql')).freeze
+      DELETE_MUTATION = File.read(File.join(__dir__, '../graphql/contacts/delete.graphql')).freeze
       UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/contacts/update.graphql')).freeze
 
       # Finds a contact by ID.
@@ -43,6 +44,18 @@ module Printavo
         data = @graphql.mutate(UPDATE_MUTATION,
                                variables: { id: id.to_s, input: camelize_keys(input) })
         Printavo::Contact.new(data['contactUpdate'])
+      end
+
+      # Permanently deletes a contact by ID.
+      #
+      # @param id [String, Integer]
+      # @return [nil]
+      #
+      # @example
+      #   client.contacts.delete("123")
+      def delete(id)
+        @graphql.mutate(DELETE_MUTATION, variables: { id: id.to_s })
+        nil
       end
     end
   end

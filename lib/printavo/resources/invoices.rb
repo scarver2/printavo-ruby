@@ -4,9 +4,11 @@
 module Printavo
   module Resources
     class Invoices < Base
-      ALL_QUERY       = File.read(File.join(__dir__, '../graphql/invoices/all.graphql')).freeze
-      FIND_QUERY      = File.read(File.join(__dir__, '../graphql/invoices/find.graphql')).freeze
-      UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/invoices/update.graphql')).freeze
+      ALL_QUERY            = File.read(File.join(__dir__, '../graphql/invoices/all.graphql')).freeze
+      FIND_QUERY           = File.read(File.join(__dir__, '../graphql/invoices/find.graphql')).freeze
+      DELETE_MUTATION      = File.read(File.join(__dir__, '../graphql/invoices/delete.graphql')).freeze
+      DUPLICATE_MUTATION   = File.read(File.join(__dir__, '../graphql/invoices/duplicate.graphql')).freeze
+      UPDATE_MUTATION      = File.read(File.join(__dir__, '../graphql/invoices/update.graphql')).freeze
 
       def all(first: 25, after: nil)
         fetch_page(first: first, after: after).records
@@ -36,6 +38,31 @@ module Printavo
         data = @graphql.mutate(UPDATE_MUTATION,
                                variables: { id: id.to_s, input: camelize_keys(input) })
         Printavo::Invoice.new(data['invoiceUpdate'])
+      end
+
+      # Permanently deletes an invoice by ID.
+      #
+      # @param id [String, Integer]
+      # @return [nil]
+      #
+      # @example
+      #   client.invoices.delete("456")
+      def delete(id)
+        @graphql.mutate(DELETE_MUTATION, variables: { id: id.to_s })
+        nil
+      end
+
+      # Duplicates an invoice, returning a new invoice pre-populated with the
+      # same line items, customer, and settings as the original.
+      #
+      # @param id [String, Integer]
+      # @return [Printavo::Invoice]
+      #
+      # @example
+      #   client.invoices.duplicate("456")
+      def duplicate(id)
+        data = @graphql.mutate(DUPLICATE_MUTATION, variables: { id: id.to_s })
+        Printavo::Invoice.new(data['invoiceDuplicate'])
       end
 
       private

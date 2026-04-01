@@ -52,13 +52,13 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] `Inquiries#update(id, **input)` — `inquiryUpdate`
 - [x] `camelize_keys` — snake_case → camelCase input conversion
 - [x] `build_customer` / `build_order` — mutation response normalization helpers
-- [ ] `Contacts#delete(id)` — `contactDelete`
-- [ ] `Customers#delete(id)` — `customerDelete`
-- [ ] `Inquiries#delete(id)` — `inquiryDelete`
-- [ ] `Invoices#delete(id)` — `invoiceDelete`
-- [ ] `Invoices#duplicate(id)` — `invoiceDuplicate`
-- [ ] `Orders#delete(id)` — `quoteDelete`
-- [ ] `Orders#duplicate(id)` — `quoteDuplicate`
+- [x] `Contacts#delete(id)` — `contactDelete`
+- [x] `Customers#delete(id)` — `customerDelete`
+- [x] `Inquiries#delete(id)` — `inquiryDelete`
+- [x] `Invoices#delete(id)` — `invoiceDelete`
+- [x] `Invoices#duplicate(id)` — `invoiceDuplicate`
+- [x] `Orders#delete(id)` — `quoteDelete`
+- [x] `Orders#duplicate(id)` — `quoteDuplicate`
 
 ---
 
@@ -364,15 +364,15 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `DeliveryMethods` resource (`all`, `find`, `create`, `update`, `archive`)
 - [x] `TypesOfWork` resource (`all`)
 
-### v0.14.0 — Delete & Duplicate Mutations for Shipped Resources
+### v0.14.0 — Delete & Duplicate Mutations for Shipped Resources ✅
 
-- [ ] `Contacts#delete` — `contactDelete`
-- [ ] `Customers#delete` — `customerDelete`
-- [ ] `Inquiries#delete` — `inquiryDelete`
-- [ ] `Invoices#delete` — `invoiceDelete`
-- [ ] `Invoices#duplicate` — `invoiceDuplicate`
-- [ ] `Orders#delete` — `quoteDelete`
-- [ ] `Orders#duplicate` — `quoteDuplicate`
+- [x] `Contacts#delete` — `contactDelete`
+- [x] `Customers#delete` — `customerDelete`
+- [x] `Inquiries#delete` — `inquiryDelete`
+- [x] `Invoices#delete` — `invoiceDelete`
+- [x] `Invoices#duplicate` — `invoiceDuplicate`
+- [x] `Orders#delete` — `quoteDelete`
+- [x] `Orders#duplicate` — `quoteDuplicate`
 
 ### v0.15.0 — Retry / Backoff & CLI
 

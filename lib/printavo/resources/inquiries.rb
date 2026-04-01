@@ -7,6 +7,7 @@ module Printavo
       ALL_QUERY       = File.read(File.join(__dir__, '../graphql/inquiries/all.graphql')).freeze
       FIND_QUERY      = File.read(File.join(__dir__, '../graphql/inquiries/find.graphql')).freeze
       CREATE_MUTATION = File.read(File.join(__dir__, '../graphql/inquiries/create.graphql')).freeze
+      DELETE_MUTATION = File.read(File.join(__dir__, '../graphql/inquiries/delete.graphql')).freeze
       UPDATE_MUTATION = File.read(File.join(__dir__, '../graphql/inquiries/update.graphql')).freeze
 
       def all(first: 25, after: nil)
@@ -41,6 +42,18 @@ module Printavo
         data = @graphql.mutate(UPDATE_MUTATION,
                                variables: { id: id.to_s, input: input })
         Printavo::Inquiry.new(data['inquiryUpdate'])
+      end
+
+      # Permanently deletes an inquiry by ID.
+      #
+      # @param id [String, Integer]
+      # @return [nil]
+      #
+      # @example
+      #   client.inquiries.delete("55")
+      def delete(id)
+        @graphql.mutate(DELETE_MUTATION, variables: { id: id.to_s })
+        nil
       end
 
       private
