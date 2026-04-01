@@ -1,0 +1,8 @@
+query EmailTemplate($id: ID!) {
+  emailTemplate(id: $id) {
+    id
+    name
+    subject
+    body
+  }
+}

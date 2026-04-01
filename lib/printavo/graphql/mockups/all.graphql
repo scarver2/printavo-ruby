@@ -1,0 +1,16 @@
+query Mockups($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    mockups(first: $first, after: $after) {
+      nodes {
+        id
+        url
+        position
+        createdAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

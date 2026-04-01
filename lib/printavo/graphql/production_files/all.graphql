@@ -1,0 +1,16 @@
+query ProductionFiles($orderId: ID!, $first: Int, $after: String) {
+  order(id: $orderId) {
+    productionFiles(first: $first, after: $after) {
+      nodes {
+        id
+        url
+        filename
+        createdAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

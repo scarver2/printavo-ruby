@@ -1,0 +1,5 @@
+mutation CustomAddressDeletes($ids: [ID!]!) {
+  customAddressDeletes(ids: $ids) {
+    id
+  }
+}

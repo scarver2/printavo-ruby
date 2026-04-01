@@ -1,0 +1,10 @@
+mutation CustomAddressUpdates($inputs: [CustomAddressUpdateInput!]!) {
+  customAddressUpdates(inputs: $inputs) {
+    id
+    name
+    address
+    city
+    state
+    zip
+  }
+}

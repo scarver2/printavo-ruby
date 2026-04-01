@@ -41,8 +41,16 @@ module Printavo
       Resources::Contacts.new(@graphql)
     end
 
+    def custom_addresses
+      Resources::CustomAddresses.new(@graphql)
+    end
+
     def customers
       Resources::Customers.new(@graphql)
+    end
+
+    def email_templates
+      Resources::EmailTemplates.new(@graphql)
     end
 
     def expenses
@@ -97,6 +105,10 @@ module Printavo
       Resources::MerchStores.new(@graphql)
     end
 
+    def mockups
+      Resources::Mockups.new(@graphql)
+    end
+
     def orders
       Resources::Orders.new(@graphql)
     end
@@ -123,6 +135,10 @@ module Printavo
 
     def pricing_matrices
       Resources::PricingMatrices.new(@graphql)
+    end
+
+    def production_files
+      Resources::ProductionFiles.new(@graphql)
     end
 
     def products

@@ -1,0 +1,8 @@
+query ProductionFile($id: ID!) {
+  productionFile(id: $id) {
+    id
+    url
+    filename
+    createdAt
+  }
+}

@@ -1,0 +1,10 @@
+query CustomAddress($id: ID!) {
+  customAddress(id: $id) {
+    id
+    name
+    address
+    city
+    state
+    zip
+  }
+}

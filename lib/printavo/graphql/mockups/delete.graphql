@@ -1,0 +1,5 @@
+mutation MockupDelete($id: ID!) {
+  mockupDelete(id: $id) {
+    id
+  }
+}

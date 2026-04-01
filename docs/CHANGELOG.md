@@ -6,6 +6,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0] - 2026-03-31
+
+### Added
+- `Printavo::ProductionFile` model (`id`, `url`, `filename`, `created_at`)
+- `ProductionFiles` resource: `all(order_id:)`, `find(id)`, `create(**input)` / `creates(inputs)`,
+  `delete(id)` / `deletes(ids)`
+- `Printavo::Mockup` model (`id`, `url`, `position`, `created_at`)
+- `Mockups` resource: `all(order_id:)`, `find(id)`, `delete(id)` / `deletes(ids)` — no create (mockups are
+  attached via `LineItems#mockup_create` and `Imprints#mockup_create`)
+- `Printavo::EmailTemplate` model (`id`, `name`, `subject`, `body`)
+- `EmailTemplates` resource: `all`, `find(id)` — read-only
+- `Printavo::CustomAddress` model (`id`, `name`, `address`, `city`, `state`, `zip`)
+- `CustomAddresses` resource: `all(order_id:)`, `find(id)`, `create(**input)` / `creates(inputs)`,
+  `update(id, **input)` / `updates(inputs)`, `delete(id)` / `deletes(ids)`
+- `client.custom_addresses`, `client.email_templates`, `client.mockups`, `client.production_files`
+  entry points on `Printavo::Client`
+- 20 new `.graphql` files under `lib/printavo/graphql/`
+- 1 new factory file: `spec/support/factories/media.rb`
+
 ## [0.11.0] - 2026-03-31
 
 ### Added
