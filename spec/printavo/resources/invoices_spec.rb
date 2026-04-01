@@ -127,4 +127,32 @@ RSpec.describe Printavo::Resources::Invoices do
         .with(anything, variables: { id: '456', input: hash_including('paymentDueAt' => '2026-05-01') })
     end
   end
+
+  describe '#delete' do
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DELETE_MUTATION, variables: { id: '456' })
+        .and_return('invoiceDelete' => { 'id' => '456' })
+    end
+
+    it { expect(resource.delete('456')).to be_nil }
+  end
+
+  describe '#duplicate' do
+    let(:invoice_data) { fake_invoice_attrs('id' => '789') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DUPLICATE_MUTATION, variables: { id: '456' })
+        .and_return('invoiceDuplicate' => invoice_data)
+    end
+
+    it 'returns a new Invoice' do
+      expect(resource.duplicate('456')).to be_a(Printavo::Invoice)
+    end
+
+    it 'maps the new invoice id' do
+      expect(resource.duplicate('456').id).to eq('789')
+    end
+  end
 end

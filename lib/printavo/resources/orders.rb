@@ -8,6 +8,8 @@ module Printavo
       FIND_QUERY     = File.read(File.join(__dir__, '../graphql/orders/find.graphql')).freeze
       # Printavo creates orders as quotes first; the mutation is quoteCreate.
       CREATE_MUTATION        = File.read(File.join(__dir__, '../graphql/orders/create.graphql')).freeze
+      DELETE_MUTATION        = File.read(File.join(__dir__, '../graphql/orders/delete.graphql')).freeze
+      DUPLICATE_MUTATION     = File.read(File.join(__dir__, '../graphql/orders/duplicate.graphql')).freeze
       UPDATE_MUTATION        = File.read(File.join(__dir__, '../graphql/orders/update.graphql')).freeze
       # statusUpdate returns an OrderUnion (Quote | Invoice) — requires fragments.
       UPDATE_STATUS_MUTATION = File.read(File.join(__dir__, '../graphql/orders/update_status.graphql')).freeze
@@ -63,6 +65,31 @@ module Printavo
         data = @graphql.mutate(UPDATE_STATUS_MUTATION,
                                variables: { parentId: id.to_s, statusId: status_id.to_s })
         build_order(data['statusUpdate'])
+      end
+
+      # Permanently deletes an order (quote) by ID.
+      #
+      # @param id [String, Integer]
+      # @return [nil]
+      #
+      # @example
+      #   client.orders.delete("99")
+      def delete(id)
+        @graphql.mutate(DELETE_MUTATION, variables: { id: id.to_s })
+        nil
+      end
+
+      # Duplicates an order (quote), returning a new quote pre-populated with
+      # the same line items, customer, and settings as the original.
+      #
+      # @param id [String, Integer]
+      # @return [Printavo::Order]
+      #
+      # @example
+      #   client.orders.duplicate("99")
+      def duplicate(id)
+        data = @graphql.mutate(DUPLICATE_MUTATION, variables: { id: id.to_s })
+        build_order(data['quoteDuplicate'])
       end
 
       private

@@ -215,4 +215,14 @@ RSpec.describe Printavo::Resources::Customers do
       expect(customer.id).to eq('42')
     end
   end
+
+  describe '#delete' do
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DELETE_MUTATION, variables: { id: '42' })
+        .and_return('customerDelete' => { 'id' => '42' })
+    end
+
+    it { expect(resource.delete('42')).to be_nil }
+  end
 end

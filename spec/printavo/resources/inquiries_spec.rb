@@ -159,4 +159,14 @@ RSpec.describe Printavo::Resources::Inquiries do
         .with(anything, variables: { id: '55' })
     end
   end
+
+  describe '#delete' do
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DELETE_MUTATION, variables: { id: '55' })
+        .and_return('inquiryDelete' => { 'id' => '55' })
+    end
+
+    it { expect(resource.delete('55')).to be_nil }
+  end
 end

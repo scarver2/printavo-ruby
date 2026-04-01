@@ -6,6 +6,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.0] - 2026-04-01
+
+### Added
+- `Contacts#delete(id)` — `contactDelete` mutation
+- `Customers#delete(id)` — `customerDelete` mutation
+- `Inquiries#delete(id)` — `inquiryDelete` mutation
+- `Invoices#delete(id)` — `invoiceDelete` mutation
+- `Invoices#duplicate(id)` — `invoiceDuplicate` mutation; returns a new `Printavo::Invoice`
+- `Orders#delete(id)` — `quoteDelete` mutation
+- `Orders#duplicate(id)` — `quoteDuplicate` mutation; returns a new `Printavo::Order`
+- 7 new `.graphql` files under `lib/printavo/graphql/`
+
 ## [0.13.0] - 2026-03-31
 
 ### Added

@@ -180,4 +180,37 @@ RSpec.describe Printavo::Resources::Orders do
       expect(order.status?(:completed)).to     be false
     end
   end
+
+  describe '#delete' do
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DELETE_MUTATION, variables: { id: '99' })
+        .and_return('quoteDelete' => { 'id' => '99' })
+    end
+
+    it { expect(resource.delete('99')).to be_nil }
+  end
+
+  describe '#duplicate' do
+    let(:mutation_response) { fake_order_mutation_response('id' => '200') }
+
+    before do
+      allow(graphql).to receive(:mutate)
+        .with(described_class::DUPLICATE_MUTATION, variables: { id: '99' })
+        .and_return('quoteDuplicate' => mutation_response)
+    end
+
+    it 'returns a new Order' do
+      expect(resource.duplicate('99')).to be_a(Printavo::Order)
+    end
+
+    it 'maps the new order id' do
+      expect(resource.duplicate('99').id).to eq('200')
+    end
+
+    it 'normalizes total to totalPrice' do
+      order = resource.duplicate('99')
+      expect(order.total_price).to eq(mutation_response['total'])
+    end
+  end
 end

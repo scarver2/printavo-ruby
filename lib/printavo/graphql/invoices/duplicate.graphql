@@ -1,0 +1,27 @@
+mutation InvoiceDuplicate($id: ID!) {
+  invoiceDuplicate(id: $id) {
+    id
+    visualId
+    nickname
+    productionNote
+    dueAt
+    customerDueAt
+    totalPrice
+    amountPaid
+    amountOutstanding
+    paidInFull
+    contact {
+      id
+      firstName
+      lastName
+      email
+    }
+    status {
+      id
+      name
+      color
+    }
+    createdAt
+    updatedAt
+  }
+}
