@@ -6,6 +6,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.16.0] - 2026-04-01
+
+### Added
+- `Printavo::Enums` namespace — 18 enum modules covering every GraphQL enum in the
+  Printavo V2 schema (excluding `__DirectiveLocation` and `__TypeKind`, which are
+  GraphQL introspection internals):
+  - `ApprovalRequestStatus` — APPROVED, PENDING, REVOKED, UNAPPROVED
+  - `ContactSortField` — CREATED_AT, EMAIL, FIRST_NAME, LAST_NAME, UPDATED_AT
+  - `LineItemSize` — full garment size set (XS–6XL, youth, toddler, infant, OS, NONE)
+  - `LineItemStatus` — ACTIVE, CANCELLED
+  - `MerchOrderDeliveryMethod` — LOCAL_DELIVERY, PICKUP, SHIP
+  - `MerchOrderStatus` — CANCELLED, COMPLETE, PENDING, PROCESSING
+  - `MerchStoreStatus` — ACTIVE, ARCHIVED, CLOSED
+  - `MessageDeliveryStatus` — BOUNCED, DELIVERED, FAILED, PENDING, SENT
+  - `OrderPaymentStatus` — PAID, PARTIAL, UNPAID
+  - `OrderSortField` — CREATED_AT, CUSTOMER_DUE_AT, DUE_AT, UPDATED_AT, VISUAL_ID
+  - `PaymentDisputeStatusField` — LOST, NEEDS_RESPONSE, RESOLVED, UNDER_REVIEW, WON
+  - `PaymentRequestStatus` — CANCELLED, PAID, SENT
+  - `PoGoodsStatus` — CANCELLED, PARTIAL, PENDING, RECEIVED
+  - `StatusType` — INVOICE, QUOTE
+  - `TaskSortField` — BODY, CREATED_AT, DUE_AT, UPDATED_AT
+  - `TaskableType` — INVOICE, QUOTE
+  - `TransactionCategory` — PAYMENT, REFUND
+  - `TransactionSource` — CARD, CASH, CHECK, MANUAL, ONLINE
+- Each enum exposes an `ALL` frozen array of all values
+- Shared RSpec example `'a Printavo enum'` validates structure across all 18 modules
+
+### Notes
+- Enum values are the best-effort representation of the Printavo V2 schema at time of
+  release. Values that differ from the live schema should be reported as patch issues.
+
 ## [0.15.0] - 2026-04-01
 
 ### Added

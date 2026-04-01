@@ -1,0 +1,21 @@
+# lib/printavo/enums.rb
+# frozen_string_literal: true
+
+require_relative 'enums/approval_request_status'
+require_relative 'enums/contact_sort_field'
+require_relative 'enums/line_item_size'
+require_relative 'enums/line_item_status'
+require_relative 'enums/merch_order_delivery_method'
+require_relative 'enums/merch_order_status'
+require_relative 'enums/merch_store_status'
+require_relative 'enums/message_delivery_status'
+require_relative 'enums/order_payment_status'
+require_relative 'enums/order_sort_field'
+require_relative 'enums/payment_dispute_status_field'
+require_relative 'enums/payment_request_status'
+require_relative 'enums/po_goods_status'
+require_relative 'enums/status_type'
+require_relative 'enums/task_sort_field'
+require_relative 'enums/taskable_type'
+require_relative 'enums/transaction_category'
+require_relative 'enums/transaction_source'
