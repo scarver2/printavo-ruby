@@ -5,13 +5,10 @@ module Printavo
   module Enums
     # How a +Transaction+ was initiated or processed.
     module TransactionSource
-      CARD   = 'CARD'
-      CASH   = 'CASH'
-      CHECK  = 'CHECK'
-      MANUAL = 'MANUAL'
-      ONLINE = 'ONLINE'
+      MANUAL    = 'MANUAL'
+      PROCESSOR = 'PROCESSOR'
 
-      ALL = [CARD, CASH, CHECK, MANUAL, ONLINE].freeze
+      ALL = [MANUAL, PROCESSOR].freeze
     end
   end
 end

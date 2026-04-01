@@ -17,9 +17,10 @@ module Factories
   def fake_merch_order_attrs(overrides = {})
     {
       'id' => Faker::Number.number(digits: 6).to_s,
-      'status' => %w[pending processing shipped].sample,
+      'status' => Printavo::Enums::MerchOrderStatus::ALL.sample,
       'contact' => fake_contact_attrs,
-      'delivery' => { 'method' => 'ship', 'trackingNumber' => nil, 'shippedAt' => nil }
+      'delivery' => { 'method' => Printavo::Enums::MerchOrderDeliveryMethod::DELIVERY,
+                      'trackingNumber' => nil, 'shippedAt' => nil }
     }.merge(overrides.transform_keys(&:to_s))
   end
 end

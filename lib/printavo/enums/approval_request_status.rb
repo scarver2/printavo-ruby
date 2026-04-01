@@ -6,11 +6,12 @@ module Printavo
     # Possible values for the +ApprovalRequest+ status field.
     module ApprovalRequestStatus
       APPROVED   = 'approved'
+      DECLINED   = 'declined'
       PENDING    = 'pending'
       REVOKED    = 'revoked'
       UNAPPROVED = 'unapproved'
 
-      ALL = [APPROVED, PENDING, REVOKED, UNAPPROVED].freeze
+      ALL = [APPROVED, DECLINED, PENDING, REVOKED, UNAPPROVED].freeze
     end
   end
 end

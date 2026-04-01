@@ -6,12 +6,18 @@ module Printavo
     # Delivery status for an email or text message sent via a +Thread+.
     module MessageDeliveryStatus
       BOUNCED   = 'BOUNCED'
+      CLICKED   = 'CLICKED'
       DELIVERED = 'DELIVERED'
-      FAILED    = 'FAILED'
+      ERROR     = 'ERROR'
+      LINKED    = 'LINKED'
+      OPENED    = 'OPENED'
+      OTHER     = 'OTHER'
+      PAY_FOR   = 'PAY_FOR'
       PENDING   = 'PENDING'
+      REJECTED  = 'REJECTED'
       SENT      = 'SENT'
 
-      ALL = [BOUNCED, DELIVERED, FAILED, PENDING, SENT].freeze
+      ALL = [BOUNCED, CLICKED, DELIVERED, ERROR, LINKED, OPENED, OTHER, PAY_FOR, PENDING, REJECTED, SENT].freeze
     end
   end
 end

@@ -3,14 +3,12 @@
 
 module Printavo
   module Enums
-    # Lifecycle status of a +MerchOrder+.
+    # Fulfillment status of a +MerchOrder+.
     module MerchOrderStatus
-      CANCELLED  = 'CANCELLED'
-      COMPLETE   = 'COMPLETE'
-      PENDING    = 'PENDING'
-      PROCESSING = 'PROCESSING'
+      FULFILLED   = 'FULFILLED'
+      UNFULFILLED = 'UNFULFILLED'
 
-      ALL = [CANCELLED, COMPLETE, PENDING, PROCESSING].freeze
+      ALL = [FULFILLED, UNFULFILLED].freeze
     end
   end
 end

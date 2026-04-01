@@ -5,12 +5,13 @@ module Printavo
   module Enums
     # Receipt status of goods on a purchase order.
     module PoGoodsStatus
-      CANCELLED = 'CANCELLED'
-      PARTIAL   = 'PARTIAL'
-      PENDING   = 'PENDING'
-      RECEIVED  = 'RECEIVED'
+      ARRIVED            = 'arrived'
+      NOT_ORDERED        = 'not_ordered'
+      ORDERED            = 'ordered'
+      PARTIALLY_RECEIVED = 'partially_received'
+      RECEIVED           = 'received'
 
-      ALL = [CANCELLED, PARTIAL, PENDING, RECEIVED].freeze
+      ALL = [ARRIVED, NOT_ORDERED, ORDERED, PARTIALLY_RECEIVED, RECEIVED].freeze
     end
   end
 end

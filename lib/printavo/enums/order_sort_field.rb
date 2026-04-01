@@ -5,13 +5,14 @@ module Printavo
   module Enums
     # Fields by which an order or invoice list can be sorted.
     module OrderSortField
-      CREATED_AT       = 'CREATED_AT'
-      CUSTOMER_DUE_AT  = 'CUSTOMER_DUE_AT'
-      DUE_AT           = 'DUE_AT'
-      UPDATED_AT       = 'UPDATED_AT'
-      VISUAL_ID        = 'VISUAL_ID'
+      CUSTOMER_DUE_AT = 'CUSTOMER_DUE_AT'
+      CUSTOMER_NAME   = 'CUSTOMER_NAME'
+      OWNER           = 'OWNER'
+      STATUS          = 'STATUS'
+      TOTAL           = 'TOTAL'
+      VISUAL_ID       = 'VISUAL_ID'
 
-      ALL = [CREATED_AT, CUSTOMER_DUE_AT, DUE_AT, UPDATED_AT, VISUAL_ID].freeze
+      ALL = [CUSTOMER_DUE_AT, CUSTOMER_NAME, OWNER, STATUS, TOTAL, VISUAL_ID].freeze
     end
   end
 end

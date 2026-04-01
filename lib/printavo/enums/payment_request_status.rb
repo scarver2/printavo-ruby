@@ -5,11 +5,11 @@ module Printavo
   module Enums
     # Lifecycle status of a +PaymentRequest+.
     module PaymentRequestStatus
-      CANCELLED = 'CANCELLED'
-      PAID      = 'PAID'
-      SENT      = 'SENT'
+      ARCHIVED = 'ARCHIVED'
+      CLOSED   = 'CLOSED'
+      OPEN     = 'OPEN'
 
-      ALL = [CANCELLED, PAID, SENT].freeze
+      ALL = [ARCHIVED, CLOSED, OPEN].freeze
     end
   end
 end

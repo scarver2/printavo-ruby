@@ -3,12 +3,16 @@
 
 module Printavo
   module Enums
-    # Category (direction) of a financial +Transaction+.
+    # Payment method category for a +Transaction+.
     module TransactionCategory
-      PAYMENT = 'PAYMENT'
-      REFUND  = 'REFUND'
+      BANK_TRANSFER = 'BANK_TRANSFER'
+      CASH          = 'CASH'
+      CHECK         = 'CHECK'
+      CREDIT_CARD   = 'CREDIT_CARD'
+      ECHECK        = 'ECHECK'
+      OTHER         = 'OTHER'
 
-      ALL = [PAYMENT, REFUND].freeze
+      ALL = [BANK_TRANSFER, CASH, CHECK, CREDIT_CARD, ECHECK, OTHER].freeze
     end
   end
 end

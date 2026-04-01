@@ -5,11 +5,10 @@ module Printavo
   module Enums
     # How a merch order will be fulfilled and delivered to the buyer.
     module MerchOrderDeliveryMethod
-      LOCAL_DELIVERY = 'LOCAL_DELIVERY'
-      PICKUP         = 'PICKUP'
-      SHIP           = 'SHIP'
+      DELIVERY = 'DELIVERY'
+      PICKUP   = 'PICKUP'
 
-      ALL = [LOCAL_DELIVERY, PICKUP, SHIP].freeze
+      ALL = [DELIVERY, PICKUP].freeze
     end
   end
 end

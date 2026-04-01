@@ -5,11 +5,10 @@ module Printavo
   module Enums
     # Publication status of a +MerchStore+.
     module MerchStoreStatus
-      ACTIVE   = 'ACTIVE'
-      ARCHIVED = 'ARCHIVED'
-      CLOSED   = 'CLOSED'
+      CLOSED = 'CLOSED'
+      LIVE   = 'LIVE'
 
-      ALL = [ACTIVE, ARCHIVED, CLOSED].freeze
+      ALL = [CLOSED, LIVE].freeze
     end
   end
 end

@@ -3,12 +3,17 @@
 
 module Printavo
   module Enums
-    # Possible status values for a +LineItem+.
+    # Inventory / fulfillment status of a +LineItem+.
     module LineItemStatus
-      ACTIVE    = 'ACTIVE'
-      CANCELLED = 'CANCELLED'
+      ARRIVED            = 'arrived'
+      ATTACHED_TO_PO     = 'attached_to_po'
+      IN                 = 'in'
+      NEED_ORDERING      = 'need_ordering'
+      ORDERED            = 'ordered'
+      PARTIALLY_RECEIVED = 'partially_received'
+      RECEIVED           = 'received'
 
-      ALL = [ACTIVE, CANCELLED].freeze
+      ALL = [ARRIVED, ATTACHED_TO_PO, IN, NEED_ORDERING, ORDERED, PARTIALLY_RECEIVED, RECEIVED].freeze
     end
   end
 end

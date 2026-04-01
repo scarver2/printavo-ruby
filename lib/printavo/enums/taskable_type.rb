@@ -3,12 +3,13 @@
 
 module Printavo
   module Enums
-    # Order types to which a +Task+ can be attached.
+    # Record types to which a +Task+ can be attached.
     module TaskableType
-      INVOICE = 'INVOICE'
-      QUOTE   = 'QUOTE'
+      CUSTOMER = 'CUSTOMER'
+      INVOICE  = 'INVOICE'
+      QUOTE    = 'QUOTE'
 
-      ALL = [INVOICE, QUOTE].freeze
+      ALL = [CUSTOMER, INVOICE, QUOTE].freeze
     end
   end
 end

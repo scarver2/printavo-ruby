@@ -5,13 +5,13 @@ module Printavo
   module Enums
     # Status of a payment dispute (chargeback).
     module PaymentDisputeStatusField
-      LOST           = 'LOST'
-      NEEDS_RESPONSE = 'NEEDS_RESPONSE'
-      RESOLVED       = 'RESOLVED'
-      UNDER_REVIEW   = 'UNDER_REVIEW'
-      WON            = 'WON'
+      DISPUTE_INITIATED = 'DISPUTE_INITIATED'
+      DISPUTE_IN_REVIEW = 'DISPUTE_IN_REVIEW'
+      DISPUTE_LOST      = 'DISPUTE_LOST'
+      DISPUTE_WON       = 'DISPUTE_WON'
+      RETRIEVAL_REQUEST = 'RETRIEVAL_REQUEST'
 
-      ALL = [LOST, NEEDS_RESPONSE, RESOLVED, UNDER_REVIEW, WON].freeze
+      ALL = [DISPUTE_INITIATED, DISPUTE_IN_REVIEW, DISPUTE_LOST, DISPUTE_WON, RETRIEVAL_REQUEST].freeze
     end
   end
 end
