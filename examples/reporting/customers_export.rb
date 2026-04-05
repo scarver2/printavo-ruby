@@ -5,13 +5,17 @@
 # ==================================
 # Pages through all Printavo customers and exports to seven formats:
 #
-#   customers.csv          — Universal CSV (Ruby stdlib, no gem required)
-#   customers.xlsx         — Excel workbook (requires: gem install caxlsx)
-#   customers.xls          — Legacy Excel 97–2003 (requires: gem install spreadsheet)
-#   customers.vcf          — vCard 3.0 — imports into any CRM, email client, or phone
-#   customers_hubspot.csv  — HubSpot Contacts import CSV
-#   customers_salesforce.csv — Salesforce Leads/Contacts import CSV
-#   customers_mailchimp.csv  — Mailchimp audience import CSV
+#   customers.csv                 — Universal CSV (Ruby stdlib, no gem required)
+#   customers.vcf                 — vCard 3.0 — imports into any CRM, email client, or phone
+#   customers_hubspot.csv         — HubSpot Contacts import CSV
+#   customers_salesforce.csv      — Salesforce Leads/Contacts import CSV
+#   customers_mailchimp.csv       — Mailchimp audience import CSV
+#   customers_constantcontact.csv — Constant Contact contact import CSV
+#   customers_beehiiv.csv         — Beehiiv subscriber import CSV
+#   customers_brevo.csv           — Brevo (formerly Sendinblue) contact import CSV
+#   customers_activecampaign.csv  — ActiveCampaign contact import CSV
+#   customers.xlsx                — Excel workbook (requires: gem install caxlsx)
+#   customers.xls                 — Legacy Excel 97–2003 (requires: gem install spreadsheet)
 #
 # All files are written to the directory where this script is run.
 #
@@ -199,16 +203,99 @@ def export_mailchimp(customers, path)
   end
 end
 
+# ── Constant Contact CSV ──────────────────────────────────────────────────────
+#
+# Constant Contact contact import format.
+# Reference: Constant Contact → Contacts → Import → Download a sample file
+#
+# After export: Contacts → Import → Upload file → map columns as prompted.
+# Tip: create a list named "Printavo Customers" before importing so contacts
+# land in a named segment automatically.
+
+def export_constant_contact(customers, path)
+  CSV.open(path, 'w') do |csv|
+    csv << ['Email Address', 'First Name', 'Last Name', 'Company Name',
+            'Phone', 'Anniversary', 'Job Title', 'Note']
+    customers.each do |c|
+      csv << [c.email, c.first_name, c.last_name, c.company,
+              c.phone, '', '', "Printavo customer — ID #{c.id}"]
+    end
+  end
+end
+
+# ── Beehiiv CSV ───────────────────────────────────────────────────────────────
+#
+# Beehiiv subscriber import. Beehiiv is a newsletter platform; only email and
+# optional name fields are required. Custom fields map to your publication's
+# subscriber attributes if configured.
+#
+# Reference: Beehiiv → Audience → Import subscribers → Download template
+#
+# After export: Audience → Import → Upload CSV → confirm field mapping.
+
+def export_beehiiv(customers, path)
+  CSV.open(path, 'w') do |csv|
+    csv << %w[email name utm_source utm_medium utm_campaign]
+    customers.each do |c|
+      csv << [c.email, c.full_name, 'printavo', 'crm-export', 'customer-import']
+    end
+  end
+end
+
+# ── Brevo CSV (formerly Sendinblue) ───────────────────────────────────────────
+#
+# Brevo contact import. Column headers must match Brevo attribute names exactly.
+# Built-in attributes: EMAIL, FIRSTNAME, LASTNAME, SMS, COMPANY.
+# Create additional attributes in Brevo → Contacts → Settings → Attributes
+# before importing if you need custom fields.
+#
+# Reference: https://help.brevo.com/hc/en-us/articles/209499605
+#
+# After export: Contacts → Import contacts → Upload CSV → map attributes.
+
+def export_brevo(customers, path)
+  CSV.open(path, 'w') do |csv|
+    csv << %w[EMAIL FIRSTNAME LASTNAME SMS COMPANY PRINTAVO_ID]
+    customers.each do |c|
+      csv << [c.email, c.first_name, c.last_name, c.phone, c.company, c.id]
+    end
+  end
+end
+
+# ── ActiveCampaign CSV ────────────────────────────────────────────────────────
+#
+# ActiveCampaign contact import. Standard columns are recognized automatically;
+# anything beyond them maps to custom fields you define in ActiveCampaign.
+# Optionally include a Tags column (comma-separated) to auto-tag on import.
+#
+# Reference: https://help.activecampaign.com/hc/en-us/articles/207330797
+#
+# After export: Contacts → Import → Import from file → upload CSV.
+
+def export_activecampaign(customers, path)
+  CSV.open(path, 'w') do |csv|
+    csv << ['Email', 'First Name', 'Last Name', 'Phone', 'Organization', 'Tags']
+    customers.each do |c|
+      csv << [c.email, c.first_name, c.last_name, c.phone, c.company,
+              'printavo-customer']
+    end
+  end
+end
+
 # ── Run All Exports ───────────────────────────────────────────────────────────
 
 exports = [
-  ['customers.csv',              'CSV (Universal)',        method(:export_csv)],
-  ['customers.vcf',              'vCard 3.0',              method(:export_vcf)],
-  ['customers_hubspot.csv',      'HubSpot CSV',            method(:export_hubspot)],
-  ['customers_salesforce.csv',   'Salesforce CSV',         method(:export_salesforce)],
-  ['customers_mailchimp.csv',    'Mailchimp CSV',          method(:export_mailchimp)],
-  ['customers.xlsx',             'XLSX  (gem: caxlsx)',    method(:export_xlsx)],
-  ['customers.xls',              'XLS   (gem: spreadsheet)', method(:export_xls)]
+  ['customers.csv',                  'CSV (Universal)',             method(:export_csv)],
+  ['customers.vcf',                  'vCard 3.0',                  method(:export_vcf)],
+  ['customers_hubspot.csv',          'HubSpot CSV',                method(:export_hubspot)],
+  ['customers_salesforce.csv',       'Salesforce CSV',             method(:export_salesforce)],
+  ['customers_mailchimp.csv',        'Mailchimp CSV',              method(:export_mailchimp)],
+  ['customers_constantcontact.csv',  'Constant Contact CSV',       method(:export_constant_contact)],
+  ['customers_beehiiv.csv',          'Beehiiv CSV',                method(:export_beehiiv)],
+  ['customers_brevo.csv',            'Brevo CSV',                  method(:export_brevo)],
+  ['customers_activecampaign.csv',   'ActiveCampaign CSV',         method(:export_activecampaign)],
+  ['customers.xlsx',                 'XLSX  (gem: caxlsx)',        method(:export_xlsx)],
+  ['customers.xls',                  'XLS   (gem: spreadsheet)',   method(:export_xls)]
 ]
 
 separator = '─' * 52

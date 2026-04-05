@@ -422,8 +422,8 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `examples/diagramming/workflow_diagram.rb` — Mermaid, DOT, ASCII, SVG (dot CLI + ruby-graphviz gem)
 - [x] `examples/reporting/sales_report.rb` — today, week, month, quarter, YTD, last year, custom range
 - [x] `examples/reporting/sales_tax_report.rb` — invoice-level estimates + fee-level taxable detail
-- [x] `examples/reporting/customers_export.rb` — CSV, XLSX, XLS, vCard (.vcf), HubSpot CSV, Salesforce CSV, Mailchimp CSV
-- [x] `examples/reporting/outstanding_tasks.rb` — overdue, due today, this week, upcoming, no due date; by-assignee summary
+- [x] `examples/reporting/customers_export.rb` — CSV, XLSX, XLS, vCard (.vcf), HubSpot, Salesforce, Mailchimp, Constant Contact, Beehiiv, Brevo, ActiveCampaign
+- [x] `examples/reporting/outstanding_tasks.rb` — overdue, due today, this week, upcoming, no due date; by-assignee summary; HTML calendar export
 - [x] `docs/FUTURE.md` — Workflow Diagram section replaced with examples reference and rationale
 
 ### v0.99.0 — API Freeze

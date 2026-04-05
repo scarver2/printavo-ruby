@@ -6,14 +6,19 @@
 # Pages through all tasks, filters to incomplete ones, and renders a
 # prioritized report grouped by urgency:
 #
-#   OVERDUE      — past due date, not yet complete
-#   DUE TODAY    — due date is today
+#   OVERDUE       — past due date, not yet complete
+#   DUE TODAY     — due date is today
 #   DUE THIS WEEK — due within the next 7 days
-#   UPCOMING     — due more than 7 days from now
-#   NO DUE DATE  — no deadline set
+#   UPCOMING      — due more than 7 days from now
+#   NO DUE DATE   — no deadline set
 #
 # Each section is sorted by due date (oldest first for overdue, soonest
 # first for upcoming). A summary table by assignee is printed at the end.
+#
+# An HTML calendar is also written to tasks_calendar.html covering the
+# date range of all tasks with due dates. Override the range with:
+#
+#   CALENDAR_START=2026-04-01 CALENDAR_END=2026-06-30 ruby outstanding_tasks.rb
 #
 # Setup:
 #   gem install printavo-ruby dotenv
@@ -168,4 +173,229 @@ outstanding
                 tasks.size == 1 ? '' : 's',
                 overdue_str)
   end
+puts
+
+# ── HTML Calendar ─────────────────────────────────────────────────────────────
+#
+# Builds a self-contained HTML file (no external CDN) showing outstanding tasks
+# on a monthly calendar grid. Color coding matches the terminal output above.
+#
+# Calendar range defaults to the span of all task due dates. Override with:
+#   CALENDAR_START=YYYY-MM-DD  CALENDAR_END=YYYY-MM-DD
+
+TASK_COLORS = {
+  overdue:   { bg: '#ef4444', text: '#fff', label: 'Overdue' },
+  today:     { bg: '#f59e0b', text: '#fff', label: 'Due Today' },
+  this_week: { bg: '#3b82f6', text: '#fff', label: 'This Week' },
+  upcoming:  { bg: '#22c55e', text: '#fff', label: 'Upcoming' }
+}.freeze
+
+def task_bucket_key(task)
+  due = parse_date(task.due_at)
+  return nil if due.nil?
+
+  if due < TODAY      then :overdue
+  elsif due == TODAY  then :today
+  elsif due <= END_WEEK then :this_week
+  else :upcoming
+  end
+end
+
+def html_escape(str)
+  str.to_s
+     .gsub('&', '&amp;')
+     .gsub('<', '&lt;')
+     .gsub('>', '&gt;')
+     .gsub('"', '&quot;')
+end
+
+def calendar_months(start_date, end_date)
+  months = []
+  d = Date.new(start_date.year, start_date.month, 1)
+  last = Date.new(end_date.year, end_date.month, 1)
+  while d <= last
+    months << d
+    d = d >> 1
+  end
+  months
+end
+
+def render_month(year, month, tasks_by_date)
+  first      = Date.new(year, month, 1)
+  last       = Date.new(year, month, -1)
+  month_name = first.strftime('%B %Y')
+
+  # Week starts Monday; leading blank cells
+  lead_blanks = (first.wday + 6) % 7
+
+  rows = ['<table class="month-grid">',
+          '<thead><tr><th colspan="7" class="month-name">' \
+          "#{html_escape(month_name)}</th></tr>",
+          '<tr>' + %w[Mon Tue Wed Thu Fri Sat Sun].map { |d| "<th>#{d}</th>" }.join + '</tr></thead>',
+          '<tbody><tr>']
+
+  rows << '<td class="blank"></td>' * lead_blanks
+  cell_count = lead_blanks
+
+  (first..last).each do |date|
+    is_today    = date == TODAY
+    day_tasks   = tasks_by_date[date] || []
+    cell_class  = ['day']
+    cell_class << 'today'   if is_today
+    cell_class << 'has-tasks' unless day_tasks.empty?
+    cell_class << 'past'    if date < TODAY && !is_today
+
+    task_chips = day_tasks.map do |t|
+      key    = task_bucket_key(t)
+      colors = TASK_COLORS[key] || { bg: '#6b7280', text: '#fff' }
+      tip    = html_escape("#{t.body} — #{assignee_name(t)}")
+      "<span class=\"chip\" style=\"background:#{colors[:bg]};color:#{colors[:text]}\" " \
+      "title=\"#{tip}\">#{html_escape(t.body.to_s.slice(0, 28))}</span>"
+    end.join
+
+    rows << "<td class=\"#{cell_class.join(' ')}\">" \
+            "<div class=\"day-num\">#{date.day}</div>" \
+            "<div class=\"chips\">#{task_chips}</div></td>"
+
+    cell_count += 1
+    rows << '</tr><tr>' if cell_count % 7 == 0
+  end
+
+  # Trailing blank cells to complete the final row
+  remainder = cell_count % 7
+  if remainder.positive?
+    rows << '<td class="blank"></td>' * (7 - remainder)
+    rows << '</tr>'
+  end
+
+  rows << '</tbody></table>'
+  rows.join("\n")
+end
+
+def build_html_calendar(outstanding, cal_start, cal_end)
+  tasks_with_dates  = outstanding.select { |t| parse_date(t.due_at) }
+  tasks_without     = outstanding.reject { |t| parse_date(t.due_at) }
+
+  tasks_by_date = Hash.new { |h, k| h[k] = [] }
+  tasks_with_dates.each { |t| tasks_by_date[parse_date(t.due_at)] << t }
+
+  legend_items = TASK_COLORS.map do |_, c|
+    "<span class=\"legend-chip\" style=\"background:#{c[:bg]};color:#{c[:text]}\">#{c[:label]}</span>"
+  end.join(' ')
+
+  no_date_rows = tasks_without.map do |t|
+    "<tr><td>#{html_escape(t.body)}</td><td>#{html_escape(assignee_name(t))}</td></tr>"
+  end.join("\n")
+
+  no_date_section = if tasks_without.empty?
+                      ''
+                    else
+                      <<~HTML
+                        <section class="no-date">
+                          <h2>No Due Date (#{tasks_without.size})</h2>
+                          <table class="no-date-table">
+                            <thead><tr><th>Task</th><th>Assignee</th></tr></thead>
+                            <tbody>#{no_date_rows}</tbody>
+                          </table>
+                        </section>
+                      HTML
+                    end
+
+  month_grids = calendar_months(cal_start, cal_end)
+                .map { |d| render_month(d.year, d.month, tasks_by_date) }
+                .each_slice(3)
+                .map { |row| "<div class=\"month-row\">#{row.join}</div>" }
+                .join("\n")
+
+  <<~HTML
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Outstanding Tasks — #{TODAY.strftime('%B %-d, %Y')}</title>
+      <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+               font-size: 13px; color: #1f2937; background: #f9fafb; padding: 24px; }
+        h1   { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        h2   { font-size: 15px; font-weight: 600; margin: 24px 0 10px; color: #374151; }
+        .subtitle { color: #6b7280; margin-bottom: 20px; }
+        .legend   { margin-bottom: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .legend-chip { padding: 3px 10px; border-radius: 999px; font-size: 12px;
+                       font-weight: 500; }
+        .month-row  { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+        .month-grid { border-collapse: collapse; width: 320px; background: #fff;
+                      border-radius: 8px; overflow: hidden;
+                      box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+        .month-grid th, .month-grid td { border: 1px solid #e5e7eb; }
+        .month-name { background: #1e3a5f; color: #fff; font-weight: 600;
+                      font-size: 13px; text-align: center; padding: 8px 4px; }
+        .month-grid thead tr:last-child th {
+          background: #f3f4f6; font-weight: 600; font-size: 11px;
+          text-align: center; padding: 4px 2px; color: #6b7280; }
+        .day  { vertical-align: top; width: 45px; min-height: 54px;
+                padding: 3px 3px 4px; }
+        .day.today     { background: #fef9c3; }
+        .day.past      { background: #fafafa; }
+        .day.has-tasks { }
+        .blank { background: #f9fafb; }
+        .day-num { font-size: 11px; font-weight: 600; color: #374151;
+                   text-align: right; padding-right: 2px; }
+        .today .day-num { color: #b45309; }
+        .chips  { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+        .chip   { font-size: 10px; padding: 1px 4px; border-radius: 3px;
+                  line-height: 1.4; white-space: nowrap; overflow: hidden;
+                  text-overflow: ellipsis; max-width: 100%; cursor: default; }
+        .no-date { margin-top: 8px; }
+        .no-date-table { border-collapse: collapse; width: 100%; max-width: 680px;
+                         background: #fff; border-radius: 8px; overflow: hidden;
+                         box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+        .no-date-table th, .no-date-table td {
+          border: 1px solid #e5e7eb; padding: 7px 12px; text-align: left; }
+        .no-date-table thead th { background: #f3f4f6; font-weight: 600; font-size: 12px; }
+        @media print {
+          body { background: white; padding: 0; }
+          .month-grid { box-shadow: none; border: 1px solid #ccc; }
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Outstanding Tasks</h1>
+      <p class="subtitle">Generated #{TODAY.strftime('%B %-d, %Y')} &nbsp;·&nbsp;
+         #{outstanding.size} outstanding &nbsp;·&nbsp;
+         #{tasks_with_dates.size} with due dates</p>
+      <div class="legend">#{legend_items}</div>
+      #{month_grids}
+      #{no_date_section}
+    </body>
+    </html>
+  HTML
+end
+
+# Determine calendar range
+tasks_with_due = outstanding.map { |t| parse_date(t.due_at) }.compact
+earliest_due   = tasks_with_due.min || TODAY
+latest_due     = tasks_with_due.max || (TODAY >> 1)
+
+cal_start = if ENV['CALENDAR_START']
+              Date.parse(ENV['CALENDAR_START'])
+            else
+              [earliest_due, TODAY].min
+            end
+
+cal_end = if ENV['CALENDAR_END']
+            Date.parse(ENV['CALENDAR_END'])
+          else
+            [latest_due, TODAY].max
+          end
+
+cal_file = ENV.fetch('CALENDAR_FILE', 'tasks_calendar.html')
+html     = build_html_calendar(outstanding, cal_start, cal_end)
+File.write(cal_file, html)
+
+puts '─' * 72
+puts "  HTML CALENDAR  →  #{cal_file}"
+puts "  Range: #{cal_start.strftime('%b %-d, %Y')} – #{cal_end.strftime('%b %-d, %Y')}"
+puts "  Open in any browser. Override range with CALENDAR_START / CALENDAR_END."
 puts
