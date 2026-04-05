@@ -402,6 +402,21 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `Printavo::Enums::TransactionCategory`
 - [x] `Printavo::Enums::TransactionSource`
 
+### v0.17.0 — GraphQL Interface Field Coverage ✅
+
+- [x] `VisualIDed` interface — `visualId` on all applicable models
+- [x] `Timestamps` interface — `createdAt` / `updatedAt` on all applicable models
+- [x] `MailAddress` interface — address fields on all applicable models
+
+### v0.18.0 — Built-In Cache Adapter ✅
+
+- [x] Optional `cache:` kwarg on `Printavo::Client` (any `Rails.cache`-compatible store)
+- [x] `Printavo::MemoryStore` — thread-safe TTL-aware in-memory store (no Rails dependency)
+- [x] `GraphqlClient` caching: `#query` is cache-aware; `#mutate` always bypasses
+- [x] Stable SHA-256 cache key from normalized query + variables
+- [x] `default_ttl: 300` configurable per-client
+- [x] `docs/CACHING.md` updated with built-in adapter usage examples
+
 ### v0.99.0 — API Freeze
 
 - [ ] Community feedback integration
@@ -418,24 +433,32 @@ return values — they are exposed via model field accessors, not separate resou
 
 ## Future / Stretch Goals
 
-### Built-In Cache Adapter
+### Client-Side Aggregation Helpers
 
-- [ ] Optional `cache:` kwarg on `Printavo::Client`
-- [ ] Adapter interface: `read(key)` / `write(key, value, ttl:)` / `delete(key)`
-- [ ] `Rails.cache`, Redis, and in-memory adapter support
+> **Note:** Printavo's V2 GraphQL API exposes no pre-aggregated analytics or
+> reporting endpoints. All "analytics" must be computed locally by paging
+> through existing resources. A cache adapter (see below) is a prerequisite
+> before these helpers would be practical in production.
+
+- [ ] `Invoices#revenue_summary(after:, before:)` — page invoices, return total/count/average
+- [ ] `Orders#status_breakdown` — group order count by status key
+- [ ] `Customers#top(limit:, by:)` — rank customers by order count or revenue
+- [ ] `Orders#avg_turnaround` — average time from `created_at` to most recent `updated_at`
+
+### Built-In Cache Adapter ✅ (v0.18.0)
+
+- [x] Optional `cache:` kwarg on `Printavo::Client`
+- [x] Duck-typed adapter interface: `fetch(key, expires_in:) { }` / `delete(key)` — matches `Rails.cache`
+- [x] `Printavo::MemoryStore` — thread-safe in-memory store for non-Rails usage
+- [x] `GraphqlClient#query` is cache-aware; `#mutate` always bypasses cache
+- [x] Stable SHA-256 cache key from normalized query + variables
+- [x] `default_ttl: 300` configurable per-client
 
 ### Workflow Diagram Generation
 
 - [ ] `client.workflow.diagram(format: :svg)` — visual status flowchart
 - [ ] `ruby-graphviz` backend (DOT → SVG/PNG)
 - [ ] Mermaid output option (embed in GitHub markdown)
-
-### Multi-Language SDK Family
-
-- [ ] `printavo-python`
-- [ ] `printavo-swift`
-- [ ] `printavo-zig`
-- [ ] `printavo-odin`
 
 ---
 

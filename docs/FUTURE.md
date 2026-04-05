@@ -6,66 +6,35 @@ initial `0.x` releases. Contributions and discussions welcome!
 
 ## Planned Features
 
-### CLI (Thor-based)
+### Client-Side Aggregation Helpers
 
-A `printavo` command-line tool built with [Thor](https://github.com/rails/thor):
+Printavo's V2 GraphQL API is a transactional API — it has no pre-aggregated
+analytics or reporting endpoints. Any analytics must be computed by paging
+through existing resources in Ruby.
 
-```bash
-printavo customers
-printavo orders
-printavo orders find 12345
-printavo analytics revenue
-printavo sync orders --to crm
-```
-
-Planned version: `0.7.0`
-
-### Retry/Backoff
-
-Intelligent rate limit handling with exponential backoff:
+Potential helpers that would add value:
 
 ```ruby
-client = Printavo::Client.new(
-  email: ENV["PRINTAVO_EMAIL"],
-  token: ENV["PRINTAVO_TOKEN"],
-  max_retries: 3,
-  retry_on_rate_limit: true
-)
+# Revenue across all invoices in a date range
+client.invoices.revenue_summary(after: "2026-01-01")
+# => { total: "142300.00", count: 87, average: "1636.78" }
+
+# Order counts grouped by status
+client.orders.status_breakdown
+# => { in_production: 12, approved: 5, completed: 230, ... }
+
+# Most active customers by order count
+client.customers.top(limit: 10, by: :order_count)
+
+# Average turnaround time (created_at → updated_at) per status
+client.orders.avg_turnaround
 ```
 
-Planned version: `0.8.0`
+These helpers would page all relevant records locally and compute aggregates
+in Ruby. Because they require full pagination, using the built-in cache adapter
+is strongly recommended before implementing these in production workflows.
 
-### Analytics / Reporting Expansion
-
-Richer wrappers for Printavo's analytics queries (revenue, job counts,
-customer activity, turnaround times).
-
-Planned version: `0.6.0`
-
-### Mutations (Create / Update)
-
-Support for creating and updating resources:
-
-```ruby
-client.customers.create(first_name: "Jane", last_name: "Smith", email: "jane@example.com")
-client.orders.update("99", nickname: "Rush Job")
-```
-
-Planned version: `0.5.0`
-
-### Built-In Cache Adapter
-
-Optional cache layer that plugs into any cache store:
-
-```ruby
-client = Printavo::Client.new(
-  email: ENV["PRINTAVO_EMAIL"],
-  token: ENV["PRINTAVO_TOKEN"],
-  cache: Rails.cache  # or a Redis client, etc.
-)
-```
-
-See [docs/CACHING.md](docs/CACHING.md) for current caching recommendations.
+See [docs/CACHING.md](docs/CACHING.md) for caching options.
 
 ## Visualization
 
