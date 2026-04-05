@@ -31,24 +31,10 @@ client.orders.avg_turnaround
 ```
 
 These helpers would page all relevant records locally and compute aggregates
-in Ruby. Because they require full pagination, a cache adapter (see below) is
-strongly recommended before implementing these in production workflows.
+in Ruby. Because they require full pagination, using the built-in cache adapter
+is strongly recommended before implementing these in production workflows.
 
-See [docs/CACHING.md](docs/CACHING.md) for current caching recommendations.
-
-### Built-In Cache Adapter
-
-Optional cache layer that plugs into any cache store:
-
-```ruby
-client = Printavo::Client.new(
-  email: ENV["PRINTAVO_EMAIL"],
-  token: ENV["PRINTAVO_TOKEN"],
-  cache: Rails.cache  # or a Redis client, etc.
-)
-```
-
-See [docs/CACHING.md](docs/CACHING.md) for current caching recommendations.
+See [docs/CACHING.md](docs/CACHING.md) for caching options.
 
 ## Visualization
 
