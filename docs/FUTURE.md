@@ -38,18 +38,29 @@ See [docs/CACHING.md](docs/CACHING.md) for caching options.
 
 ## Visualization
 
-### Workflow Diagram Generation (SVG/PNG)
+### Workflow Diagram Generation
 
-Generate a visual map of a shop's Printavo status workflow:
+See **[examples/diagramming/workflow_diagram.rb](../examples/diagramming/workflow_diagram.rb)**
+for a complete, runnable example covering all four output formats.
 
-```ruby
-client.workflow.diagram(format: :svg)
-# => Outputs an SVG flowchart: Quote → Approved → In Production → Completed
-```
+Adding diagram generation to the gem itself would require either shipping
+`ruby-graphviz` as a hard dependency or assuming a system `dot` binary —
+both are burdensome for a Ruby API client. The standalone example gives
+consumers full control over their output format and toolchain without
+bloating the gem.
 
-Implementation options:
-- [ruby-graphviz](https://github.com/glejeune/Ruby-Graphviz) — DOT → SVG/PNG
-- Pure Ruby → Mermaid output (copy-paste into docs or GitHub markdown)
+**Supported formats in the example:**
+
+| Format | Dependency | Best for |
+|---|---|---|
+| `:ascii` | none | Terminal output, quick sanity-check |
+| `:mermaid` | none | GitHub README/issues/PRs, VS Code preview |
+| `:dot` | none (text) | Piping to `dot -Tsvg` or any Graphviz renderer |
+| `:svg` | `brew install graphviz` or `gem install ruby-graphviz` | Production-grade visual files |
+
+Statuses are fetched via `client.statuses.all` and rendered as a linear
+left-to-right flow in the order Printavo returns them. Printavo has no
+explicit transition edges in its API — the workflow is an implied sequence.
 
 ## Multi-Language SDK Family
 
