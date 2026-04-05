@@ -109,6 +109,64 @@ RSpec.describe Printavo::GraphqlClient do
     end
   end
 
+  describe 'caching' do
+    let(:data)   { { 'customers' => { 'nodes' => [{ 'id' => '1' }] } } }
+    let(:cache)  { Printavo::MemoryStore.new }
+    let(:cached_client) { described_class.new(connection, cache: cache, default_ttl: 300) }
+
+    before { stub_success(data) }
+
+    describe '#query' do
+      it 'returns the same data on a cache hit' do
+        first  = cached_client.query(query)
+        second = cached_client.query(query)
+        expect(second).to eq(first)
+      end
+
+      it 'only makes one HTTP request for identical queries' do
+        cached_client.query(query)
+        cached_client.query(query)
+        expect(WebMock).to have_requested(:post, endpoint).once
+      end
+
+      it 'makes separate HTTP requests for different queries' do
+        other_query = '{ orders { nodes { id } } }'
+        stub_request(:post, endpoint)
+          .to_return(status: 200, body: { 'data' => { 'orders' => { 'nodes' => [] } } }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+        cached_client.query(query)
+        cached_client.query(other_query)
+        expect(WebMock).to have_requested(:post, endpoint).twice
+      end
+
+      it 'makes separate HTTP requests when variables differ' do
+        stub_request(:post, endpoint)
+          .to_return(status: 200, body: { 'data' => data }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+        cached_client.query(query, variables: { id: '1' })
+        cached_client.query(query, variables: { id: '2' })
+        expect(WebMock).to have_requested(:post, endpoint).twice
+      end
+    end
+
+    describe '#mutate' do
+      let(:mutation) { 'mutation { updateOrder(id: "1") { order { id } } }' }
+      let(:mut_data) { { 'updateOrder' => { 'order' => { 'id' => '1' } } } }
+
+      before do
+        stub_request(:post, endpoint)
+          .to_return(status: 200, body: { 'data' => mut_data }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'always makes an HTTP request regardless of cache' do
+        cached_client.mutate(mutation)
+        cached_client.mutate(mutation)
+        expect(WebMock).to have_requested(:post, endpoint).twice
+      end
+    end
+  end
+
   describe '#paginate' do
     let(:paginate_query) do
       <<~GQL

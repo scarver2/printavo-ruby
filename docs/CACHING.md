@@ -205,26 +205,81 @@ how frequently staff update records.
 
 ---
 
-## Future: Built-In Cache Adapter
+## Built-In Cache Adapter
 
-A future version of `printavo-ruby` may support an optional cache adapter
-passed directly to the client:
+As of v0.18.0, `Printavo::Client` accepts an optional `cache:` argument — any
+object responding to `fetch(key, expires_in:) { }` and `delete(key)`. This
+matches the `Rails.cache` interface, so no adapter is needed in Rails apps.
+
+### With Rails.cache
 
 ```ruby
-# Possible future API — not implemented in v0.x
 client = Printavo::Client.new(
   email: ENV["PRINTAVO_EMAIL"],
   token: ENV["PRINTAVO_TOKEN"],
-  cache: Rails.cache,           # any object responding to fetch/delete
-  default_ttl: 300
+  cache: Rails.cache,   # Memcache, Redis, Solid Cache — anything Rails supports
+  default_ttl: 300      # seconds; default is 300 (5 minutes)
 )
 
-# Would cache automatically:
-client.customers.all   # cached for 300s by default
-client.orders.find(1)  # cached per-id
+# All queries are automatically cached and deduped:
+client.customers.all   # fetches from API, stores result
+client.customers.all   # returns cached result — no HTTP request
 ```
 
-Track this feature in [FUTURE.md](../FUTURE.md).
+### With Printavo::MemoryStore (no Rails dependency)
+
+```ruby
+client = Printavo::Client.new(
+  email: ENV["PRINTAVO_EMAIL"],
+  token: ENV["PRINTAVO_TOKEN"],
+  cache: Printavo::MemoryStore.new,
+  default_ttl: 600
+)
+```
+
+`Printavo::MemoryStore` is a thread-safe, TTL-aware in-memory store included
+in the gem. No configuration required.
+
+### Without a cache (default)
+
+```ruby
+client = Printavo::Client.new(
+  email: ENV["PRINTAVO_EMAIL"],
+  token: ENV["PRINTAVO_TOKEN"]
+)
+# cache: nil — every query hits the API
+```
+
+### Cache key generation
+
+Cache keys are generated from a SHA-256 digest of the normalized query document
+and variables: `"printavo:gql:<16-hex-chars>"`. Whitespace differences in query
+strings do not cause cache misses.
+
+### Mutations are never cached
+
+`client.graphql.mutate(...)` always bypasses the cache, regardless of the
+`cache:` setting. Only `client.graphql.query(...)` (and resource methods that
+call it) are cache-aware.
+
+### Custom cache stores
+
+Any object with this interface works:
+
+```ruby
+class MyCache
+  def fetch(key, expires_in: nil)
+    # return cached value, or call block and store the result
+  end
+
+  def delete(key)
+    # remove key from cache
+  end
+end
+```
+
+This is exactly the interface `ActiveSupport::Cache::Store` exposes, so
+Solid Cache, Dalli (Memcache), and Redis Cache Store all work out of the box.
 
 ---
 

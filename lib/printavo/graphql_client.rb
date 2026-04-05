@@ -1,12 +1,20 @@
 # lib/printavo/graphql_client.rb
 # frozen_string_literal: true
 
+require 'digest'
 require 'json'
 
 module Printavo
   class GraphqlClient
-    def initialize(connection)
-      @connection = connection
+    # @param connection  [Faraday::Connection]
+    # @param cache       [#fetch, #delete, nil] any cache store implementing
+    #                    +fetch(key, expires_in:) { }+ and +delete(key)+,
+    #                    e.g. +Rails.cache+, +Printavo::MemoryStore.new+, or +nil+
+    # @param default_ttl [Integer] default TTL in seconds applied to cached queries (default: 300)
+    def initialize(connection, cache: nil, default_ttl: 300)
+      @connection  = connection
+      @cache       = cache
+      @default_ttl = default_ttl
     end
 
     # Executes a GraphQL query and returns the parsed `data` hash.
@@ -22,7 +30,11 @@ module Printavo
     #     variables: { id: "42" }
     #   )
     def query(query_string, variables: {})
-      execute(query_string, variables: variables)
+      return execute(query_string, variables: variables) unless @cache
+
+      @cache.fetch(cache_key(query_string, variables), expires_in: @default_ttl) do
+        execute(query_string, variables: variables)
+      end
     end
 
     # Executes a GraphQL mutation and returns the parsed `data` hash.
@@ -85,6 +97,13 @@ module Printavo
     end
 
     private
+
+    # Generates a stable, namespaced cache key from the query document and variables.
+    # Whitespace in the query is collapsed so formatting differences don't cause misses.
+    def cache_key(query_string, variables)
+      payload = JSON.generate([query_string.gsub(/\s+/, ' ').strip, variables])
+      "printavo:gql:#{Digest::SHA256.hexdigest(payload)[0, 16]}"
+    end
 
     def execute(document, variables: {})
       response = @connection.post('') do |req|

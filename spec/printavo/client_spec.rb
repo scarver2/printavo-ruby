@@ -32,6 +32,19 @@ RSpec.describe Printavo::Client do
                                    retry_on_rate_limit: false)
       expect(client).to be_a(described_class)
     end
+
+    it 'accepts a cache: kwarg' do
+      store = Printavo::MemoryStore.new
+      client = described_class.new(email: PRINTAVO_TEST_EMAIL, token: PRINTAVO_TEST_TOKEN,
+                                   cache: store)
+      expect(client).to be_a(described_class)
+    end
+
+    it 'accepts a default_ttl: kwarg' do
+      client = described_class.new(email: PRINTAVO_TEST_EMAIL, token: PRINTAVO_TEST_TOKEN,
+                                   default_ttl: 600)
+      expect(client).to be_a(described_class)
+    end
   end
 
   describe '#account' do

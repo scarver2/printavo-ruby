@@ -8,21 +8,38 @@ module Printavo
     # Creates a new Printavo API client. Each instance is independent —
     # multiple clients with different credentials can coexist in one process.
     #
-    # @param email               [String]  the email address associated with your Printavo account
-    # @param token               [String]  the API token from your Printavo My Account page
-    # @param timeout             [Integer] HTTP timeout in seconds (default: 30)
-    # @param max_retries         [Integer] max retry attempts on 5xx/429 responses (default: 2)
-    # @param retry_on_rate_limit [Boolean] retry automatically on 429 Too Many Requests (default: true)
+    # @param email               [String]           the email address associated with your Printavo account
+    # @param token               [String]           the API token from your Printavo My Account page
+    # @param timeout             [Integer]          HTTP timeout in seconds (default: 30)
+    # @param max_retries         [Integer]          max retry attempts on 5xx/429 responses (default: 2)
+    # @param retry_on_rate_limit [Boolean]          retry automatically on 429 Too Many Requests (default: true)
+    # @param cache               [#fetch, #delete]  optional cache store; any object responding to
+    #                                               +fetch(key, expires_in:) { }+ and +delete(key)+,
+    #                                               e.g. +Rails.cache+ or +Printavo::MemoryStore.new+
+    # @param default_ttl         [Integer]          TTL in seconds for cached queries (default: 300)
     #
-    # @example
+    # @example No caching (default)
     #   client = Printavo::Client.new(
     #     email: ENV["PRINTAVO_EMAIL"],
     #     token: ENV["PRINTAVO_TOKEN"]
     #   )
-    #   client.customers.all
-    #   client.orders.find("12345")
-    #   client.graphql.query("{ customers { nodes { id } } }")
-    def initialize(email:, token:, timeout: 30, max_retries: 2, retry_on_rate_limit: true)
+    #
+    # @example With Rails.cache
+    #   client = Printavo::Client.new(
+    #     email: ENV["PRINTAVO_EMAIL"],
+    #     token: ENV["PRINTAVO_TOKEN"],
+    #     cache: Rails.cache,
+    #     default_ttl: 300
+    #   )
+    #
+    # @example With built-in in-memory store
+    #   client = Printavo::Client.new(
+    #     email: ENV["PRINTAVO_EMAIL"],
+    #     token: ENV["PRINTAVO_TOKEN"],
+    #     cache: Printavo::MemoryStore.new
+    #   )
+    def initialize(email:, token:, timeout: 30, max_retries: 2, retry_on_rate_limit: true, # rubocop:disable Metrics/ParameterLists
+                   cache: nil, default_ttl: 300)
       connection = Connection.new(
         email: email,
         token: token,
@@ -30,7 +47,7 @@ module Printavo
         max_retries: max_retries,
         retry_on_rate_limit: retry_on_rate_limit
       ).build
-      @graphql = GraphqlClient.new(connection)
+      @graphql = GraphqlClient.new(connection, cache: cache, default_ttl: default_ttl)
     end
 
     def account
