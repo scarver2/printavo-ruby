@@ -417,6 +417,15 @@ return values — they are exposed via model field accessors, not separate resou
 - [x] `default_ttl: 300` configurable per-client
 - [x] `docs/CACHING.md` updated with built-in adapter usage examples
 
+### v0.18.1 — Examples: Diagramming & Reporting
+
+- [x] `examples/diagramming/workflow_diagram.rb` — Mermaid, DOT, ASCII, SVG (dot CLI + ruby-graphviz gem)
+- [x] `examples/reporting/sales_report.rb` — today, week, month, quarter, YTD, last year, custom range
+- [x] `examples/reporting/sales_tax_report.rb` — invoice-level estimates + fee-level taxable detail
+- [x] `examples/reporting/customers_export.rb` — CSV, XLSX, XLS, vCard (.vcf), HubSpot, Salesforce, Mailchimp, Constant Contact, Beehiiv, Brevo, ActiveCampaign
+- [x] `examples/reporting/outstanding_tasks.rb` — overdue, due today, this week, upcoming, no due date; by-assignee summary; HTML calendar export
+- [x] `docs/FUTURE.md` — Workflow Diagram section replaced with examples reference and rationale
+
 ### v0.99.0 — API Freeze
 
 - [ ] Community feedback integration

@@ -38,18 +38,8 @@ See [docs/CACHING.md](docs/CACHING.md) for caching options.
 
 ## Visualization
 
-### Workflow Diagram Generation (SVG/PNG)
-
-Generate a visual map of a shop's Printavo status workflow:
-
-```ruby
-client.workflow.diagram(format: :svg)
-# => Outputs an SVG flowchart: Quote → Approved → In Production → Completed
-```
-
-Implementation options:
-- [ruby-graphviz](https://github.com/glejeune/Ruby-Graphviz) — DOT → SVG/PNG
-- Pure Ruby → Mermaid output (copy-paste into docs or GitHub markdown)
+See **[docs/VISUALIZATION.md](VISUALIZATION.md)** for workflow diagram generation —
+Mermaid, DOT, ASCII, and SVG output via the standalone example script.
 
 ## Multi-Language SDK Family
 
