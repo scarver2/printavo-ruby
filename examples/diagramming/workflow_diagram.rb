@@ -97,28 +97,25 @@ end
 #
 # Or use the file written by this script: `dot -Tsvg workflow.dot > workflow.svg`
 
+def dot_node_defs(statuses)
+  statuses.map do |s|
+    fill = fill_color(s)
+    "  #{node_id(s)} [label=\"#{s.name}\", fillcolor=\"#{fill}\", fontcolor=\"#{contrast_color(fill)}\"];"
+  end
+end
+
 def to_dot(statuses)
-  lines = ['digraph PrintavoWorkflow {']
-  lines << '  rankdir=LR;'
-  lines << '  graph [fontname="Helvetica", bgcolor=transparent];'
-  lines << '  node  [shape=box, style="filled,rounded", fontname="Helvetica", margin="0.2,0.1"];'
-  lines << '  edge  [color="#666666", arrowsize=0.8];'
-  lines << ''
-
-  statuses.each do |s|
-    fill       = fill_color(s)
-    font_color = contrast_color(fill)
-    lines << "  #{node_id(s)} [label=\"#{s.name}\", fillcolor=\"#{fill}\", fontcolor=\"#{font_color}\"];"
-  end
-
-  lines << ''
-
-  statuses.each_cons(2) do |a, b|
-    lines << "  #{node_id(a)} -> #{node_id(b)};"
-  end
-
-  lines << '}'
-  lines.join("\n")
+  edges = statuses.each_cons(2).map { |a, b| "  #{node_id(a)} -> #{node_id(b)};" }
+  [
+    'digraph PrintavoWorkflow {',
+    '  rankdir=LR;',
+    '  graph [fontname="Helvetica", bgcolor=transparent];',
+    '  node  [shape=box, style="filled,rounded", fontname="Helvetica", margin="0.2,0.1"];',
+    '  edge  [color="#666666", arrowsize=0.8];',
+    '', *dot_node_defs(statuses),
+    '', *edges,
+    '}'
+  ].join("\n")
 end
 
 # ── ASCII ─────────────────────────────────────────────────────────────────────
@@ -149,30 +146,24 @@ end
 # Gives you a Ruby object model for the graph if you want to manipulate it
 # further before rendering.
 
+def configure_graphviz(gviz)
+  gviz[:rankdir]        = 'LR'
+  gviz.graph[:fontname] = 'Helvetica'
+  gviz.graph[:bgcolor]  = 'transparent'
+  gviz.node[:shape]     = 'box'
+  gviz.node[:style]     = 'filled,rounded'
+  gviz.node[:fontname]  = 'Helvetica'
+end
+
 def svg_via_graphviz_gem(statuses)
   require 'graphviz'
-
   g = GraphViz.new(:PrintavoWorkflow, type: :digraph)
-  g[:rankdir] = 'LR'
-  g.graph[:fontname] = 'Helvetica'
-  g.graph[:bgcolor]  = 'transparent'
-  g.node[:shape]     = 'box'
-  g.node[:style]     = 'filled,rounded'
-  g.node[:fontname]  = 'Helvetica'
-
+  configure_graphviz(g)
   nodes = statuses.map do |s|
-    fill       = fill_color(s)
-    font_color = contrast_color(fill)
-    g.add_nodes(
-      node_id(s),
-      label:     s.name,
-      fillcolor: fill,
-      fontcolor: font_color
-    )
+    fill = fill_color(s)
+    g.add_nodes(node_id(s), label: s.name, fillcolor: fill, fontcolor: contrast_color(fill))
   end
-
   nodes.each_cons(2) { |a, b| g.add_edges(a, b) }
-
   g.output(svg: String)
 end
 

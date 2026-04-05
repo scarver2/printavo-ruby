@@ -83,10 +83,10 @@ outstanding.each do |task|
 end
 
 # Sort each bucket by due date
-buckets[:overdue]    .sort_by! { |t| parse_date(t.due_at) || TODAY }
-buckets[:today]      .sort_by! { |t| parse_date(t.due_at) || TODAY }
-buckets[:this_week]  .sort_by! { |t| parse_date(t.due_at) || TODAY }
-buckets[:upcoming]   .sort_by! { |t| parse_date(t.due_at) || Date::Infinity.new }
+buckets[:overdue].sort_by! { |t| parse_date(t.due_at) || TODAY }
+buckets[:today].sort_by! { |t| parse_date(t.due_at) || TODAY }
+buckets[:this_week].sort_by! { |t| parse_date(t.due_at) || TODAY }
+buckets[:upcoming].sort_by! { |t| parse_date(t.due_at) || Date::Infinity.new }
 buckets[:no_due_date].sort_by! { |t| t.body.to_s }
 
 # ── Formatting ────────────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@ def format_due(task)
   return '—' unless due
 
   days = (due - TODAY).to_i
-  label = if days < 0
+  label = if days.negative?
             "#{days.abs}d overdue"
           elsif days.zero?
             'today'
@@ -114,11 +114,8 @@ def format_due(task)
 end
 
 def print_task(task, index)
-  puts format('  %3d. %-42s  %-16s  %s',
-              index,
-              task.body.to_s.slice(0, 42),
-              assignee_name(task),
-              format_due(task))
+  puts "  #{index.to_s.rjust(3)}. #{task.body.to_s.slice(0, 42).ljust(42)}  " \
+       "#{assignee_name(task).ljust(16)}  #{format_due(task)}"
 end
 
 def print_section(title, tasks, color_code = nil)
@@ -139,11 +136,9 @@ end
 puts '═' * 72
 puts "  OUTSTANDING TASKS  —  #{TODAY.strftime('%B %-d, %Y')}"
 puts '═' * 72
-puts format('  Total outstanding: %d  |  Overdue: %d  |  Due today: %d  |  Upcoming: %d',
-            outstanding.size,
-            buckets[:overdue].size,
-            buckets[:today].size,
-            buckets[:this_week].size + buckets[:upcoming].size)
+puts "  Total outstanding: #{outstanding.size}  |  Overdue: #{buckets[:overdue].size}  " \
+     "|  Due today: #{buckets[:today].size}  " \
+     "|  Upcoming: #{buckets[:this_week].size + buckets[:upcoming].size}"
 puts
 
 # ── Sections ─────────────────────────────────────────────────────────────────
@@ -167,11 +162,7 @@ outstanding
   .each do |name, tasks|
     overdue_count = tasks.count { |t| (d = parse_date(t.due_at)) && d < TODAY }
     overdue_str   = overdue_count.positive? ? "  \e[1;31m#{overdue_count} overdue\e[0m" : ''
-    puts format('  %-30s %3d task%s%s',
-                name,
-                tasks.size,
-                tasks.size == 1 ? '' : 's',
-                overdue_str)
+    puts "  #{name.ljust(30)} #{tasks.size.to_s.rjust(3)} task#{'s' unless tasks.size == 1}#{overdue_str}"
   end
 puts
 
@@ -184,10 +175,10 @@ puts
 #   CALENDAR_START=YYYY-MM-DD  CALENDAR_END=YYYY-MM-DD
 
 TASK_COLORS = {
-  overdue:   { bg: '#ef4444', text: '#fff', label: 'Overdue' },
-  today:     { bg: '#f59e0b', text: '#fff', label: 'Due Today' },
+  overdue: { bg: '#ef4444', text: '#fff', label: 'Overdue' },
+  today: { bg: '#f59e0b', text: '#fff', label: 'Due Today' },
   this_week: { bg: '#3b82f6', text: '#fff', label: 'This Week' },
-  upcoming:  { bg: '#22c55e', text: '#fff', label: 'Upcoming' }
+  upcoming: { bg: '#22c55e', text: '#fff', label: 'Upcoming' }
 }.freeze
 
 def task_bucket_key(task)
@@ -215,56 +206,58 @@ def calendar_months(start_date, end_date)
   last = Date.new(end_date.year, end_date.month, 1)
   while d <= last
     months << d
-    d = d >> 1
+    d >>= 1
   end
   months
 end
 
-def render_month(year, month, tasks_by_date)
-  first      = Date.new(year, month, 1)
-  last       = Date.new(year, month, -1)
-  month_name = first.strftime('%B %Y')
+def month_header_html(month_name)
+  day_headers = %w[Mon Tue Wed Thu Fri Sat Sun].map { |d| "<th>#{d}</th>" }.join
+  '<table class="month-grid">' \
+    "<thead><tr><th colspan=\"7\" class=\"month-name\">#{html_escape(month_name)}</th></tr>" \
+    "<tr>#{day_headers}</tr></thead>" \
+    '<tbody><tr>'
+end
 
-  # Week starts Monday; leading blank cells
+def day_chips_html(day_tasks)
+  day_tasks.map do |t|
+    colors = TASK_COLORS[task_bucket_key(t)] || { bg: '#6b7280', text: '#fff' }
+    tip    = html_escape("#{t.body} — #{assignee_name(t)}")
+    "<span class=\"chip\" style=\"background:#{colors[:bg]};color:#{colors[:text]}\" " \
+      "title=\"#{tip}\">#{html_escape(t.body.to_s.slice(0, 28))}</span>"
+  end.join
+end
+
+def day_cell_html(date, tasks_by_date)
+  day_tasks  = tasks_by_date[date] || []
+  is_today   = date == TODAY
+  css        = ['day']
+  css << 'today'     if is_today
+  css << 'has-tasks' unless day_tasks.empty?
+  css << 'past'      if date < TODAY && !is_today
+  "<td class=\"#{css.join(' ')}\">" \
+    "<div class=\"day-num\">#{date.day}</div>" \
+    "<div class=\"chips\">#{day_chips_html(day_tasks)}</div></td>"
+end
+
+def render_month(year, month, tasks_by_date) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  first       = Date.new(year, month, 1)
+  last        = Date.new(year, month, -1)
   lead_blanks = (first.wday + 6) % 7
+  rows        = [month_header_html(first.strftime('%B %Y'))]
 
-  rows = ['<table class="month-grid">',
-          '<thead><tr><th colspan="7" class="month-name">' \
-          "#{html_escape(month_name)}</th></tr>",
-          '<tr>' + %w[Mon Tue Wed Thu Fri Sat Sun].map { |d| "<th>#{d}</th>" }.join + '</tr></thead>',
-          '<tbody><tr>']
-
-  rows << '<td class="blank"></td>' * lead_blanks
+  rows << ('<td class="blank"></td>' * lead_blanks)
   cell_count = lead_blanks
 
   (first..last).each do |date|
-    is_today    = date == TODAY
-    day_tasks   = tasks_by_date[date] || []
-    cell_class  = ['day']
-    cell_class << 'today'   if is_today
-    cell_class << 'has-tasks' unless day_tasks.empty?
-    cell_class << 'past'    if date < TODAY && !is_today
-
-    task_chips = day_tasks.map do |t|
-      key    = task_bucket_key(t)
-      colors = TASK_COLORS[key] || { bg: '#6b7280', text: '#fff' }
-      tip    = html_escape("#{t.body} — #{assignee_name(t)}")
-      "<span class=\"chip\" style=\"background:#{colors[:bg]};color:#{colors[:text]}\" " \
-      "title=\"#{tip}\">#{html_escape(t.body.to_s.slice(0, 28))}</span>"
-    end.join
-
-    rows << "<td class=\"#{cell_class.join(' ')}\">" \
-            "<div class=\"day-num\">#{date.day}</div>" \
-            "<div class=\"chips\">#{task_chips}</div></td>"
-
+    rows << day_cell_html(date, tasks_by_date)
     cell_count += 1
-    rows << '</tr><tr>' if cell_count % 7 == 0
+    rows << '</tr><tr>' if (cell_count % 7).zero?
   end
 
-  # Trailing blank cells to complete the final row
   remainder = cell_count % 7
   if remainder.positive?
-    rows << '<td class="blank"></td>' * (7 - remainder)
+    rows << ('<td class="blank"></td>' * (7 - remainder))
     rows << '</tr>'
   end
 
@@ -272,40 +265,43 @@ def render_month(year, month, tasks_by_date)
   rows.join("\n")
 end
 
-def build_html_calendar(outstanding, cal_start, cal_end)
-  tasks_with_dates  = outstanding.select { |t| parse_date(t.due_at) }
-  tasks_without     = outstanding.reject { |t| parse_date(t.due_at) }
-
-  tasks_by_date = Hash.new { |h, k| h[k] = [] }
-  tasks_with_dates.each { |t| tasks_by_date[parse_date(t.due_at)] << t }
-
-  legend_items = TASK_COLORS.map do |_, c|
+def legend_html
+  TASK_COLORS.map do |_, c|
     "<span class=\"legend-chip\" style=\"background:#{c[:bg]};color:#{c[:text]}\">#{c[:label]}</span>"
   end.join(' ')
+end
 
-  no_date_rows = tasks_without.map do |t|
+def no_date_section_html(tasks_without)
+  return '' if tasks_without.empty?
+
+  rows = tasks_without.map do |t|
     "<tr><td>#{html_escape(t.body)}</td><td>#{html_escape(assignee_name(t))}</td></tr>"
   end.join("\n")
 
-  no_date_section = if tasks_without.empty?
-                      ''
-                    else
-                      <<~HTML
-                        <section class="no-date">
-                          <h2>No Due Date (#{tasks_without.size})</h2>
-                          <table class="no-date-table">
-                            <thead><tr><th>Task</th><th>Assignee</th></tr></thead>
-                            <tbody>#{no_date_rows}</tbody>
-                          </table>
-                        </section>
-                      HTML
-                    end
+  <<~HTML
+    <section class="no-date">
+      <h2>No Due Date (#{tasks_without.size})</h2>
+      <table class="no-date-table">
+        <thead><tr><th>Task</th><th>Assignee</th></tr></thead>
+        <tbody>#{rows}</tbody>
+      </table>
+    </section>
+  HTML
+end
 
-  month_grids = calendar_months(cal_start, cal_end)
-                .map { |d| render_month(d.year, d.month, tasks_by_date) }
-                .each_slice(3)
-                .map { |row| "<div class=\"month-row\">#{row.join}</div>" }
-                .join("\n")
+def month_grids_html(tasks_by_date, cal_start, cal_end)
+  calendar_months(cal_start, cal_end)
+    .map { |d| render_month(d.year, d.month, tasks_by_date) }
+    .each_slice(3)
+    .map { |row| "<div class=\"month-row\">#{row.join}</div>" }
+    .join("\n")
+end
+
+def build_html_calendar(outstanding, cal_start, cal_end) # rubocop:disable Metrics/MethodLength
+  tasks_with_dates, tasks_without = outstanding.partition { |t| parse_date(t.due_at) }
+
+  tasks_by_date = Hash.new { |h, k| h[k] = [] }
+  tasks_with_dates.each { |t| tasks_by_date[parse_date(t.due_at)] << t }
 
   <<~HTML
     <!DOCTYPE html>
@@ -365,16 +361,16 @@ def build_html_calendar(outstanding, cal_start, cal_end)
       <p class="subtitle">Generated #{TODAY.strftime('%B %-d, %Y')} &nbsp;·&nbsp;
          #{outstanding.size} outstanding &nbsp;·&nbsp;
          #{tasks_with_dates.size} with due dates</p>
-      <div class="legend">#{legend_items}</div>
-      #{month_grids}
-      #{no_date_section}
+      <div class="legend">#{legend_html}</div>
+      #{month_grids_html(tasks_by_date, cal_start, cal_end)}
+      #{no_date_section_html(tasks_without)}
     </body>
     </html>
   HTML
 end
 
 # Determine calendar range
-tasks_with_due = outstanding.map { |t| parse_date(t.due_at) }.compact
+tasks_with_due = outstanding.filter_map { |t| parse_date(t.due_at) }
 earliest_due   = tasks_with_due.min || TODAY
 latest_due     = tasks_with_due.max || (TODAY >> 1)
 
@@ -397,5 +393,5 @@ File.write(cal_file, html)
 puts '─' * 72
 puts "  HTML CALENDAR  →  #{cal_file}"
 puts "  Range: #{cal_start.strftime('%b %-d, %Y')} – #{cal_end.strftime('%b %-d, %Y')}"
-puts "  Open in any browser. Override range with CALENDAR_START / CALENDAR_END."
+puts '  Open in any browser. Override range with CALENDAR_START / CALENDAR_END.'
 puts

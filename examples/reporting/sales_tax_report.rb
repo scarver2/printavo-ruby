@@ -36,12 +36,12 @@ require 'date'
 require 'dotenv/load'
 require 'printavo'
 
-TAX_RATE = (ENV.fetch('TAX_RATE', '8.25').to_f / 100).freeze  # e.g. 8.25%
+TAX_RATE = (ENV.fetch('TAX_RATE', '8.25').to_f / 100) # e.g. 8.25%
 
 client = Printavo::Client.new(
   email: ENV.fetch('PRINTAVO_EMAIL'),
   token: ENV.fetch('PRINTAVO_TOKEN'),
-  cache: Printavo::MemoryStore.new  # essential for fee-level detail approach
+  cache: Printavo::MemoryStore.new # essential for fee-level detail approach
 )
 
 # ── Date Period Helpers ───────────────────────────────────────────────────────
@@ -54,12 +54,15 @@ module Periods
   def self.today        = [TODAY, TODAY]
   def self.this_week    = [TODAY - TODAY.wday + 1, TODAY]
   def self.this_month   = [Date.new(YEAR, MONTH, 1), TODAY]
+
   def self.this_quarter
-    q_start_month = ((MONTH - 1) / 3) * 3 + 1
+    q_start_month = (((MONTH - 1) / 3) * 3) + 1
     [Date.new(YEAR, q_start_month, 1), TODAY]
   end
+
   def self.ytd          = [Date.new(YEAR, 1, 1), TODAY]
   def self.last_year    = [Date.new(YEAR - 1, 1, 1), Date.new(YEAR - 1, 12, 31)]
+
   def self.custom(start_str, end_str)
     [Date.parse(start_str), Date.parse(end_str)]
   end
@@ -67,7 +70,7 @@ end
 
 # ── Invoice Fetching ──────────────────────────────────────────────────────────
 
-puts "Fetching invoices from Printavo (this may take a moment)..."
+puts 'Fetching invoices from Printavo (this may take a moment)...'
 all_invoices = client.invoices.all_pages(first: 100)
 puts "Fetched #{all_invoices.size} invoices total.\n\n"
 
@@ -99,10 +102,10 @@ def invoice_level_report(invoices, start_date, end_date, tax_rate)
   tax_estimate = gross * tax_rate
 
   {
-    period:       "#{start_date} → #{end_date}",
-    invoices:     subset.size,
-    gross_sales:  gross,
-    tax_rate:     tax_rate,
+    period: "#{start_date} → #{end_date}",
+    invoices: subset.size,
+    gross_sales: gross,
+    tax_rate: tax_rate,
     tax_estimate: tax_estimate
   }
 end
@@ -125,42 +128,49 @@ def fee_level_detail(invoices, start_date, end_date, client)
 
   subset.each do |invoice|
     fees          = client.fees.all(order_id: invoice.id)
-    taxable_fees  = fees.select { |f| f.taxable? }
-    taxable_total = taxable_fees.sum { |f| f.amount.to_f }
+    taxable_total = fees.select(&:taxable?).sum { |f| f.amount.to_f }
 
     rows << {
-      visual_id:     invoice.visual_id,
-      date:          invoice_date(invoice),
+      visual_id: invoice.visual_id,
+      date: invoice_date(invoice),
       invoice_total: invoice.total.to_f,
       taxable_total: taxable_total,
-      fee_count:     fees.size,
-      taxable_fees:  taxable_fees.size
+      fee_count: fees.size,
+      taxable_fees: fees.count(&:taxable?)
     }
   end
 
   rows
 end
 
-# ── Formatter ─────────────────────────────────────────────────────────────────
+# ── Formatters ────────────────────────────────────────────────────────────────
 
+# Formats a float as a dollar amount with comma thousands separator.
 def fmt_currency(amount)
-  format('$%,.2f', amount)
+  negative       = amount.negative?
+  whole, decimal = format('%<n>.2f', n: amount.abs).split('.')
+  grouped        = whole.chars.reverse.each_slice(3).map(&:join).join(',').reverse
+  "#{'-' if negative}$#{grouped}.#{decimal}"
 end
 
 def fmt_pct(rate)
-  format('%.4f%%', rate * 100)
+  format('%<rate>.4f%%', rate: rate * 100)
+end
+
+def tax_row(label, value, width = 30)
+  "  #{label.ljust(width)} #{value}"
 end
 
 def print_summary(label, report)
-  separator = '─' * 52
-  puts separator
-  puts "  #{label.upcase}"
-  puts "  #{report[:period]}"
-  puts separator
-  puts format('  %-30s %d', 'Invoices:', report[:invoices])
-  puts format('  %-30s %s', 'Gross Sales:', fmt_currency(report[:gross_sales]))
-  puts format('  %-30s %s', 'Applied Tax Rate:', fmt_pct(report[:tax_rate]))
-  puts format('  %-30s %s', 'Estimated Tax Collected:', fmt_currency(report[:tax_estimate]))
+  sep  = '─' * 52
+  rows = [
+    ['Invoices:',                report[:invoices]],
+    ['Gross Sales:',             fmt_currency(report[:gross_sales])],
+    ['Applied Tax Rate:',        fmt_pct(report[:tax_rate])],
+    ['Estimated Tax Collected:', fmt_currency(report[:tax_estimate])]
+  ]
+  puts [sep, "  #{label.upcase}", "  #{report[:period]}", sep]
+  rows.each { |lbl, val| puts tax_row(lbl, val) }
   puts
 end
 
@@ -170,12 +180,12 @@ puts "APPROACH 1 — Invoice-Level Estimates  (tax rate: #{fmt_pct(TAX_RATE)})"
 puts "(Set TAX_RATE env var to your effective rate, e.g. TAX_RATE=8.25)\n\n"
 
 periods = {
-  'Today'        => Periods.today,
-  'This Week'    => Periods.this_week,
-  'This Month'   => Periods.this_month,
+  'Today' => Periods.today,
+  'This Week' => Periods.this_week,
+  'This Month' => Periods.this_month,
   'This Quarter' => Periods.this_quarter,
   'Year to Date' => Periods.ytd,
-  'Last Year'    => Periods.last_year
+  'Last Year' => Periods.last_year
 }
 
 if ENV['REPORT_START'] && ENV['REPORT_END']
@@ -210,27 +220,24 @@ else
   partially_taxed  = rows.count { |r| r[:taxable_total].positive? && r[:taxable_total] < r[:invoice_total] }
   untaxed          = rows.count { |r| r[:taxable_total].zero? }
 
-  puts format('  %-30s %d', 'Invoices analyzed:', rows.size)
-  puts format('  %-30s %s', 'Total Invoiced (YTD):', fmt_currency(invoice_sum))
-  puts format('  %-30s %s', 'Total Taxable Amount:', fmt_currency(taxable_sum))
-  puts format('  %-30s %s', 'Tax at Applied Rate:', fmt_currency(taxable_sum * TAX_RATE))
+  puts tax_row('Invoices analyzed:', rows.size)
+  puts tax_row('Total Invoiced (YTD):', fmt_currency(invoice_sum))
+  puts tax_row('Total Taxable Amount:', fmt_currency(taxable_sum))
+  puts tax_row('Tax at Applied Rate:',  fmt_currency(taxable_sum * TAX_RATE))
   puts
-  puts format('  %-30s %d', 'Fully taxable invoices:', fully_taxed)
-  puts format('  %-30s %d', 'Partially taxable:', partially_taxed)
-  puts format('  %-30s %d', 'No taxable fees:', untaxed)
+  puts tax_row('Fully taxable invoices:', fully_taxed)
+  puts tax_row('Partially taxable:',      partially_taxed)
+  puts tax_row('No taxable fees:',        untaxed)
   puts
 
   # Optional: print per-invoice detail (comment out for large histories)
   if rows.size <= 50
     puts '  INVOICE DETAIL'
-    puts format('  %-12s %-12s %14s %14s', 'Invoice #', 'Date', 'Total', 'Taxable')
+    puts '  Invoice #    Date                  Total        Taxable'
     puts "  #{'-' * 54}"
     rows.sort_by { |r| r[:date] || Date.new(0) }.each do |r|
-      puts format('  %-12s %-12s %14s %14s',
-                  r[:visual_id],
-                  r[:date].to_s,
-                  fmt_currency(r[:invoice_total]),
-                  fmt_currency(r[:taxable_total]))
+      puts "  #{r[:visual_id].to_s.ljust(12)} #{r[:date].to_s.ljust(12)} " \
+           "#{fmt_currency(r[:invoice_total]).rjust(14)} #{fmt_currency(r[:taxable_total]).rjust(14)}"
     end
     puts
   end

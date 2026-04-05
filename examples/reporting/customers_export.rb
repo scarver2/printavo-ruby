@@ -49,15 +49,15 @@ abort 'No customers found. Check your credentials.' if customers.empty?
 # Add or remove fields here to customize all spreadsheet exports at once.
 
 COLUMNS = [
-  ['ID',         ->(c) { c.id }],
-  ['First Name', ->(c) { c.first_name }],
-  ['Last Name',  ->(c) { c.last_name }],
-  ['Full Name',  ->(c) { c.full_name }],
-  ['Company',    ->(c) { c.company }],
-  ['Email',      ->(c) { c.email }],
-  ['Phone',      ->(c) { c.phone }],
-  ['Created At', ->(c) { c.created_at }],
-  ['Updated At', ->(c) { c.updated_at }]
+  ['ID',         lambda(&:id)],
+  ['First Name', lambda(&:first_name)],
+  ['Last Name',  lambda(&:last_name)],
+  ['Full Name',  lambda(&:full_name)],
+  ['Company',    lambda(&:company)],
+  ['Email',      lambda(&:email)],
+  ['Phone',      lambda(&:phone)],
+  ['Created At', lambda(&:created_at)],
+  ['Updated At', lambda(&:updated_at)]
 ].freeze
 
 # ── CSV (Universal) ───────────────────────────────────────────────────────────
@@ -110,7 +110,7 @@ def export_xls(customers, path)
   book  = Spreadsheet::Workbook.new
   sheet = book.create_worksheet(name: 'Customers')
 
-  header_format        = Spreadsheet::Format.new(weight: :bold)
+  header_format = Spreadsheet::Format.new(weight: :bold)
   sheet.row(0).default_format = header_format
   sheet.row(0).push(*COLUMNS.map(&:first))
 
@@ -136,7 +136,7 @@ def vcard_escape(str)
   str.to_s.gsub(',', '\\,').gsub(';', '\\;').gsub("\n", '\\n')
 end
 
-def to_vcard(customer)
+def to_vcard(customer) # rubocop:disable Metrics/AbcSize
   lines = ['BEGIN:VCARD', 'VERSION:3.0']
   lines << "FN:#{vcard_escape(customer.full_name)}"
   lines << "N:#{vcard_escape(customer.last_name)};#{vcard_escape(customer.first_name)};;;"
@@ -162,8 +162,7 @@ end
 
 def export_hubspot(customers, path)
   CSV.open(path, 'w') do |csv|
-    csv << %w[First\ Name Last\ Name Email Phone\ Number Company
-              Contact\ Owner Lifecycle\ Stage]
+    csv << ['First Name', 'Last Name', 'Email', 'Phone Number', 'Company', 'Contact Owner', 'Lifecycle Stage']
     customers.each do |c|
       csv << [c.first_name, c.last_name, c.email, c.phone, c.company, '', 'customer']
     end
@@ -179,7 +178,7 @@ end
 
 def export_salesforce(customers, path)
   CSV.open(path, 'w') do |csv|
-    csv << %w[FirstName LastName Email Phone Account\ Name Description]
+    csv << ['FirstName', 'LastName', 'Email', 'Phone', 'Account Name', 'Description']
     customers.each do |c|
       csv << [c.first_name, c.last_name, c.email, c.phone, c.company,
               "Imported from Printavo — ID #{c.id}"]
@@ -196,7 +195,7 @@ end
 
 def export_mailchimp(customers, path)
   CSV.open(path, 'w') do |csv|
-    csv << %w[Email\ Address First\ Name Last\ Name PHONE COMPANY]
+    csv << ['Email Address', 'First Name', 'Last Name', 'PHONE', 'COMPANY']
     customers.each do |c|
       csv << [c.email, c.first_name, c.last_name, c.phone, c.company]
     end
@@ -285,7 +284,7 @@ end
 # ── Run All Exports ───────────────────────────────────────────────────────────
 
 exports = [
-  ['customers.csv',                  'CSV (Universal)',             method(:export_csv)],
+  ['customers.csv',                  'CSV (Universal)', method(:export_csv)],
   ['customers.vcf',                  'vCard 3.0',                  method(:export_vcf)],
   ['customers_hubspot.csv',          'HubSpot CSV',                method(:export_hubspot)],
   ['customers_salesforce.csv',       'Salesforce CSV',             method(:export_salesforce)],
@@ -304,11 +303,11 @@ puts "  CUSTOMER EXPORT  (#{customers.size} records)"
 puts separator
 
 exports.each do |filename, label, fn|
-  print format('  %-36s', label)
+  print "  #{label.ljust(36)}"
   begin
     fn.call(customers, filename)
     size = File.size(filename)
-    puts format('%s  (%d bytes)', filename, size)
+    puts "#{filename}  (#{size} bytes)"
   rescue LoadError => e
     missing_gem = e.message.match(/cannot load such file -- (\S+)/i)&.[](1) || '?'
     puts "skipped — gem install #{missing_gem}"
