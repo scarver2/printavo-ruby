@@ -418,6 +418,18 @@ return values — they are exposed via model field accessors, not separate resou
 
 ## Future / Stretch Goals
 
+### Client-Side Aggregation Helpers
+
+> **Note:** Printavo's V2 GraphQL API exposes no pre-aggregated analytics or
+> reporting endpoints. All "analytics" must be computed locally by paging
+> through existing resources. A cache adapter (see below) is a prerequisite
+> before these helpers would be practical in production.
+
+- [ ] `Invoices#revenue_summary(after:, before:)` — page invoices, return total/count/average
+- [ ] `Orders#status_breakdown` — group order count by status key
+- [ ] `Customers#top(limit:, by:)` — rank customers by order count or revenue
+- [ ] `Orders#avg_turnaround` — average time from `created_at` to most recent `updated_at`
+
 ### Built-In Cache Adapter
 
 - [ ] Optional `cache:` kwarg on `Printavo::Client`
@@ -429,13 +441,6 @@ return values — they are exposed via model field accessors, not separate resou
 - [ ] `client.workflow.diagram(format: :svg)` — visual status flowchart
 - [ ] `ruby-graphviz` backend (DOT → SVG/PNG)
 - [ ] Mermaid output option (embed in GitHub markdown)
-
-### Multi-Language SDK Family
-
-- [ ] `printavo-python`
-- [ ] `printavo-swift`
-- [ ] `printavo-zig`
-- [ ] `printavo-odin`
 
 ---
 
