@@ -22,6 +22,7 @@ A framework-agnostic Ruby SDK for the [Printavo](https://www.printavo.com) Graph
 - Full [Printavo v2 GraphQL API](https://www.printavo.com/docs/api/v2) support
 - Resource-oriented interface: `client.customers.all`, `client.orders.find(id)`
 - Raw GraphQL access: `client.graphql.query("{ ... }")`
+- Sanitized GraphQL response envelopes that preserve partial data and errors
 - Rich domain models: `order.status`, `order.status?(:in_production)`, `order.customer`
 - Rack-compatible webhook signature verification
 - Multi-client support — no globals required
@@ -87,6 +88,44 @@ customer = client.customers.find("12345")
 puts customer.full_name   # => "Jane Smith"
 puts customer.company     # => "Acme Shirts"
 ```
+
+### Bounded Contact Pages
+
+```ruby
+page = client.contacts.page(
+  first: 50,
+  after: previous_cursor,
+  primary_only: true,
+  sort_on: Printavo::Enums::ContactSortField::CONTACT_NAME
+)
+
+page.records.each { |contact| puts contact.full_name }
+next_cursor = page.end_cursor if page.has_next_page
+
+# Partial GraphQL responses preserve successful records and sanitized errors.
+warn(page.errors.inspect) unless page.success?
+```
+
+`contacts.page` performs exactly one request and caps `first` at 100. It never
+follows the next cursor automatically.
+
+### GraphQL Response Envelopes
+
+```ruby
+envelope = client.graphql.query_envelope(
+  "query Contact($id: ID!) { contact(id: $id) { id email } }",
+  variables: { id: "123" }
+)
+
+envelope.data
+envelope.errors
+envelope.metadata
+envelope.partial?
+```
+
+`query` and `mutate` retain their strict behavior and raise `Printavo::ApiError`
+when GraphQL errors are present. Envelope methods preserve partial data without
+retaining credentials, raw HTTP objects, or provider response bodies.
 
 ### Orders
 

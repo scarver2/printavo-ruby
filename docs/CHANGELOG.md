@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.0] - 2026-07-29
+
+### Added
+- `Contacts#page` for one bounded contacts request with cursor, primary-contact,
+  query, and documented sort controls
+- `GraphqlClient#query_envelope` and `#mutate_envelope` for deeply immutable
+  partial data, sanitized errors, and allowlisted response metadata
+- `Page#errors`, `#metadata`, `#success?`, and `#partial?`
+
+### Security
+- Provider transport failures now raise an identifier-only `TransportError`
+  without retaining a Faraday exception cause or response body
+- GraphQL error details retain only allowlisted fields and redact configured
+  email and token values
+
 ## [0.17.0] - 2026-04-01
 
 ### Added

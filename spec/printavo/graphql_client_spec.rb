@@ -59,6 +59,125 @@ RSpec.describe Printavo::GraphqlClient do
       it 'raises ApiError with the error message' do
         expect { client.query(query) }.to raise_error(Printavo::ApiError, /Field not found/)
       end
+
+      it 'retains only sanitized error evidence on the exception' do
+        client.query(query)
+      rescue Printavo::ApiError => e
+        expect(e.response).to eq('errors' => [{ 'message' => 'Field not found' }])
+      end
+    end
+  end
+
+  describe '#query_envelope' do
+    let(:malformed_error) do
+      {
+        'message' => 'Malformed GraphQL response',
+        'extensions' => { 'code' => 'MALFORMED_RESPONSE' }
+      }
+    end
+
+    it 'returns a successful immutable envelope' do
+      data = { 'contacts' => { 'nodes' => [{ 'id' => '1' }] } }
+      stub_success(data)
+
+      envelope = client.query_envelope(query)
+
+      expect(envelope.data).to eq(data)
+      expect(envelope).to be_success
+      expect(envelope).to be_frozen
+    end
+
+    context 'with partial data and errors' do
+      subject(:partial_envelope) { envelope_client.query_envelope(query) }
+
+      let(:canary) { 'secret-token-canary' }
+      let(:envelope_client) { described_class.new(connection, sensitive_values: [canary]) }
+      let(:partial_body) do
+        {
+          'data' => { 'contacts' => { 'nodes' => [{ 'id' => '1' }] } },
+          'errors' => [
+            {
+              'message' => "Invalid token #{canary}",
+              'path' => ['contacts', 1, { 'unsafe' => true }],
+              'locations' => [{ 'line' => 2, 'column' => 3 }],
+              'extensions' => { 'code' => 'PARTIAL', 'token' => canary }
+            }
+          ]
+        }
+      end
+
+      before do
+        stub_request(:post, endpoint).to_return(
+          status: 200,
+          body: partial_body.to_json,
+          headers: {
+            'Content-Type' => 'application/json',
+            'X-Request-Id' => 'request-1',
+            'Authorization' => canary
+          }
+        )
+      end
+
+      it 'preserves the successful data' do
+        expect(partial_envelope).to be_partial
+        expect(partial_envelope.data.dig('contacts', 'nodes')).to eq([{ 'id' => '1' }])
+      end
+
+      it 'retains only allowlisted and sanitized error evidence' do
+        expect(partial_envelope.errors).to contain_exactly(
+          'message' => 'Invalid token [FILTERED]',
+          'path' => ['contacts', 1],
+          'locations' => [{ 'line' => 2, 'column' => 3 }],
+          'extensions' => { 'code' => 'PARTIAL' }
+        )
+      end
+
+      it 'retains safe metadata without the credential canary' do
+        expect(partial_envelope.metadata).to eq('x-request-id' => 'request-1')
+        expect(partial_envelope.to_h.to_s).not_to include(canary)
+      end
+    end
+
+    it 'preserves sanitized errors when data is absent' do
+      stub_request(:post, endpoint).to_return(
+        status: 200,
+        body: { 'errors' => [{ 'message' => 'No contacts available' }] }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      envelope = client.query_envelope(query)
+
+      expect(envelope.data).to be_nil
+      expect(envelope.errors).to eq([{ 'message' => 'No contacts available' }])
+      expect(envelope).not_to be_partial
+    end
+
+    it 'classifies a valid JSON value with the wrong shape as malformed' do
+      stub_request(:post, endpoint).to_return(
+        status: 200,
+        body: { 'unexpected' => true }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+      envelope = client.query_envelope(query)
+
+      expect(envelope.errors).to contain_exactly(malformed_error)
+    end
+
+    it 'keeps rate-limit classification strict' do
+      stub_request(:post, endpoint).to_return(status: 429, body: '').times(5)
+
+      expect { client.query_envelope(query) }.to raise_error(Printavo::RateLimitError)
+    end
+
+    it 'replaces transport exceptions and their response-bearing causes' do
+      stub_request(:post, endpoint)
+        .to_raise(Faraday::ConnectionFailed.new('provider response secret-token-canary'))
+
+      client.query_envelope(query)
+    rescue Printavo::TransportError => e
+      expect(e.message).to eq('Printavo transport request failed')
+      expect(e.cause).to be_nil
+      expect(e.message).not_to include('secret-token-canary')
     end
   end
 
@@ -106,6 +225,31 @@ RSpec.describe Printavo::GraphqlClient do
       it 'raises AuthenticationError' do
         expect { client.mutate(mutation) }.to raise_error(Printavo::AuthenticationError)
       end
+    end
+  end
+
+  describe '#mutate_envelope' do
+    let(:mutation) { 'mutation { contactCreate(input: {}) { id } }' }
+    let(:partial_mutation_body) do
+      {
+        'data' => { 'contactCreate' => { 'id' => '123' } },
+        'errors' => [{ 'message' => 'Confirmation unavailable' }]
+      }
+    end
+
+    before do
+      stub_request(:post, endpoint).to_return(
+        status: 200,
+        body: partial_mutation_body.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+    end
+
+    it 'preserves an uncertain partial mutation for caller classification' do
+      envelope = client.mutate_envelope(mutation)
+
+      expect(envelope).to be_partial
+      expect(envelope.data.dig('contactCreate', 'id')).to eq('123')
     end
   end
 
