@@ -1,0 +1,36 @@
+query Contacts(
+  $first: Int
+  $after: String
+  $primaryOnly: Boolean
+  $query: String
+  $sortOn: ContactSortField
+  $sortDescending: Boolean
+) {
+  contacts(
+    first: $first
+    after: $after
+    primaryOnly: $primaryOnly
+    query: $query
+    sortOn: $sortOn
+    sortDescending: $sortDescending
+  ) {
+    nodes {
+      id
+      firstName
+      lastName
+      fullName
+      email
+      phone
+      fax
+      createdAt
+      updatedAt
+      customer {
+        id
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

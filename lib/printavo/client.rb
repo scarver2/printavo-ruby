@@ -47,7 +47,12 @@ module Printavo
         max_retries: max_retries,
         retry_on_rate_limit: retry_on_rate_limit
       ).build
-      @graphql = GraphqlClient.new(connection, cache: cache, default_ttl: default_ttl)
+      @graphql = GraphqlClient.new(
+        connection,
+        cache: cache,
+        default_ttl: default_ttl,
+        sensitive_values: [email, token]
+      )
     end
 
     def account

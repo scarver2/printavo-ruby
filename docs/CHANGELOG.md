@@ -6,6 +6,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.19.0] - 2026-07-29
+
+### Added
+- `Contacts#page` for one bounded contacts request with cursor, primary-contact,
+  query, and documented sort controls
+- `GraphqlClient#query_envelope` and `#mutate_envelope` for deeply immutable
+  partial data, sanitized errors, and allowlisted response metadata
+- `Page#errors`, `#metadata`, `#success?`, and `#partial?`
+
+### Security
+- Provider transport failures now raise an identifier-only `TransportError`
+  without retaining a Faraday exception cause or response body
+- GraphQL error details retain only allowlisted fields and redact configured
+  email and token values
+
+## [0.18.1] - 2026-04-05
+
+### Added
+- `examples/diagramming/workflow_diagram.rb` — generates Printavo status
+  workflows as ASCII, Mermaid, DOT, or SVG
+- `examples/reporting/sales_report.rb` — summarizes invoice revenue for common
+  and custom reporting periods
+- `examples/reporting/sales_tax_report.rb` — provides invoice-level sales-tax
+  estimates and fee-level taxable detail
+- `examples/reporting/customers_export.rb` — exports customer data to CSV,
+  XLSX, XLS, vCard, HubSpot, Salesforce, Mailchimp, Constant Contact, Beehiiv,
+  Brevo, and ActiveCampaign formats
+- `examples/reporting/outstanding_tasks.rb` — reports outstanding tasks by due
+  period and assignee and generates an HTML calendar
+- `docs/VISUALIZATION.md` — documents the standalone workflow-diagram example,
+  supported formats, dependencies, and usage
+
+### Changed
+- GitHub Actions now use Node.js 24-compatible `actions/checkout@v4.3.1` and
+  `actions/upload-artifact@v4.6.2`
+
+## [0.18.0] - 2026-04-05
+
+### Added
+- Optional `cache:` and `default_ttl:` arguments on `Printavo::Client`; the
+  cache accepts any store implementing the `Rails.cache`-compatible
+  `fetch(key, expires_in:) { }` and `delete(key)` interface
+- `Printavo::MemoryStore` — a thread-safe, TTL-aware in-memory cache for
+  applications that do not use Rails or an external cache
+- Automatic GraphQL query caching with stable SHA-256 keys derived from the
+  normalized query document and variables
+- Cache adapter and memory-store coverage in the client and GraphQL client
+  specs
+
+### Changed
+- GraphQL mutations always bypass the cache
+- `docs/CACHING.md` now documents `Rails.cache`, `Printavo::MemoryStore`,
+  custom stores, cache-key generation, and mutation behavior
+
 ## [0.17.0] - 2026-04-01
 
 ### Added

@@ -14,9 +14,11 @@ module Printavo
   #   client.customers.each_page(first: 10) do |records|
   #     records.each { |c| puts c.full_name }
   #   end
-  Page = Struct.new(:records, :has_next_page, :end_cursor, keyword_init: true) do
+  Page = Struct.new(:records, :has_next_page, :end_cursor, :errors, :metadata, keyword_init: true) do
     def to_a    = records
     def size    = records.size
     def empty?  = records.empty?
+    def success? = Array(errors).empty?
+    def partial? = records.any? && !success?
   end
 end

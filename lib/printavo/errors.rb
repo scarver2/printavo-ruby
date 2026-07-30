@@ -10,6 +10,8 @@ module Printavo
 
   class NotFoundError < Error; end
 
+  class TransportError < Error; end
+
   class ApiError < Error
     attr_reader :response
 

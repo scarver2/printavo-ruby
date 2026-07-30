@@ -59,4 +59,23 @@ RSpec.describe Printavo::Page do
       expect(last_page.empty?).to be true
     end
   end
+
+  describe 'response evidence' do
+    it 'defaults missing errors to successful' do
+      expect(page).to be_success
+      expect(page).not_to be_partial
+    end
+
+    it 'identifies a page containing records and errors as partial' do
+      partial_page = described_class.new(
+        records: records,
+        has_next_page: false,
+        end_cursor: nil,
+        errors: [{ 'message' => 'One field failed' }]
+      )
+
+      expect(partial_page).to be_partial
+      expect(partial_page).not_to be_success
+    end
+  end
 end
