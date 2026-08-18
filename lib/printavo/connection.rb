@@ -29,7 +29,7 @@ module Printavo
         f.headers['email']        = @email
         f.headers['token']        = @token
         f.request :retry, **retry_options
-        f.response :json
+        f.response :json, preserve_raw: true
         f.options.timeout      = @timeout
         f.options.open_timeout = @timeout
         f.adapter Faraday.default_adapter

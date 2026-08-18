@@ -15,6 +15,14 @@ RSpec.describe Printavo::GraphqlClient do
                  headers: { 'Content-Type' => 'application/json' })
   end
 
+  def stub_exact_response(body)
+    stub_request(:post, endpoint).to_return(
+      status: 200,
+      body: body,
+      headers: { 'Content-Type' => 'application/json', 'X-Request-Id' => 'request-1' }
+    )
+  end
+
   describe '#query' do
     let(:data) { { 'customers' => { 'nodes' => [{ 'id' => '1' }] } } }
 
@@ -87,6 +95,52 @@ RSpec.describe Printavo::GraphqlClient do
       expect(envelope).to be_frozen
     end
 
+    it 'preserves exact noncanonical response bytes before JSON parsing' do
+      response_body = '{ "data" : {"contacts":{"nodes":[' \
+                      '{"label":"Caf\\u00e9","ratio":1.00,"id":"1"}]}} }'
+      stub_request(:post, endpoint).to_return(
+        status: 200,
+        body: response_body,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      envelope = client.query_envelope(query)
+
+      expect(envelope.response_payload).to eq(response_body.b)
+      expect(envelope.data.dig('contacts', 'nodes', 0)).to include('label' => 'Café', 'ratio' => 1.0)
+    end
+
+    it 'rehydrates captured payloads without network access' do
+      stub_exact_response('{"data":{"contacts":{"nodes":[{"id":"1"}]}}}')
+      live = client.query_envelope(query)
+      WebMock.reset!
+      replay = client.envelope_from_response_payload(
+        live.response_payload,
+        metadata: { 'X-Request-Id' => 'request-1', 'Authorization' => 'excluded' }
+      )
+      expect(replay.to_h).to eq(live.to_h)
+      expect(replay.response_payload).to eq(live.response_payload)
+      expect(WebMock).not_to have_requested(:post, endpoint)
+    end
+
+    it 'returns sanitized malformed evidence for invalid captured JSON' do
+      envelope = client.envelope_from_response_payload(
+        '{invalid-json',
+        metadata: { 'X-Request-Id' => 'request-1', 'Cookie' => 'excluded' }
+      )
+
+      expect(envelope.errors).to contain_exactly(malformed_error)
+      expect(envelope.metadata).to eq('x-request-id' => 'request-1')
+      expect(envelope.response_payload).to eq('{invalid-json'.b)
+    end
+
+    it 'rejects invalid replay inputs before parsing' do
+      expect { client.envelope_from_response_payload({}) }
+        .to raise_error(ArgumentError, 'response_payload must be a String')
+      expect { client.envelope_from_response_payload('{}', metadata: []) }
+        .to raise_error(ArgumentError, 'metadata must be a Hash')
+    end
+
     context 'with partial data and errors' do
       subject(:partial_envelope) { envelope_client.query_envelope(query) }
 
@@ -135,6 +189,16 @@ RSpec.describe Printavo::GraphqlClient do
       it 'retains safe metadata without the credential canary' do
         expect(partial_envelope.metadata).to eq('x-request-id' => 'request-1')
         expect(partial_envelope.to_h.to_s).not_to include(canary)
+        expect(partial_envelope.inspect).not_to include(canary)
+      end
+
+      it 'rehydrates the same partial data and sanitized errors' do
+        replay = envelope_client.envelope_from_response_payload(partial_envelope.response_payload)
+
+        expect(replay.data).to eq(partial_envelope.data)
+        expect(replay.errors).to eq(partial_envelope.errors)
+        expect(replay).to be_partial
+        expect(replay.response_payload).to eq(partial_envelope.response_payload)
       end
     end
 

@@ -18,7 +18,8 @@ RSpec.describe Printavo::Resources::Contacts do
           }
         },
         errors: [],
-        metadata: { 'x-request-id' => 'request-1' }
+        metadata: { 'x-request-id' => 'request-1' },
+        response_payload: '{ "data": {"contacts": []} }'
       )
     end
     let(:all_filters) do
@@ -64,6 +65,34 @@ RSpec.describe Printavo::Resources::Contacts do
       expect(page.has_next_page).to be true
       expect(page.end_cursor).to eq('cursor-1')
       expect(page.metadata).to eq('x-request-id' => 'request-1')
+    end
+
+    it 'carries exact response evidence without exposing it through inspection' do
+      page = resource.page
+
+      expect(page.response_payload).to eq('{ "data": {"contacts": []} }'.b)
+      expect(page.response_payload).to be_frozen
+      expect(page.inspect).not_to include('{ "data"')
+    end
+
+    it 'rejects non-string response evidence' do
+      expect { Printavo::Page.new(records: [], response_payload: {}) }
+        .to raise_error(ArgumentError, 'response_payload must be a String')
+    end
+
+    it 'rehydrates the same contact page through the SDK parser' do
+      allow(graphql).to receive(:envelope_from_response_payload)
+        .with(envelope.response_payload, metadata: { 'x-request-id' => 'request-1' })
+        .and_return(envelope)
+
+      page = resource.page_from_response_payload(
+        envelope.response_payload,
+        metadata: { 'x-request-id' => 'request-1' }
+      )
+
+      expect(page.records.map(&:to_h)).to eq(resource.page.records.map(&:to_h))
+      expect(page).to have_attributes(has_next_page: true, end_cursor: 'cursor-1')
+      expect(page.response_payload).to eq(envelope.response_payload.b)
     end
 
     it 'sends documented filters without following the next cursor' do

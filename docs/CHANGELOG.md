@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0] - 2026-08-17
+
+### Added
+- `ResponseEnvelope#response_payload` exposes the exact immutable binary HTTP
+  response bytes captured before JSON parsing.
+- `Page#response_payload` carries the exact payload for bounded contact pages.
+- `GraphqlClient#envelope_from_response_payload` and
+  `Contacts#page_from_response_payload` rehydrate captured responses through
+  the same validation, sanitization, and page-building path without network I/O.
+
+### Security
+- Raw response payloads remain excluded from `ResponseEnvelope#to_h` and from
+  ordinary `ResponseEnvelope` and `Page` inspection. They may contain private
+  provider data and must be handled through an explicit evidence boundary.
+
 ## [0.19.0] - 2026-07-29
 
 ### Added

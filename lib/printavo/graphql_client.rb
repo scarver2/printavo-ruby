@@ -92,6 +92,23 @@ module Printavo
       execute_envelope(mutation_string, variables: variables)
     end
 
+    # Rehydrates one captured GraphQL response without performing network I/O.
+    # The exact payload remains attached to the immutable envelope while parsed
+    # data and errors follow the same validation and sanitization as live calls.
+    def envelope_from_response_payload(response_payload, metadata: {})
+      raise ArgumentError, 'response_payload must be a String' unless response_payload.is_a?(String)
+
+      payload = response_payload.b.dup.freeze
+      body = JSON.parse(payload)
+      build_envelope(
+        body: body,
+        metadata: safe_metadata_hash(metadata),
+        response_payload: payload
+      )
+    rescue JSON::ParserError
+      malformed_envelope(metadata: safe_metadata_hash(metadata), response_payload: payload)
+    end
+
     # Iterates all pages of a paginated GraphQL query, yielding each page's
     # nodes array. The query must accept `$first: Int` and `$after: String`
     # variables, and the target connection must expose `nodes` and `pageInfo`.
@@ -160,13 +177,21 @@ module Printavo
       when 404 then raise NotFoundError, 'Resource not found'
       end
 
-      body = response.body
-      return malformed_envelope(response) unless valid_envelope?(body)
+      build_envelope(
+        body: response.body,
+        metadata: safe_metadata_hash(response.headers.to_h),
+        response_payload: raw_response_payload(response)
+      )
+    end
+
+    def build_envelope(body:, metadata:, response_payload:)
+      return malformed_envelope(metadata: metadata, response_payload: response_payload) unless valid_envelope?(body)
 
       ResponseEnvelope.new(
         data: body['data'],
         errors: sanitize_errors(body.fetch('errors', [])),
-        metadata: safe_metadata(response)
+        metadata: metadata,
+        response_payload: response_payload
       )
     end
 
@@ -179,7 +204,7 @@ module Printavo
       errors.is_a?(Array) && errors.all?(Hash)
     end
 
-    def malformed_envelope(response)
+    def malformed_envelope(metadata:, response_payload:)
       ResponseEnvelope.new(
         data: nil,
         errors: [
@@ -188,8 +213,13 @@ module Printavo
             'extensions' => { 'code' => 'MALFORMED_RESPONSE' }
           }
         ],
-        metadata: safe_metadata(response)
+        metadata: metadata,
+        response_payload: response_payload
       )
+    end
+
+    def raw_response_payload(response)
+      response.env[:raw_body]
     end
 
     def sanitize_errors(errors)
@@ -227,8 +257,10 @@ module Printavo
       extensions.slice(*SAFE_ERROR_EXTENSION_KEYS).transform_values { |value| redact(value.to_s)[0, 100] }
     end
 
-    def safe_metadata(response)
-      headers = response.headers.to_h.transform_keys(&:downcase)
+    def safe_metadata_hash(value)
+      raise ArgumentError, 'metadata must be a Hash' unless value.is_a?(Hash)
+
+      headers = value.transform_keys { |key| key.to_s.downcase }
       SAFE_METADATA_HEADERS.each_with_object({}) do |header, metadata|
         value = headers[header]
         metadata[header] = redact(value.to_s)[0, 100] unless value.nil?
