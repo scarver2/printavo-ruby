@@ -267,6 +267,10 @@ RSpec.describe Printavo::Client do
     it 'returns a Products resource' do
       expect(client.products).to be_a(Printavo::Resources::Products)
     end
+
+    it 'returns a Quotes resource' do
+      expect(client.quotes).to be_a(Printavo::Resources::Quotes)
+    end
   end
 
   describe '#login' do
