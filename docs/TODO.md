@@ -18,7 +18,7 @@ Full task list for `printavo-ruby` across all versions. Checked items are shippe
 - [x] Guard + RuboCop DX setup
 - [x] `bin/spec` — multi-Ruby local test runner (reads versions from `.mise.toml`)
 - [x] `bin/lint` — multi-Ruby RuboCop runner
-- [x] GitHub Actions CI: Ruby 3.3 + Ruby 4.0 matrix
+- [x] GitHub Actions CI: Ruby 3.3 + Ruby 3.4 + Ruby 4.0 matrix
 - [x] Automated RubyGems publish on `v*` tag via trusted publishing (`release.yml`)
 - [x] Git pre-push hook: guards `Gemfile.lock` version sync and `x86_64-linux` platform
 - [x] `Client#login` / `Client#logout` — raise `NotImplementedError`; gem uses header-based auth, not session mutations

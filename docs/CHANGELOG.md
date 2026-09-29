@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   registry verification, and recovery.
 - A root agent execution contract and focused repository-local skills for API,
   gem development, testing, and human-authorized release work.
+- Ruby 3.4 coverage in both the GitHub Actions and canonical local `mise`
+  verification matrices.
 
 ## [0.20.0] - 2026-08-17
 

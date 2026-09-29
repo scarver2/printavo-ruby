@@ -56,7 +56,7 @@ record against production TER data.
 
 - Branch from `master`
 - One feature / bug fix per PR
-- All CI checks must pass (RSpec + RuboCop across Ruby 3.1–4.0)
+- All CI checks must pass (RSpec + RuboCop across Ruby 3.3, 3.4, and 4.0)
 - Write specs for any new code
 - Update `docs/CHANGELOG.md` with a summary of changes
 
