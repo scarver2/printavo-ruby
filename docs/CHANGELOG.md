@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- An evidence-ranked backlog derived from adjacent Printavo OSS projects,
+  covering schema-generated types, resumable exports, complexity-aware query
+  composition, optional file downloads, and reusable read-only business tools.
 - Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`
   commands for repeatable local validation and RubyGems publication.
 - Exact package-content verification and isolated installation/loading before
