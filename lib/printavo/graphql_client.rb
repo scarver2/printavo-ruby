@@ -162,10 +162,10 @@ module Printavo
     end
 
     def execute_envelope(document, variables: {})
-      response = @connection.post('') do |req|
-        req.body = JSON.generate(query: document, variables: variables)
-      end
+      response = @connection.post('') { |request| request.body = JSON.generate(query: document, variables: variables) }
       handle_envelope(response)
+    rescue Faraday::ParsingError => e
+      handle_envelope(e.response)
     rescue Faraday::Error
       raise TransportError, 'Printavo transport request failed', cause: nil
     end
@@ -196,8 +196,7 @@ module Printavo
     end
 
     def valid_envelope?(body)
-      return false unless body.is_a?(Hash)
-      return false unless body.key?('data') || body.key?('errors')
+      return false unless body.is_a?(Hash) && (body.key?('data') || body.key?('errors'))
       return false unless body['data'].nil? || body['data'].is_a?(Hash)
 
       errors = body.fetch('errors', [])
@@ -219,7 +218,8 @@ module Printavo
     end
 
     def raw_response_payload(response)
-      response.env[:raw_body]
+      payload = response.env[:raw_body] || response.body
+      payload if payload.is_a?(String)
     end
 
     def sanitize_errors(errors)

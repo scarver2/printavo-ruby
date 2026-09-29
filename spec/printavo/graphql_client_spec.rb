@@ -134,6 +134,75 @@ RSpec.describe Printavo::GraphqlClient do
       expect(envelope.response_payload).to eq('{invalid-json'.b)
     end
 
+    shared_examples 'replayable malformed HTTP evidence' do |response:|
+      subject(:envelope) { client.query_envelope(query) }
+
+      before do
+        stub_request(:post, endpoint).to_return(
+          status: response.fetch(:status),
+          body: response.fetch(:body),
+          headers: {
+            'Content-Type' => response.fetch(:content_type),
+            'X-Request-Id' => response.fetch(:request_id),
+            response.fetch(:unsafe_header_name) => response.fetch(:unsafe_header_value)
+          }
+        )
+      end
+
+      it 'preserves exact frozen binary response bytes' do
+        expect(envelope.errors).to contain_exactly(malformed_error)
+        expect(envelope.response_payload).to eq(response.fetch(:body)).and have_attributes(encoding: Encoding::BINARY)
+        expect(envelope.response_payload).to be_frozen
+      end
+
+      it 'retains only allowlisted response metadata' do
+        exposed_evidence = [envelope.to_h, envelope.inspect].join
+        sensitive_evidence = Regexp.union(
+          response.fetch(:unsafe_header_value), PRINTAVO_TEST_EMAIL, PRINTAVO_TEST_TOKEN
+        )
+
+        expect(envelope.metadata).to eq('x-request-id' => response.fetch(:request_id))
+        expect(exposed_evidence).not_to match(sensitive_evidence)
+      end
+
+      it 'replays the same malformed envelope without network access' do
+        captured_envelope = envelope
+        WebMock.reset!
+        replay = client.envelope_from_response_payload(
+          captured_envelope.response_payload,
+          metadata: captured_envelope.metadata
+        )
+
+        expect(replay.to_h).to eq(captured_envelope.to_h)
+        expect(replay.response_payload).to eq(captured_envelope.response_payload)
+        expect(WebMock).not_to have_requested(:post, endpoint)
+      end
+    end
+
+    context 'with invalid JSON' do
+      it_behaves_like 'replayable malformed HTTP evidence',
+                      response: {
+                        body: "{\"token\":\xFF".b,
+                        status: 200,
+                        content_type: 'application/json',
+                        request_id: 'request-1',
+                        unsafe_header_name: 'Authorization',
+                        unsafe_header_value: 'secret-request-credential'
+                      }
+    end
+
+    context 'with a non-JSON response' do
+      it_behaves_like 'replayable malformed HTTP evidence',
+                      response: {
+                        body: "<html>upstream unavailable \xFF</html>".b,
+                        status: 502,
+                        content_type: 'text/html',
+                        request_id: 'request-2',
+                        unsafe_header_name: 'Cookie',
+                        unsafe_header_value: 'secret-request-cookie'
+                      }
+    end
+
     it 'rejects invalid replay inputs before parsing' do
       expect { client.envelope_from_response_payload({}) }
         .to raise_error(ArgumentError, 'response_payload must be a String')
