@@ -171,6 +171,24 @@ job = client.jobs.find("77")
 puts job.taxable?   # => true
 ```
 
+### Payment Ledger
+
+```ruby
+client.transactions.all(order_id: "99").each do |transaction|
+  case transaction
+  when Printavo::Payment
+    puts "Payment: #{transaction.amount}"
+    transaction.disputes.each { |dispute| puts dispute.status }
+  when Printavo::Refund, Printavo::Return, Printavo::Void
+    puts "Adjustment: #{transaction.amount}"
+  end
+end
+```
+
+Transactions are returned as their documented concrete union type:
+`Printavo::Payment`, `Printavo::PaymentDispute`, `Printavo::Refund`,
+`Printavo::Return`, or `Printavo::Void`.
+
 ### Pagination
 
 All list resources support `each_page` and `all_pages` in addition to `all`.

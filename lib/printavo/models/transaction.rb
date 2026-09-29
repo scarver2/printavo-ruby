@@ -3,9 +3,16 @@
 
 module Printavo
   class Transaction < Models::Base
-    def id         = self['id']
-    def amount     = self['amount']
-    def kind       = self['kind']
-    def created_at = self['createdAt']
+    def id               = self['id']
+    def amount           = self['amount']
+    def category         = self['category']
+    def description      = self['description']
+    def processing?      = !!self['processing']
+    def transaction_date = self['transactionDate']
+    def created_at       = dig('timestamps', 'createdAt') || self['createdAt']
+    def updated_at       = dig('timestamps', 'updatedAt')
+
+    # Retained for payloads produced by earlier API schemas.
+    def kind = self['kind']
   end
 end
