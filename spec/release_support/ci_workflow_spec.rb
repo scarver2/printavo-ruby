@@ -20,5 +20,21 @@ RSpec.describe 'CI workflow' do
 
     expect(ci_minors).to match_array(mise_minors)
   end
+
+  it 'uses the canonical project commands and treats every matrix entry as required' do
+    expect(workflow).to include('run: bin/spec --current', 'run: bin/lint --current')
+    expect(workflow).not_to include('continue-on-error')
+  end
+
+  it 'pins every action to an immutable commit' do
+    action_references = workflow.scan(/uses:\s+\S+@([^\s]+)/).flatten
+
+    expect(action_references).not_to be_empty
+    expect(action_references).to all(match(/\A[0-9a-f]{40}\z/))
+  end
+
+  it 'uses least-privilege permissions and a bounded job runtime' do
+    expect(workflow).to include("permissions:\n  contents: read", 'timeout-minutes: 15')
+  end
 end
 # rubocop:enable RSpec/DescribeClass
