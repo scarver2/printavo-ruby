@@ -395,6 +395,7 @@ end
 ## Versioning Roadmap
 
 - [CHANGELOG](docs/CHANGELOG.md) — what shipped in each release
+- [RELEASING](docs/RELEASING.md) — guarded packaging and RubyGems publication
 - [TODO](docs/TODO.md) — planned versions, API coverage gaps, and stretch goals
 
 **Rules**: `PATCH` = bug fix · `MINOR` = new backward-compatible feature · `MAJOR` = breaking change

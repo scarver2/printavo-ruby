@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`
+  commands for repeatable local validation and RubyGems publication.
+- Exact package-content verification and isolated installation/loading before
+  a release can reach the protected publishing job.
+- A release runbook covering preparation, tagging, environment approval,
+  registry verification, and recovery.
+
 ## [0.20.0] - 2026-08-17
 
 ### Added

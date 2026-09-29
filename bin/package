@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# bin/package
+
+source "$(dirname "$0")/_lib.sh"
+
+version="$(run ruby -Ilib -rprintavo/version -e 'print Printavo::VERSION')"
+package_dir="$ROOT_DIR/pkg"
+package_file="$package_dir/printavo-ruby-${version}.gem"
+install_dir="$(mktemp -d)"
+trap 'rm -rf -- "$install_dir"' EXIT
+
+mkdir -p "$package_dir"
+
+say "Building $package_file"
+run gem build printavo-ruby.gemspec --output "$package_file"
+
+say "Inspecting packaged files"
+run ruby "$BIN_DIR/verify-package.rb" "$package_file"
+
+say "Installing the built gem into an isolated GEM_HOME"
+run gem install "$package_file" --install-dir "$install_dir/gems" --no-document
+
+say "Loading the installed gem from the isolated GEM_HOME"
+if [[ -n "$MISE_BIN" ]]; then
+  ruby_bin="$("$MISE_BIN" which ruby)"
+else
+  ruby_bin="$(command -v ruby)"
+fi
+check_command='require "printavo"; spec = Gem.loaded_specs.fetch("printavo-ruby"); expected_home = File.realpath(ENV.fetch("GEM_HOME")); loaded_path = File.realpath(spec.full_gem_path); abort "version mismatch" unless Printavo::VERSION == ENV.fetch("EXPECTED_VERSION"); abort "gem loaded outside isolated GEM_HOME" unless loaded_path.start_with?(expected_home + File::SEPARATOR); abort "printavo executable missing" unless File.file?(File.join(loaded_path, "bin/printavo")); puts "Loaded printavo-ruby #{Printavo::VERSION} from #{loaded_path}"'
+GEM_HOME="$install_dir/gems" GEM_PATH="$install_dir/gems" EXPECTED_VERSION="$version" \
+  "$ruby_bin" -e "$check_command"
+
+say "Package verification complete"

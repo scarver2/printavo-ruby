@@ -13,8 +13,28 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  verify:
+    name: Verify release source and package
+    if: github.repository == 'scarver2/printavo-ruby'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - run: bin/verify-release-tag
+      - run: bundle exec rspec
+      - run: bundle exec rubocop
+      - run: bin/package
+
   publish:
-    name: Publish to RubyGems
+    name: Publish gem
+    if: github.repository == 'scarver2/printavo-ruby'
+    needs: verify
     runs-on: ubuntu-latest
     environment: release
 
@@ -23,20 +43,13 @@ jobs:
       id-token: write   # required for OIDC trusted publishing
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.3.1
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "3.3"
           bundler-cache: true
-
-      - name: Run tests before publishing
-        run: bundle exec rspec
-
-      - name: Run RuboCop before publishing
-        run: bundle exec rubocop
-
-      - name: Push to RubyGems via trusted publishing
-        uses: rubygems/release-gem@v1
+      - run: bin/verify-release-tag
+      - uses: rubygems/release-gem@7f9650160c1a4e7989fdc9855807bdbd421d8b6b # v1
