@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- A single-request, read-only `bin/live-contract` check for current query,
+  batch-mutation, line-item, and transaction-union schema support.
 - Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`
   commands for repeatable local validation and RubyGems publication.
 - Exact package-content verification and isolated installation/loading before

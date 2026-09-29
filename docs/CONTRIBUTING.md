@@ -21,6 +21,14 @@ bundle exec rspec
 Coverage is tracked via SimpleCov. The minimum threshold is **90%**.
 New code must include specs.
 
+Live provider contract checks are opt-in and require demo-account credentials:
+
+```bash
+PRINTAVO_EMAIL="..." PRINTAVO_TOKEN="..." bin/live-contract
+```
+
+See [LIVE_TESTING.md](LIVE_TESTING.md) for the read-only scope and safety rules.
+
 ## Guard DX (Recommended)
 
 Guard watches for file changes and re-runs specs and RuboCop automatically:
