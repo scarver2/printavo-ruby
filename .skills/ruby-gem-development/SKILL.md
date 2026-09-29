@@ -7,8 +7,10 @@ description: Apply printavo-ruby's Ruby gem implementation conventions when chan
 
 ## Development Contract
 
-- Use Ruby 3.3 or newer through `mise`; `.mise.toml` and CI define the supported
-  development matrix.
+- Write library code compatible with the Ruby floor declared by
+  `spec.required_ruby_version` in `printavo-ruby.gemspec`, currently Ruby 3.0.
+- Use the Ruby versions in `.mise.toml` for local matrix verification. The
+  actively tested matrix does not redefine or narrow the public runtime floor.
 - Use the canonical project commands: `bin/spec`, `bin/lint`, and `bin/package`.
 - Keep code under the `Printavo` namespace and preserve the `printavo-ruby` gem
   identity and `bin/printavo` executable.
@@ -22,6 +24,8 @@ description: Apply printavo-ruby's Ruby gem implementation conventions when chan
   and documented return shapes as public API.
 - Preserve backward compatibility unless a reviewed SemVer change explicitly
   authorizes a break.
+- Treat raising the required Ruby version as a public compatibility change that
+  requires explicit review, SemVer consideration, and changelog documentation.
 - Keep runtime dependencies minimal. Document the concrete need for every new
   runtime dependency and prefer Ruby's standard library when it fits.
 - Update `docs/CHANGELOG.md`, README/API examples, and relevant docs with public

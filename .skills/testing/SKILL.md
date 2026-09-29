@@ -8,7 +8,8 @@ description: Apply printavo-ruby's RSpec, coverage, HTTP-stubbing, fixture-sanit
 ## Required Stack
 
 - Write RSpec, not Minitest.
-- Use `bin/spec [arguments]` for the supported Ruby matrix.
+- Use `bin/spec [arguments]` for the actively exercised Ruby matrix; do not
+  interpret that matrix as narrowing the gemspec's public Ruby floor.
 - Use `bin/lint [arguments]` for lint verification.
 - Keep SimpleCov at or above the configured project threshold; full-suite
   coverage is the release signal, while focused runs may fail the global gate.

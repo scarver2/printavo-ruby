@@ -15,7 +15,11 @@ assumptions.
 
 ## Product And Architecture
 
-- Support Ruby 3.3 and newer through the CI matrix and `.mise.toml`.
+- Preserve the gemspec's public Ruby compatibility contract, currently Ruby
+  3.0 and newer. Do not use syntax or APIs above that floor without an explicit,
+  reviewed compatibility change.
+- Treat `.mise.toml` and CI as the actively exercised development matrix. That
+  matrix does not silently narrow the gemspec's public runtime contract.
 - Keep this gem framework-agnostic. Do not introduce Rails-only code or runtime
   dependencies.
 - Preserve both public layers: ergonomic resources/domain models and lower-level
@@ -34,8 +38,8 @@ assumptions.
 Project-local `bin/*` commands are authoritative. Prefer them over reconstructed
 command sequences:
 
-- `bin/spec [arguments]` for the supported Ruby test matrix;
-- `bin/lint [arguments]` for the supported Ruby lint matrix;
+- `bin/spec [arguments]` for the actively exercised Ruby test matrix;
+- `bin/lint [arguments]` for the actively exercised Ruby lint matrix;
 - `bin/package` for exact package inspection and isolated installation; and
 - `bin/release-check` for a non-publishing release dry run.
 

@@ -20,7 +20,7 @@ report exactly what remains gated.
 ## Authoritative Commands
 
 - `bin/release-check` validates a clean, current `master`, an unused tag, the
-  supported Ruby test/lint matrix, and the package. It is a dry run.
+  actively exercised Ruby test/lint matrix, and the package. It is a dry run.
 - `bin/package` builds the gem, verifies exact packaged files, installs it into
   an isolated `GEM_HOME`, and loads it from that installation.
 - `bin/verify-release-tag` is the CI guard for tag, version, commit, and current
