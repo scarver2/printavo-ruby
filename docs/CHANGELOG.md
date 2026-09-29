@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Batch-mutation documentation covering line items, line-item groups, custom
+  addresses, fees, imprints, mockups, and production files.
 - Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`
   commands for repeatable local validation and RubyGems publication.
 - Exact package-content verification and isolated installation/loading before
@@ -19,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   gem development, testing, and human-authorized release work.
 - Ruby 3.4 coverage in both the GitHub Actions and canonical local `mise`
   verification matrices.
+
+### Fixed
+- Batch mutation documents now use Printavo's operation-specific create and
+  update input types.
 
 ## [0.20.0] - 2026-08-17
 

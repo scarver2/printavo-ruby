@@ -1,4 +1,4 @@
-mutation ImprintCreates($inputs: [ImprintInput!]!) {
+mutation ImprintCreates($inputs: [ImprintCreatesInput!]!) {
   imprintCreates(inputs: $inputs) {
     id
     name

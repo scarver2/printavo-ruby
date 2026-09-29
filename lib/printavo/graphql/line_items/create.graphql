@@ -1,4 +1,4 @@
-mutation LineItemCreate($input: LineItemInput!) {
+mutation LineItemCreate($input: LineItemCreateInput!) {
   lineItemCreate(input: $input) {
     id
     name
