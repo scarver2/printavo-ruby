@@ -109,6 +109,22 @@ warn(page.errors.inspect) unless page.success?
 `contacts.page` performs exactly one request and caps `first` at 100. It never
 follows the next cursor automatically.
 
+`page.response_payload` contains the exact frozen binary HTTP response body
+captured before JSON parsing. It is intentionally omitted from ordinary
+inspection and serialization because provider responses may contain private
+customer data. Persist or log it only through an explicit encrypted evidence
+boundary.
+
+Captured contact responses can be replayed through the same SDK parser without
+provider access:
+
+```ruby
+replayed_page = client.contacts.page_from_response_payload(
+  page.response_payload,
+  metadata: page.metadata
+)
+```
+
 ### GraphQL Response Envelopes
 
 ```ruby

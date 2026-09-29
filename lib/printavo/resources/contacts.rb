@@ -30,6 +30,14 @@ module Printavo
         build_page(envelope)
       end
 
+      # Rebuilds a captured contacts page through the SDK parser without
+      # performing provider network I/O.
+      def page_from_response_payload(response_payload, metadata: {})
+        build_page(
+          @graphql.envelope_from_response_payload(response_payload, metadata: metadata)
+        )
+      end
+
       # Finds a contact by ID.
       #
       # @param id [String, Integer]
@@ -115,7 +123,8 @@ module Printavo
           has_next_page: page_info.fetch('hasNextPage', false),
           end_cursor: page_info['endCursor'],
           errors: envelope.errors,
-          metadata: envelope.metadata
+          metadata: envelope.metadata,
+          response_payload: envelope.response_payload
         )
       end
     end

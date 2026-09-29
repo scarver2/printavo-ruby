@@ -3,12 +3,13 @@
 
 module Printavo
   class ResponseEnvelope
-    attr_reader :data, :errors, :metadata
+    attr_reader :data, :errors, :metadata, :response_payload
 
-    def initialize(data:, errors: [], metadata: {})
+    def initialize(data:, errors: [], metadata: {}, response_payload: nil)
       @data = immutable_copy(data)
       @errors = immutable_copy(errors)
       @metadata = immutable_copy(metadata)
+      @response_payload = immutable_payload(response_payload)
       freeze
     end
 
@@ -24,7 +25,18 @@ module Printavo
       { 'data' => data, 'errors' => errors, 'metadata' => metadata }.freeze
     end
 
+    def inspect
+      "#<#{self.class} data=#{data.inspect} errors=#{errors.inspect} metadata=#{metadata.inspect}>"
+    end
+
     private
+
+    def immutable_payload(value)
+      return if value.nil?
+      raise ArgumentError, 'response_payload must be a String' unless value.is_a?(String)
+
+      value.b.dup.freeze
+    end
 
     def immutable_copy(value)
       case value
