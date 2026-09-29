@@ -22,7 +22,7 @@ RSpec.describe Printavo::Resources::LineItems do
 
   expected_input_types.each do |relative_path, input_type|
     it "uses #{input_type} in #{relative_path}" do
-      document = File.read(File.expand_path("../../lib/printavo/graphql/#{relative_path}", __dir__))
+      document = File.read(File.expand_path("../../../lib/printavo/graphql/#{relative_path}", __dir__))
 
       expect(document).to include("$inputs: #{input_type}")
     end
