@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   a release can reach the protected publishing job.
 - A release runbook covering preparation, tagging, environment approval,
   registry verification, and recovery.
+- A root agent execution contract and focused repository-local skills for API,
+  gem development, testing, and human-authorized release work.
 
 ## [0.20.0] - 2026-08-17
 
