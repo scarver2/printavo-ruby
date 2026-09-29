@@ -70,15 +70,16 @@ Versions follow [Semantic Versioning](https://semver.org/):
 | New backward-compatible feature | MINOR (0.x.0) |
 | Breaking API change | MAJOR (x.0.0) |
 
-Bump `lib/printavo/version.rb`, update `docs/CHANGELOG.md`, then:
+Bump `lib/printavo/version.rb`, update `docs/CHANGELOG.md`, and merge the
+release pull request. From a clean, current `master`, run the local release
+gate:
 
 ```bash
-git commit -am "Release vX.Y.Z"
-git tag vX.Y.Z
-git push origin master --tags
+bin/release-check
 ```
 
-GitHub Actions will build and push to RubyGems automatically on tag push.
+See [RELEASING.md](RELEASING.md) for the reviewed tag, protected-environment,
+trusted-publishing, verification, and recovery process.
 
 ---
 

@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.files = Dir[
-    'bin/*',
+    'bin/printavo',
     'lib/**/*.graphql',
     'lib/**/*.rb',
     'docs/**/*.md',

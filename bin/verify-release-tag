@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/verify-release-tag
+
+source "$(dirname "$0")/_lib.sh"
+
+run ruby "$BIN_DIR/support/release_command.rb" verify-tag

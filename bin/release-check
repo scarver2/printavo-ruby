@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# bin/release-check
+
+source "$(dirname "$0")/_lib.sh"
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  printf '%s\n' 'Usage: bin/release-check' \
+    '' \
+    'Validates a clean, current master release without tagging or publishing.'
+  exit 0
+fi
+
+run ruby "$BIN_DIR/support/release_command.rb" check
