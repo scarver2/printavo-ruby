@@ -1,6 +1,9 @@
 # .github/workflows/ci.yml
 name: CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [master]
@@ -14,6 +17,7 @@ jobs:
   test:
     name: Ruby ${{ matrix.ruby }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     strategy:
       fail-fast: false
@@ -25,31 +29,29 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.3.1
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
       - name: Set up Ruby ${{ matrix.ruby }}
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
       - name: Run RSpec
-        run: bundle exec rspec --format progress --format RspecJunitFormatter --out tmp/rspec.xml
-        continue-on-error: ${{ matrix.ruby == '4.0' }}
+        run: bin/spec --current --format progress --format RspecJunitFormatter --out tmp/rspec.xml
 
       - name: Upload coverage to Coveralls
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2
         if: matrix.ruby == '4.0'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: coverage/lcov.info
 
       - name: Run RuboCop
-        run: bundle exec rubocop --format github
-        continue-on-error: ${{ matrix.ruby == '4.0' }}
+        run: bin/lint --current --format github
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: rspec-results-ruby-${{ matrix.ruby }}

@@ -410,22 +410,24 @@ end
 ```bash
 git clone https://github.com/scarver2/printavo-ruby.git
 cd printavo-ruby
-bundle install
+mise install
+mise exec -- bundle install
 
-# Run specs
-bundle exec rspec
+# Run specs across the active Ruby matrix
+bin/spec
 
-# Lint
-bundle exec rubocop
+# Lint across the active Ruby matrix
+bin/lint
 
 # Guard DX (watches files, re-runs tests + lint on save)
-bundle exec guard
+mise exec -- bundle exec guard
 
 # Interactive console
 PRINTAVO_EMAIL=you@example.com PRINTAVO_TOKEN=your_token bin/console
 ```
 
 See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for full contribution guidelines.
+Report security issues through the private process in [SECURITY.md](SECURITY.md).
 
 ## Colophon
 
