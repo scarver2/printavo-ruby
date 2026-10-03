@@ -1,5 +1,5 @@
-mutation LineItemGroupCreate($input: LineItemGroupCreateInput!) {
-  lineItemGroupCreate(input: $input) {
+mutation LineItemGroupCreate($parentId: ID!, $input: LineItemGroupCreateInput!) {
+  lineItemGroupCreate(parentId: $parentId, input: $input) {
     id
     name
     description

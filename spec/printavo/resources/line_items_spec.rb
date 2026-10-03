@@ -44,11 +44,17 @@ RSpec.describe Printavo::Resources::LineItems do
 
     before do
       allow(graphql).to receive(:mutate)
-        .with(described_class::CREATE_MUTATION, variables: anything)
+        .with(
+          described_class::CREATE_MUTATION,
+          variables: { lineItemGroupId: '10', input: { 'description' => 'T-Shirt', 'position' => 0 } }
+        )
         .and_return('lineItemCreate' => item_data)
     end
 
-    it { expect(resource.create(name: 'T-Shirt', quantity: 12, price: '15.00')).to be_a(Printavo::LineItem) }
+    it do
+      expect(resource.create(line_item_group_id: group_id, description: 'T-Shirt', position: 0))
+        .to be_a(Printavo::LineItem)
+    end
   end
 
   describe '#creates' do

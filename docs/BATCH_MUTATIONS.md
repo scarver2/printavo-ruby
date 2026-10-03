@@ -22,6 +22,13 @@ than treating a batch as an array of single-operation inputs.
 Mockup creation belongs to the parent imprint or line item in Printavo's
 schema. Standalone mockups therefore expose batch deletion only.
 
+Single creates keep Printavo's required parent IDs separate from their input:
+
+```ruby
+client.line_item_groups.create(parent_id: quote.id, position: 0)
+client.line_items.create(line_item_group_id: group.id, description: "Core Cotton Tee", position: 0)
+```
+
 Provider reference: [Printavo GraphQL mutations](https://www.printavo.com/docs/api/v2/operation/mutation/).
 
 —

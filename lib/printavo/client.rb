@@ -183,6 +183,10 @@ module Printavo
       Resources::Products.new(@graphql)
     end
 
+    def quotes
+      Resources::Quotes.new(@graphql)
+    end
+
     def statuses
       Resources::Statuses.new(@graphql)
     end

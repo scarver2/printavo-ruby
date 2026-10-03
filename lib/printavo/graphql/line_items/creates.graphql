@@ -1,9 +1,21 @@
 mutation LineItemCreates($inputs: [LineItemCreatesInput!]!) {
   lineItemCreates(inputs: $inputs) {
     id
-    name
-    quantity
+    category { id name }
+    color
+    description
+    itemNumber
+    items
+    markupPercentage
+    merch
+    personalizations { id name personalization }
+    poLineItem { id description itemNumber items position sizes { count size } }
+    position
     price
-    taxable
+    priceReceipt { defaultMarkupPercentage description price signature }
+    product { id brand color description itemNumber }
+    productStatus
+    sizes { count size }
+    taxed
   }
 }

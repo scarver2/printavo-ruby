@@ -1,0 +1,13 @@
+query TransactionDetail($id: ID!) {
+  transactionDetail(id: $id) {
+    id
+    amount
+    category
+    ccCardType
+    ccLastFour
+    description
+    portalTransactionId
+    processing
+    transactionDate
+  }
+}

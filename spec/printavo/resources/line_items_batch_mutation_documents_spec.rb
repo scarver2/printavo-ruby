@@ -27,4 +27,21 @@ RSpec.describe Printavo::Resources::LineItems do
       expect(document).to include("$inputs: #{input_type}")
     end
   end
+
+  {
+    'line_items/create.graphql' => [
+      '$lineItemGroupId: ID!',
+      'lineItemCreate(lineItemGroupId: $lineItemGroupId, input: $input)'
+    ],
+    'line_item_groups/create.graphql' => [
+      '$parentId: ID!',
+      'lineItemGroupCreate(parentId: $parentId, input: $input)'
+    ]
+  }.each do |relative_path, contract_fragments|
+    it "sends the required parent ID in #{relative_path}" do
+      document = File.read(File.expand_path("../../../lib/printavo/graphql/#{relative_path}", __dir__))
+
+      expect(document).to include(*contract_fragments)
+    end
+  end
 end

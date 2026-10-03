@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Batch-mutation documentation covering line items, line-item groups, custom
   addresses, fees, imprints, mockups, and production files.
+- Direct `LineItemGroups#pricing` and `Transactions#detail` query helpers for
+  the documented `lineItemGroupPricing` and `transactionDetail` operations.
+- `Printavo::Quote` and `client.quotes` with first-class `quote` and `quotes`
+  query support.
+- Rich line-item models and GraphQL selections for markup, price receipts,
+  personalizations, product status, sizing, products, and purchase-order
+  relationships.
 - Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`
   commands for repeatable local validation and RubyGems publication.
 - Exact package-content verification and isolated installation/loading before
@@ -25,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Batch mutation documents now use Printavo's operation-specific create and
   update input types.
+- Single line-item and line-item-group create operations now send their
+  documented required parent IDs separately from the create input.
+- Quote queries select `updatedAt` through Printavo's documented `timestamps`
+  object, and `Printavo::Quote#updated_at` maps that nested response.
 
 ## [0.20.0] - 2026-08-17
 
