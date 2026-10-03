@@ -140,9 +140,9 @@ def to_vcard(customer) # rubocop:disable Metrics/AbcSize
   lines = ['BEGIN:VCARD', 'VERSION:3.0']
   lines << "FN:#{vcard_escape(customer.full_name)}"
   lines << "N:#{vcard_escape(customer.last_name)};#{vcard_escape(customer.first_name)};;;"
-  lines << "ORG:#{vcard_escape(customer.company)}"  if customer.company.to_s.strip.length.positive?
-  lines << "EMAIL;TYPE=INTERNET:#{customer.email}"  if customer.email.to_s.strip.length.positive?
-  lines << "TEL;TYPE=WORK,VOICE:#{customer.phone}"  if customer.phone.to_s.strip.length.positive?
+  lines << "ORG:#{vcard_escape(customer.company)}" if customer.company.to_s.strip.length.positive?
+  lines << "EMAIL;TYPE=INTERNET:#{customer.email}" if customer.email.to_s.strip.length.positive?
+  lines << "TEL;TYPE=WORK,VOICE:#{customer.phone}" if customer.phone.to_s.strip.length.positive?
   lines << "X-PRINTAVO-ID:#{customer.id}"
   lines << "REV:#{customer.updated_at}" if customer.updated_at
   lines << 'END:VCARD'

@@ -1,4 +1,4 @@
-mutation LineItemMockupCreates($inputs: [LineItemMockupInput!]!) {
+mutation LineItemMockupCreates($inputs: [LineItemMockupCreatesInput!]!) {
   lineItemMockupCreates(inputs: $inputs) {
     id
     url

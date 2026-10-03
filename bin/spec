@@ -6,6 +6,7 @@
 #
 # Usage:
 #   bin/spec                               # all versions, all specs
+#   bin/spec --current                     # current Ruby only (used by CI)
 #   bin/spec spec/printavo/client_spec.rb  # one file, all versions
 #   bin/spec --format documentation        # forward rspec flags
 #
@@ -24,6 +25,13 @@ fi
 # ── Locate project root ────────────────────────────────────────────────────
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TOML="$ROOT/.mise.toml"
+
+if [[ "${1:-}" == "--current" ]]; then
+  shift
+  cd "$ROOT"
+  bundle exec rspec "$@"
+  exit $?
+fi
 
 if [[ ! -f "$TOML" ]]; then
   printf '%bError:%b .mise.toml not found at %s\n' "$RED" "$RESET" "$TOML" >&2

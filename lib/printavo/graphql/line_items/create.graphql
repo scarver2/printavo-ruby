@@ -1,9 +1,21 @@
-mutation LineItemCreate($input: LineItemInput!) {
-  lineItemCreate(input: $input) {
+mutation LineItemCreate($lineItemGroupId: ID!, $input: LineItemCreateInput!) {
+  lineItemCreate(lineItemGroupId: $lineItemGroupId, input: $input) {
     id
-    name
-    quantity
+    category { id name }
+    color
+    description
+    itemNumber
+    items
+    markupPercentage
+    merch
+    personalizations { id name personalization }
+    poLineItem { id description itemNumber items position sizes { count size } }
+    position
     price
-    taxable
+    priceReceipt { defaultMarkupPercentage description price signature }
+    product { id brand color description itemNumber }
+    productStatus
+    sizes { count size }
+    taxed
   }
 }

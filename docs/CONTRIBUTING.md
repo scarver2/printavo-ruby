@@ -9,13 +9,14 @@ and standards for working on `printavo-ruby`.
 ```bash
 git clone https://github.com/scarver2/printavo-ruby.git
 cd printavo-ruby
-bundle install
+mise install
+mise exec -- bundle install
 ```
 
 ## Running Tests
 
 ```bash
-bundle exec rspec
+bin/spec
 ```
 
 Coverage is tracked via SimpleCov. The minimum threshold is **90%**.
@@ -34,7 +35,7 @@ See [LIVE_TESTING.md](LIVE_TESTING.md) for the read-only scope and safety rules.
 Guard watches for file changes and re-runs specs and RuboCop automatically:
 
 ```bash
-bundle exec guard
+mise exec -- bundle exec guard
 ```
 
 ## Coding Standards
@@ -43,8 +44,8 @@ This project uses [RuboCop](https://rubocop.org/) with the
 `rubocop-performance`, `rubocop-rake`, and `rubocop-rspec` extensions.
 
 ```bash
-bundle exec rubocop
-bundle exec rubocop -a   # auto-correct safe offenses
+bin/lint
+bin/lint -a   # auto-correct safe offenses across the active Ruby matrix
 ```
 
 ## VCR Cassettes

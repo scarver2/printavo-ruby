@@ -36,6 +36,27 @@ RSpec.describe Printavo::Resources::Transactions do
       expect(tx.amount).to eq(transaction_data['amount'])
       expect(tx.kind).to   eq(transaction_data['kind'])
     end
+
+    context 'with transaction union members' do
+      let(:response_data) do
+        {
+          'order' => {
+            'transactions' => {
+              'nodes' => %w[Payment PaymentDispute Refund Return Void].map do |type|
+                fake_transaction_attrs('__typename' => type)
+              end,
+              'pageInfo' => { 'hasNextPage' => false, 'endCursor' => nil }
+            }
+          }
+        }
+      end
+
+      it 'returns the concrete ledger model for each union member' do
+        expect(resource.all(order_id: '99').map(&:class)).to eq(
+          [Printavo::Payment, Printavo::PaymentDispute, Printavo::Refund, Printavo::Return, Printavo::Void]
+        )
+      end
+    end
   end
 
   describe '#find' do
@@ -49,5 +70,11 @@ RSpec.describe Printavo::Resources::Transactions do
 
     it { expect(resource.find('55')).to be_a(Printavo::Transaction) }
     it { expect(resource.find('55').id).to eq('55') }
+
+    context 'when the transaction is a refund' do
+      let(:transaction_data) { fake_transaction_attrs('id' => '55', '__typename' => 'Refund') }
+
+      it { expect(resource.find('55')).to be_a(Printavo::Refund) }
+    end
   end
 end

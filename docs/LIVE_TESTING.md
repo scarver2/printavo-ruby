@@ -14,7 +14,9 @@ credentials or customer data for development testing.
 The command sends exactly one read-only introspection request. It verifies:
 
 - `quote`, `quotes`, `lineItemGroupPricing`, and `transactionDetail` queries;
-- documented batch mutation names;
+- query and mutation argument types, including required parent IDs;
+- the Quote timestamp shape and fields selected by direct queries;
+- documented batch mutation names and operation-specific input types;
 - richer `LineItem` fields; and
 - payment-ledger members of `TransactionUnion`.
 

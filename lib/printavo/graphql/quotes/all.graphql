@@ -1,0 +1,15 @@
+query Quotes($first: Int, $after: String) {
+  quotes(first: $first, after: $after) {
+    nodes {
+      id
+      visualId
+      nickname
+      total
+      createdAt
+      timestamps { updatedAt }
+      status { id name color }
+      contact { id firstName lastName email phone }
+    }
+    pageInfo { hasNextPage endCursor }
+  }
+}

@@ -1,4 +1,4 @@
-mutation FeeCreates($inputs: [FeeInput!]!) {
+mutation FeeCreates($inputs: [FeeCreatesInput!]!) {
   feeCreates(inputs: $inputs) {
     id
     name
