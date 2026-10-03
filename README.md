@@ -159,6 +159,20 @@ puts order.total_price               # => "1250.00"
 puts order.customer.full_name        # => "Bob Johnson"
 ```
 
+### Quotes
+
+Use the dedicated quote queries when invoice records should be excluded:
+
+```ruby
+quotes = client.quotes.all
+quote = client.quotes.find("99")
+puts quote.total
+```
+
+These methods map directly to Printavo's documented
+[`quotes`](https://www.printavo.com/docs/api/v2/query/quotes/) and
+[`quote`](https://www.printavo.com/docs/api/v2/query/quote/) queries.
+
 ### Jobs (Line Items)
 
 ```ruby
