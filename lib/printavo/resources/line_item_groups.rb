@@ -6,6 +6,7 @@ module Printavo
     class LineItemGroups < Base
       ALL_QUERY        = File.read(File.join(__dir__, '../graphql/line_item_groups/all.graphql')).freeze
       FIND_QUERY       = File.read(File.join(__dir__, '../graphql/line_item_groups/find.graphql')).freeze
+      PRICING_QUERY    = File.read(File.join(__dir__, '../graphql/line_item_groups/pricing.graphql')).freeze
       CREATE_MUTATION  = File.read(File.join(__dir__, '../graphql/line_item_groups/create.graphql')).freeze
       CREATES_MUTATION = File.read(File.join(__dir__, '../graphql/line_item_groups/creates.graphql')).freeze
       UPDATE_MUTATION  = File.read(File.join(__dir__, '../graphql/line_item_groups/update.graphql')).freeze
@@ -20,6 +21,12 @@ module Printavo
       def find(id)
         data = @graphql.query(FIND_QUERY, variables: { id: id.to_s })
         Printavo::LineItemGroup.new(data['lineItemGroup'])
+      end
+
+      def pricing(**input)
+        data = @graphql.query(PRICING_QUERY,
+                              variables: { lineItemGroup: camelize_keys(input) })
+        Printavo::LineItemGroupPricing.new(data['lineItemGroupPricing'])
       end
 
       def create(**input)
