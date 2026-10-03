@@ -29,8 +29,9 @@ module Printavo
         Printavo::LineItemGroupPricing.new(data['lineItemGroupPricing'])
       end
 
-      def create(**input)
-        data = @graphql.mutate(CREATE_MUTATION, variables: { input: camelize_keys(input) })
+      def create(parent_id:, **input)
+        variables = { parentId: parent_id.to_s, input: camelize_keys(input) }
+        data = @graphql.mutate(CREATE_MUTATION, variables: variables)
         Printavo::LineItemGroup.new(data['lineItemGroupCreate'])
       end
 

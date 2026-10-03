@@ -1,4 +1,4 @@
-mutation LineItemUpdates($inputs: [LineItemUpdateInput!]!) {
+mutation LineItemUpdates($inputs: [LineItemUpdatesInput!]!) {
   lineItemUpdates(inputs: $inputs) {
     id
     category { id name }

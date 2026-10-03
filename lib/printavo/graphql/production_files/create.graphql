@@ -1,4 +1,4 @@
-mutation ProductionFileCreate($input: ProductionFileInput!) {
+mutation ProductionFileCreate($input: ProductionFileCreateInput!) {
   productionFileCreate(input: $input) {
     id
     url

@@ -1,4 +1,4 @@
-mutation CustomAddressCreates($inputs: [CustomAddressInput!]!) {
+mutation CustomAddressCreates($inputs: [CustomAddressCreatesInput!]!) {
   customAddressCreates(inputs: $inputs) {
     id
     name
