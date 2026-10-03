@@ -6,6 +6,7 @@
 #
 # Usage:
 #   bin/lint                        # all versions, full inspection
+#   bin/lint --current              # current Ruby only (used by CI)
 #   bin/lint -a                     # auto-correct safe offenses, all versions
 #   bin/lint lib/printavo/client.rb # one file, all versions
 #
@@ -24,6 +25,13 @@ fi
 # ── Locate project root ────────────────────────────────────────────────────
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TOML="$ROOT/.mise.toml"
+
+if [[ "${1:-}" == "--current" ]]; then
+  shift
+  cd "$ROOT"
+  bundle exec rubocop "$@"
+  exit $?
+fi
 
 if [[ ! -f "$TOML" ]]; then
   printf '%bError:%b .mise.toml not found at %s\n' "$RED" "$RESET" "$TOML" >&2
