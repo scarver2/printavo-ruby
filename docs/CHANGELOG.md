@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `Printavo::Quote` and `client.quotes` with first-class `quote` and `quotes`
+  query support.
+- Rich line-item models and GraphQL selections for markup, price receipts,
+  personalizations, product status, sizing, products, and purchase-order
+  relationships.
 - Typed transaction-union models for payments, payment disputes, refunds,
   returns, and voids, including dispute details nested under payments.
 - Guarded `bin/release-check`, `bin/verify-release-tag`, and `bin/package`

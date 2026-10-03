@@ -159,6 +159,20 @@ puts order.total_price               # => "1250.00"
 puts order.customer.full_name        # => "Bob Johnson"
 ```
 
+### Quotes
+
+Use the dedicated quote queries when invoice records should be excluded:
+
+```ruby
+quotes = client.quotes.all
+quote = client.quotes.find("99")
+puts quote.total
+```
+
+These methods map directly to Printavo's documented
+[`quotes`](https://www.printavo.com/docs/api/v2/query/quotes/) and
+[`quote`](https://www.printavo.com/docs/api/v2/query/quote/) queries.
+
 ### Jobs (Line Items)
 
 ```ruby
@@ -170,6 +184,24 @@ jobs.each { |j| puts "#{j.name} x#{j.quantity} @ #{j.price}" }
 job = client.jobs.find("77")
 puts job.taxable?   # => true
 ```
+
+### Rich Line Items
+
+```ruby
+line_item = client.line_items.find("77")
+
+line_item.markup_percentage
+line_item.price_receipt.price
+line_item.personalizations.each { |entry| puts entry.personalization }
+line_item.product_status
+line_item.product.item_number
+line_item.po_line_item.purchase_order.visual_po_id
+```
+
+These accessors follow Printavo's documented
+[LineItem](https://www.printavo.com/docs/api/v2/object/lineitem/) shape. The
+legacy `name`, `quantity`, and `taxable` readers remain available for older
+captured payloads; current responses use `description`, `items`, and `taxed`.
 
 ### Payment Ledger
 
@@ -428,22 +460,24 @@ end
 ```bash
 git clone https://github.com/scarver2/printavo-ruby.git
 cd printavo-ruby
-bundle install
+mise install
+mise exec -- bundle install
 
-# Run specs
-bundle exec rspec
+# Run specs across the active Ruby matrix
+bin/spec
 
-# Lint
-bundle exec rubocop
+# Lint across the active Ruby matrix
+bin/lint
 
 # Guard DX (watches files, re-runs tests + lint on save)
-bundle exec guard
+mise exec -- bundle exec guard
 
 # Interactive console
 PRINTAVO_EMAIL=you@example.com PRINTAVO_TOKEN=your_token bin/console
 ```
 
 See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for full contribution guidelines.
+Report security issues through the private process in [SECURITY.md](SECURITY.md).
 
 ## Colophon
 

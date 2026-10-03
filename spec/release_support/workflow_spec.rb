@@ -6,7 +6,7 @@ require 'spec_helper'
 require 'open3'
 
 # A workflow is executable configuration rather than a Ruby class.
-# rubocop:disable RSpec/DescribeClass
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe 'release workflow' do
   subject(:workflow) { File.read(File.expand_path('../../.github/workflows/release.yml', __dir__)) }
 
@@ -47,4 +47,3 @@ RSpec.describe 'release workflow' do
     expect(status).to be_success, error
   end
 end
-# rubocop:enable RSpec/DescribeClass
