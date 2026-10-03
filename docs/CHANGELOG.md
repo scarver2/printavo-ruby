@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- An evidence-ranked backlog derived from adjacent Printavo OSS projects,
+  covering schema-generated types, resumable exports, complexity-aware query
+  composition, optional file downloads, and reusable read-only business tools.
 - Batch-mutation documentation covering line items, line-item groups, custom
   addresses, fees, imprints, mockups, and production files.
 - Direct `LineItemGroups#pricing` and `Transactions#detail` query helpers for
