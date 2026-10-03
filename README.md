@@ -171,6 +171,24 @@ job = client.jobs.find("77")
 puts job.taxable?   # => true
 ```
 
+### Rich Line Items
+
+```ruby
+line_item = client.line_items.find("77")
+
+line_item.markup_percentage
+line_item.price_receipt.price
+line_item.personalizations.each { |entry| puts entry.personalization }
+line_item.product_status
+line_item.product.item_number
+line_item.po_line_item.purchase_order.visual_po_id
+```
+
+These accessors follow Printavo's documented
+[LineItem](https://www.printavo.com/docs/api/v2/object/lineitem/) shape. The
+legacy `name`, `quantity`, and `taxable` readers remain available for older
+captured payloads; current responses use `description`, `items`, and `taxed`.
+
 ### Pagination
 
 All list resources support `each_page` and `all_pages` in addition to `all`.
