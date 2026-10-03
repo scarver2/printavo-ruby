@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- A single-request, read-only `bin/live-contract` check for current query,
+  mutation-argument/input, direct-return, Quote timestamp, line-item, and
+  transaction-union schema support.
 - An evidence-ranked backlog derived from adjacent Printavo OSS projects,
   covering schema-generated types, resumable exports, complexity-aware query
   composition, optional file downloads, and reusable read-only business tools.

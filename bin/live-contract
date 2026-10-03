@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# bin/live-contract
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'printavo'
+require_relative 'support/live_contract'
+
+email = ENV.fetch('PRINTAVO_EMAIL', '').strip
+token = ENV.fetch('PRINTAVO_TOKEN', '').strip
+abort 'PRINTAVO_EMAIL and PRINTAVO_TOKEN must both be set' if email.empty? || token.empty?
+
+client = Printavo::Client.new(
+  email: email,
+  token: token,
+  max_retries: 0,
+  retry_on_rate_limit: false
+)
+missing = Printavo::LiveContract.new(client.graphql).call
+failures = missing.reject { |_area, fields| fields.empty? }
+
+if failures.empty?
+  puts 'Live Printavo contract passed (one read-only introspection request)'
+else
+  failures.each { |area, fields| warn "Missing #{area}: #{fields.join(', ')}" }
+  exit 1
+end
