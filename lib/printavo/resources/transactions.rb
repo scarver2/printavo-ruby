@@ -14,6 +14,7 @@ module Printavo
 
       ALL_QUERY  = File.read(File.join(__dir__, '../graphql/transactions/all.graphql')).freeze
       FIND_QUERY = File.read(File.join(__dir__, '../graphql/transactions/find.graphql')).freeze
+      DETAIL_QUERY = File.read(File.join(__dir__, '../graphql/transactions/detail.graphql')).freeze
 
       def all(order_id:, first: 25, after: nil)
         fetch_page(order_id: order_id, first: first, after: after).records
@@ -22,6 +23,11 @@ module Printavo
       def find(id)
         data = @graphql.query(FIND_QUERY, variables: { id: id.to_s })
         build_transaction(data['transaction'])
+      end
+
+      def detail(id)
+        data = @graphql.query(DETAIL_QUERY, variables: { id: id.to_s })
+        Printavo::TransactionDetails.new(data['transactionDetail'])
       end
 
       private

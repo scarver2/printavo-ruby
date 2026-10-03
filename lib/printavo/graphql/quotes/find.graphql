@@ -5,7 +5,7 @@ query Quote($id: ID!) {
     nickname
     total
     createdAt
-    updatedAt
+    timestamps { updatedAt }
     status { id name color }
     contact { id firstName lastName email phone }
   }

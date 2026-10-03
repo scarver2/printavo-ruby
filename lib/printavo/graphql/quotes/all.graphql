@@ -6,7 +6,7 @@ query Quotes($first: Int, $after: String) {
       nickname
       total
       createdAt
-      updatedAt
+      timestamps { updatedAt }
       status { id name color }
       contact { id firstName lastName email phone }
     }
