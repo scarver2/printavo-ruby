@@ -1,9 +1,31 @@
 query LineItem($id: ID!) {
   lineItem(id: $id) {
     id
-    name
-    quantity
+    category { id name }
+    color
+    description
+    itemNumber
+    items
+    markupPercentage
+    merch
+    personalizations { id name personalization }
+    poLineItem {
+      id
+      category { id name }
+      color
+      description
+      itemNumber
+      items
+      position
+      purchaseOrder { id goodsStatus note visualPoId vendor { id name } }
+      sizes { count size }
+    }
+    position
     price
-    taxable
+    priceReceipt { defaultMarkupPercentage description price signature }
+    product { id brand color description itemNumber }
+    productStatus
+    sizes { count size }
+    taxed
   }
 }

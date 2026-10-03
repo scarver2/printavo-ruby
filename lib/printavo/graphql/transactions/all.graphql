@@ -2,10 +2,33 @@ query Transactions($orderId: ID!, $first: Int, $after: String) {
   order(id: $orderId) {
     transactions(first: $first, after: $after) {
       nodes {
-        id
-        amount
-        kind
-        createdAt
+        __typename
+        ... on Payment {
+          id amount category description processing source transactionDate
+          timestamps { createdAt updatedAt }
+          disputes {
+            nodes {
+              id amount category description processing status transactionDate
+              timestamps { createdAt updatedAt }
+            }
+          }
+        }
+        ... on PaymentDispute {
+          id amount category description processing status transactionDate
+          timestamps { createdAt updatedAt }
+        }
+        ... on Refund {
+          id amount category description processing transactionDate
+          timestamps { createdAt updatedAt }
+        }
+        ... on Return {
+          id amount category description processing transactionDate
+          timestamps { createdAt updatedAt }
+        }
+        ... on Void {
+          id amount category description processing transactionDate
+          timestamps { createdAt updatedAt }
+        }
       }
       pageInfo {
         hasNextPage

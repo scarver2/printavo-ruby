@@ -1,0 +1,12 @@
+query Quote($id: ID!) {
+  quote(id: $id) {
+    id
+    visualId
+    nickname
+    total
+    createdAt
+    timestamps { updatedAt }
+    status { id name color }
+    contact { id firstName lastName email phone }
+  }
+}

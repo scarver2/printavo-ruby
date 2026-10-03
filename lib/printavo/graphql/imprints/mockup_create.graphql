@@ -1,4 +1,4 @@
-mutation ImprintMockupCreate($input: ImprintMockupInput!) {
+mutation ImprintMockupCreate($input: MockupCreateInput!) {
   imprintMockupCreate(input: $input) {
     id
     url

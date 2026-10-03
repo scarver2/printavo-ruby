@@ -4,8 +4,17 @@
 module Printavo
   module Resources
     class Transactions < Base
+      TYPE_MAP = {
+        'Payment' => Printavo::Payment,
+        'PaymentDispute' => Printavo::PaymentDispute,
+        'Refund' => Printavo::Refund,
+        'Return' => Printavo::Return,
+        'Void' => Printavo::Void
+      }.freeze
+
       ALL_QUERY  = File.read(File.join(__dir__, '../graphql/transactions/all.graphql')).freeze
       FIND_QUERY = File.read(File.join(__dir__, '../graphql/transactions/find.graphql')).freeze
+      DETAIL_QUERY = File.read(File.join(__dir__, '../graphql/transactions/detail.graphql')).freeze
 
       def all(order_id:, first: 25, after: nil)
         fetch_page(order_id: order_id, first: first, after: after).records
@@ -13,7 +22,12 @@ module Printavo
 
       def find(id)
         data = @graphql.query(FIND_QUERY, variables: { id: id.to_s })
-        Printavo::Transaction.new(data['transaction'])
+        build_transaction(data['transaction'])
+      end
+
+      def detail(id)
+        data = @graphql.query(DETAIL_QUERY, variables: { id: id.to_s })
+        Printavo::TransactionDetails.new(data['transactionDetail'])
       end
 
       private
@@ -23,13 +37,17 @@ module Printavo
           ALL_QUERY,
           variables: { orderId: order_id.to_s, first: first, after: after }
         )
-        nodes = data['order']['transactions']['nodes'].map { |attrs| Printavo::Transaction.new(attrs) }
+        nodes = data['order']['transactions']['nodes'].map { |attributes| build_transaction(attributes) }
         page_info = data['order']['transactions']['pageInfo']
         Printavo::Page.new(
           records: nodes,
           has_next_page: page_info['hasNextPage'],
           end_cursor: page_info['endCursor']
         )
+      end
+
+      def build_transaction(attributes)
+        TYPE_MAP.fetch(attributes['__typename'], Printavo::Transaction).new(attributes)
       end
     end
   end
