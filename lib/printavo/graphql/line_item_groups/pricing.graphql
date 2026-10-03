@@ -1,0 +1,8 @@
+query LineItemGroupPricing($lineItemGroup: LineItemGroupPricingInput!) {
+  lineItemGroupPricing(lineItemGroup: $lineItemGroup) {
+    defaultMarkupPercentage
+    description
+    price
+    signature
+  }
+}

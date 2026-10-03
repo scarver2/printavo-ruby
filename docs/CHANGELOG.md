@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Direct `LineItemGroups#pricing` and `Transactions#detail` query helpers for
+  the documented `lineItemGroupPricing` and `transactionDetail` operations.
 - `Printavo::Quote` and `client.quotes` with first-class `quote` and `quotes`
   query support.
 - Rich line-item models and GraphQL selections for markup, price receipts,

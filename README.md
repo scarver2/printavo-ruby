@@ -204,6 +204,36 @@ These accessors follow Printavo's documented
 legacy `name`, `quantity`, and `taxable` readers remain available for older
 captured payloads; current responses use `description`, `items`, and `taxed`.
 
+### Direct Pricing and Transaction Details
+
+Price a line-item group with Printavo's documented input shape:
+
+```ruby
+pricing = client.line_item_groups.pricing(
+  enabled_columns: { markupPercentage: true },
+  imprints: [],
+  line_items: [{ description: "Core Cotton Tee", position: 0 }],
+  position: 0
+)
+
+puts pricing.price
+puts pricing.signature
+```
+
+Retrieve a transaction's ledger details directly:
+
+```ruby
+details = client.transactions.detail("9")
+puts details.amount
+```
+
+These helpers map to Printavo's documented
+[`lineItemGroupPricing`](https://www.printavo.com/docs/api/v2/query/lineitemgrouppricing/)
+and
+[`transactionDetail`](https://www.printavo.com/docs/api/v2/query/transactiondetail/)
+queries. The pricing input accepts `enabledColumns`, `imprints`, `lineItems`,
+and `position`; it does not accept a pricing-matrix ID.
+
 ### Pagination
 
 All list resources support `each_page` and `all_pages` in addition to `all`.
