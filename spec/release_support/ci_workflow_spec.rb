@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 # A workflow is executable configuration rather than a Ruby class.
-# rubocop:disable RSpec/DescribeClass
+# rubocop:disable-next RSpec/DescribeClass
 RSpec.describe 'CI workflow' do
   subject(:workflow) { File.read(File.expand_path('../../.github/workflows/ci.yml', __dir__)) }
 
@@ -37,4 +37,3 @@ RSpec.describe 'CI workflow' do
     expect(workflow).to include("permissions:\n  contents: read", 'timeout-minutes: 15')
   end
 end
-# rubocop:enable RSpec/DescribeClass
