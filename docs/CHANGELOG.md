@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Batch-mutation documentation covering line items, line-item groups, custom
+  addresses, fees, imprints, mockups, and production files.
 - Direct `LineItemGroups#pricing` and `Transactions#detail` query helpers for
   the documented `lineItemGroupPricing` and `transactionDetail` operations.
 - `Printavo::Quote` and `client.quotes` with first-class `quote` and `quotes`
@@ -28,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   verification matrices.
 
 ### Fixed
+- Batch mutation documents now use Printavo's operation-specific create and
+  update input types.
+- Single line-item and line-item-group create operations now send their
+  documented required parent IDs separately from the create input.
 - Quote queries select `updatedAt` through Printavo's documented `timestamps`
   object, and `Printavo::Quote#updated_at` maps that nested response.
 

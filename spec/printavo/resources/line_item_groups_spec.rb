@@ -43,11 +43,11 @@ RSpec.describe Printavo::Resources::LineItemGroups do
 
     before do
       allow(graphql).to receive(:mutate)
-        .with(described_class::CREATE_MUTATION, variables: anything)
+        .with(described_class::CREATE_MUTATION, variables: { parentId: '99', input: { 'position' => 0 } })
         .and_return('lineItemGroupCreate' => group_data)
     end
 
-    it { expect(resource.create(name: 'Adults', order_id: '99')).to be_a(Printavo::LineItemGroup) }
+    it { expect(resource.create(parent_id: '99', position: 0)).to be_a(Printavo::LineItemGroup) }
   end
 
   describe '#creates' do

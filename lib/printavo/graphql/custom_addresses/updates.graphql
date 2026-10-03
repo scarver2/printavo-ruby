@@ -1,4 +1,4 @@
-mutation CustomAddressUpdates($inputs: [CustomAddressUpdateInput!]!) {
+mutation CustomAddressUpdates($inputs: [CustomAddressUpdatesInput!]!) {
   customAddressUpdates(inputs: $inputs) {
     id
     name

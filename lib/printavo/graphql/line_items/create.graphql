@@ -1,5 +1,5 @@
-mutation LineItemCreate($input: LineItemInput!) {
-  lineItemCreate(input: $input) {
+mutation LineItemCreate($lineItemGroupId: ID!, $input: LineItemCreateInput!) {
+  lineItemCreate(lineItemGroupId: $lineItemGroupId, input: $input) {
     id
     category { id name }
     color

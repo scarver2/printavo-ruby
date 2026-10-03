@@ -24,8 +24,9 @@ module Printavo
         Printavo::LineItem.new(data['lineItem'])
       end
 
-      def create(**input)
-        data = @graphql.mutate(CREATE_MUTATION, variables: { input: camelize_keys(input) })
+      def create(line_item_group_id:, **input)
+        variables = { lineItemGroupId: line_item_group_id.to_s, input: camelize_keys(input) }
+        data = @graphql.mutate(CREATE_MUTATION, variables: variables)
         Printavo::LineItem.new(data['lineItemCreate'])
       end
 
