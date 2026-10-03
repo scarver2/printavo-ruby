@@ -5,6 +5,7 @@ module Printavo
   class Quote < Order
     def total       = self['total']
     def total_price = total
+    def updated_at  = dig('timestamps', 'updatedAt')
 
     def contact
       attrs = self['contact']

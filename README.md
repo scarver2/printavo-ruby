@@ -167,6 +167,7 @@ Use the dedicated quote queries when invoice records should be excluded:
 quotes = client.quotes.all
 quote = client.quotes.find("99")
 puts quote.total
+puts quote.updated_at
 ```
 
 These methods map directly to Printavo's documented

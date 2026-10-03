@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ruby 3.4 coverage in both the GitHub Actions and canonical local `mise`
   verification matrices.
 
+### Fixed
+- Quote queries select `updatedAt` through Printavo's documented `timestamps`
+  object, and `Printavo::Quote#updated_at` maps that nested response.
+
 ## [0.20.0] - 2026-08-17
 
 ### Added
